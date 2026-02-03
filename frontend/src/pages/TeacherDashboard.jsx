@@ -119,11 +119,7 @@ const TeacherDashboard = () => {
                     <h1 className="text-2xl font-black text-slate-800 tracking-tight">
                         Welcome, {user?.name}
                     </h1>
-                    <p className="text-slate-500 font-medium text-sm mt-1 flex items-center gap-2">
-                        <BookOpen size={16} className="text-violet-500" />
-                        <span className="text-slate-600">Subject: </span>
-                        <span className="font-bold text-slate-800">{user?.subject?.length > 0 ? user.subject.join(', ') : 'Not Assigned'}</span>
-                    </p>
+
 
                 </div>
 

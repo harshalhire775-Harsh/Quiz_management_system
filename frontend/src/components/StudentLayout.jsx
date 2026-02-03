@@ -71,32 +71,25 @@ const StudentLayout = () => {
                 </nav>
 
                 <div className="p-4 border-t border-slate-100">
-                    <div className="bg-slate-50 rounded-2xl p-4 mb-4">
-                        <h4 className="font-bold text-slate-800 text-sm mb-1">Daily Streak</h4>
-                        <div className="flex items-center gap-2">
-                            <Zap size={20} className="text-amber-500 fill-amber-500" />
-                            <span className="text-2xl font-black text-slate-800">{user?.streak?.current || 0}</span>
-                            <span className="text-xs font-bold text-slate-400 uppercase">Days</span>
+
+
+                    <div className="bg-slate-50 p-4 rounded-2xl mb-4 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-sm">
+                            {user?.name?.charAt(0) || 'S'}
+                        </div>
+                        <div className="overflow-hidden">
+                            <p className="text-sm font-bold text-slate-800 truncate">{user?.name}</p>
+                            <p className="text-xs text-slate-500 font-medium truncate">Student</p>
                         </div>
                     </div>
 
                     <button
                         onClick={handleLogout}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-red-500 hover:bg-red-50 transition-colors w-full"
+                        className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition-all duration-200 w-full"
                     >
                         <LogOut size={20} />
                         Sign Out
                     </button>
-
-                    <div className="mt-4 flex items-center gap-3 px-2">
-                        <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold">
-                            {user?.name?.charAt(0) || 'S'}
-                        </div>
-                        <div className="overflow-hidden">
-                            <p className="text-sm font-bold text-slate-800 truncate">{user?.name}</p>
-                            <p className="text-xs text-slate-500 truncate">{user?.email}</p>
-                        </div>
-                    </div>
                 </div>
             </aside>
 

@@ -81,9 +81,7 @@ const StudentDashboard = () => {
                         <h1 className="text-3xl md:text-4xl font-black text-slate-800 mb-2">
                             Welcome, {user?.name?.split(' ')[0]}!
                         </h1>
-                        <p className="text-slate-500 font-medium">
-                            Ready to challenge yourself today? You have {stats.quizzesTaken} quizzes completed so far.
-                        </p>
+
                     </div>
                     <button
                         onClick={() => navigate('/quizzes')}
@@ -130,14 +128,14 @@ const StudentDashboard = () => {
             </div>
 
             {/* Recent Activity Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <motion.div variants={item} className="lg:col-span-2 bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8">
+            <div className="grid grid-cols-1 gap-8">
+                <motion.div variants={item} className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
                             <Activity className="text-indigo-500" size={20} />
                             Recent Activity
                         </h2>
-                        <Link to="/results/myresults" className="text-sm font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-1 rounded-lg transition-colors">
+                        <Link to="/myresults" className="text-sm font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-1 rounded-lg transition-colors">
                             View All
                         </Link>
                     </div>
@@ -150,8 +148,8 @@ const StudentDashboard = () => {
                                 <div key={index} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
                                     <div className="flex items-center gap-4">
                                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-white shadow-md ${(activity.score / activity.totalQuestions) * 100 >= 50
-                                                ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
-                                                : 'bg-gradient-to-br from-orange-400 to-red-500'
+                                            ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
+                                            : 'bg-gradient-to-br from-orange-400 to-red-500'
                                             }`}>
                                             {(activity.score / activity.totalQuestions) * 100 >= 50 ? <Star size={20} /> : <Activity size={20} />}
                                         </div>
@@ -181,27 +179,6 @@ const StudentDashboard = () => {
                                 <p className="text-slate-400 font-medium">No activity yet.</p>
                             </div>
                         )}
-                    </div>
-                </motion.div>
-
-                <motion.div variants={item} className="bg-indigo-900 rounded-[2rem] shadow-xl shadow-indigo-900/20 p-8 text-white relative overflow-hidden">
-                    {/* Decorative Blobs */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-500 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
-
-                    <div className="relative z-10 h-full flex flex-col justify-between">
-                        <div>
-                            <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 border border-white/10">
-                                <Star className="text-yellow-400 fill-yellow-400" />
-                            </div>
-                            <h3 className="text-2xl font-black mb-2">Pro Tip</h3>
-                            <p className="text-indigo-200 text-sm leading-relaxed mb-6">
-                                Consistency is key! Try to take at least one quiz every day to keep your streak alive and improve your ranking.
-                            </p>
-                        </div>
-                        <button onClick={() => navigate('/leaderboard')} className="w-full py-3 bg-white text-indigo-900 font-bold rounded-xl hover:bg-indigo-50 transition-colors">
-                            Check Leaderboard
-                        </button>
                     </div>
                 </motion.div>
             </div>

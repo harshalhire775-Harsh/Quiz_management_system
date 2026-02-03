@@ -119,7 +119,9 @@ const QuizList = () => {
                         className="w-full pl-12 pr-10 py-4 bg-slate-50 border-none rounded-2xl font-bold text-slate-700 focus:ring-2 focus:ring-indigo-100 focus:bg-white transition-all outline-none appearance-none cursor-pointer"
                     >
                         {categories.map(cat => (
-                            <option key={cat} value={cat}>{cat}</option>
+                            <option key={cat} value={cat}>
+                                {cat.toLowerCase() === 'mcq' ? 'MCQ' : cat}
+                            </option>
                         ))}
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
