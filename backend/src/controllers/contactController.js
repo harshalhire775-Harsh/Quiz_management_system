@@ -43,6 +43,15 @@ const submitContact = async (req, res) => {
             html: emailContent
         });
 
+        const io = req.app.get('socketio');
+        if (recipientEmail) {
+            // Real-time message to a specific student
+            io.to(recipientEmail).emit('new_message', contact);
+        } else {
+            // Real-time message to admins/teachers
+            io.to('admin_room').emit('new_message', contact);
+        }
+
         res.status(201).json({ message: 'Message sent successfully', contact });
     } catch (error) {
         console.error(error);

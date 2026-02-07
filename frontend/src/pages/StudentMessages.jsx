@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import API from '../api/axios';
-
+import { io } from 'socket.io-client';
 import useAuth from '../hooks/useAuth';
 
 const StudentMessages = () => {
@@ -41,6 +41,21 @@ const StudentMessages = () => {
 
     useEffect(() => {
         fetchMessages();
+
+        // Socket setup
+        const socket = io('http://localhost:5000');
+
+        // Teachers/Admins join the admin room to see student inquiries
+        socket.emit('join_room', 'admin_room');
+
+        socket.on('new_message', (newMessage) => {
+            // Only add if it's an inquiry (no recipientEmail)
+            if (!newMessage.recipientEmail) {
+                setMessages(prev => [newMessage, ...prev]);
+            }
+        });
+
+        return () => socket.disconnect();
     }, []);
 
     // Fetch Students when Year is selected

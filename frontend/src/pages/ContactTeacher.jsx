@@ -3,6 +3,7 @@ import { Send, MessageSquare, AlertCircle, CheckCircle, Mail } from 'lucide-reac
 import { motion, AnimatePresence } from 'framer-motion';
 import API from '../api/axios';
 import useAuth from '../hooks/useAuth';
+import { io } from 'socket.io-client';
 
 const ContactTeacher = () => {
     const { user } = useAuth();
@@ -22,13 +23,6 @@ const ContactTeacher = () => {
     const [sending, setSending] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
-    // Fetch Messages
-    useEffect(() => {
-        if (activeTab === 'inbox') {
-            fetchMessages();
-        }
-    }, [activeTab]);
-
     const fetchMessages = async () => {
         setLoadingMessages(true);
         try {
@@ -40,6 +34,27 @@ const ContactTeacher = () => {
             setLoadingMessages(false);
         }
     };
+
+    // Fetch Messages & Socket Setup
+    useEffect(() => {
+        fetchMessages();
+
+        if (user?.email) {
+            const socket = io('http://localhost:5000');
+
+            // Student joins their private room
+            socket.emit('join_room', user.email);
+
+            socket.on('new_message', (newMessage) => {
+                // Students see messages sent TO them
+                if (newMessage.recipientEmail === user.email) {
+                    setMessages(prev => [newMessage, ...prev]);
+                }
+            });
+
+            return () => socket.disconnect();
+        }
+    }, [user?.email]);
 
     const handleDeleteMessage = async (id) => {
         if (!window.confirm('Are you sure you want to delete this message?')) return;
