@@ -1,17 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const {
     getQuizzes,
     getQuizById,
     createQuiz,
     updateQuiz,
     deleteQuiz,
+    bulkUploadQuizzes
 } = require('../controllers/quizController');
 const { protect, admin, instructorOrAdmin } = require('../middleware/authMiddleware');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Routes MUST be ordered: specific before generic
 router.route('/pending').get(protect, admin, require('../controllers/quizController').getPendingQuizzes);
 router.route('/my-quizzes').get(protect, instructorOrAdmin, require('../controllers/quizController').getMyQuizzes);
+router.route('/bulk-upload').post(protect, instructorOrAdmin, upload.single('file'), bulkUploadQuizzes);
 router.route('/').get(getQuizzes).post(protect, instructorOrAdmin, createQuiz);
 router
     .route('/:id')

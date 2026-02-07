@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft, Clock, Award, CheckCircle, AlertCircle, Type, AlignLeft, Grid, Sparkles, Zap, Layers, Calendar } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Save, ArrowLeft, Clock, Award, CheckCircle, AlertCircle, Type, AlignLeft, Grid, Sparkles, Zap, Layers, Calendar, Upload, X, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import * as XLSX from 'xlsx';
 import API from '../api/axios';
+import { showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const CreateQuiz = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +20,9 @@ const CreateQuiz = () => {
         scheduledDate: ''
     });
     const [loading, setLoading] = useState(false);
+    const [showBulkModal, setShowBulkModal] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -25,13 +30,43 @@ const CreateQuiz = () => {
         setLoading(true);
         try {
             const { data } = await API.post('/quizzes', formData);
+            showSuccessAlert('Success!', 'Quiz created successfully.');
             navigate(`/admin/manage-quiz/${data._id}`);
         } catch (error) {
-            alert('Failed to create quiz');
+            showErrorAlert('Error', 'Failed to create quiz');
         } finally {
             setLoading(false);
         }
     };
+
+    const handleBulkUpload = async (e) => {
+        e.preventDefault();
+        if (!selectedFile) {
+            showErrorAlert('Missing File', 'Please select an Excel or CSV file first.');
+            return;
+        }
+
+        const multipartFormData = new FormData();
+        multipartFormData.append('file', selectedFile);
+
+        setUploading(true);
+        try {
+            const { data } = await API.post('/quizzes/bulk-upload', multipartFormData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            showSuccessAlert('Success!', `${data.count} quizzes uploaded successfully.`);
+            setShowBulkModal(false);
+            setSelectedFile(null);
+            navigate('/admin/quizzes');
+        } catch (error) {
+            console.error(error);
+            showErrorAlert('Upload Failed', error.response?.data?.message || 'Error processing the file.');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+
 
     return (
         <div className="min-h-screen bg-slate-50 relative overflow-hidden font-sans selection:bg-indigo-500/30 selection:text-indigo-900">
@@ -47,13 +82,23 @@ const CreateQuiz = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-8 text-center"
                 >
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="absolute left-0 top-0 hidden md:flex items-center gap-2 text-slate-400 hover:text-indigo-600 transition-all font-bold group px-4 py-2 rounded-full hover:bg-white/80"
-                    >
-                        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                        <span>Back</span>
-                    </button>
+                    <div className="flex justify-between items-center mb-6 relative">
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="flex items-center gap-2 text-slate-400 hover:text-indigo-600 transition-all font-bold group px-4 py-2 rounded-full hover:bg-white/80"
+                        >
+                            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+                            <span>Back</span>
+                        </button>
+
+                        <button
+                            onClick={() => setShowBulkModal(true)}
+                            className="flex items-center gap-2 text-emerald-600 hover:text-emerald-700 transition-all font-bold group px-5 py-2.5 rounded-full bg-white border border-emerald-100 shadow-sm"
+                        >
+                            <Upload size={18} />
+                            <span>Bulk Upload</span>
+                        </button>
+                    </div>
 
                     <h1 className="text-4xl md:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-800 to-violet-900 mb-3 drop-shadow-sm">
                         Create New Quiz
@@ -267,6 +312,84 @@ const CreateQuiz = () => {
                     </motion.button>
                 </form>
             </div>
+
+            {/* Bulk Upload Modal */}
+            <AnimatePresence>
+                {showBulkModal && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowBulkModal(false)}
+                            className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+                        ></motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl p-8 overflow-hidden"
+                        >
+                            <div className="flex justify-between items-center mb-8">
+                                <h3 className="text-2xl font-black text-slate-800 flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                        <Upload size={20} />
+                                    </div>
+                                    Bulk Quiz Upload
+                                </h3>
+                                <button
+                                    onClick={() => setShowBulkModal(false)}
+                                    className="p-2 rounded-xl hover:bg-slate-100 text-slate-400 transition-colors"
+                                >
+                                    <X size={24} />
+                                </button>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="p-6 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200">
+                                    <div className="flex flex-col items-center text-center">
+                                        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-slate-400 mb-4 shadow-sm">
+                                            <FileText size={32} />
+                                        </div>
+                                        <h4 className="font-bold text-slate-800">Select Your File</h4>
+                                        <p className="text-sm text-slate-500 mb-6">Choose the completed Excel/CSV file from your device.</p>
+
+                                        <label className="w-full">
+                                            <input
+                                                type="file"
+                                                accept=".xlsx, .xls, .csv"
+                                                className="hidden"
+                                                onChange={(e) => setSelectedFile(e.target.files[0])}
+                                            />
+                                            <div className={`w-full py-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col items-center gap-1 ${selectedFile ? 'bg-emerald-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 hover:border-indigo-400 text-slate-500'}`}>
+                                                <span className="font-bold">{selectedFile ? selectedFile.name : 'Click to Browse'}</span>
+                                                <span className="text-xs">{selectedFile ? `${(selectedFile.size / 1024).toFixed(1)} KB` : 'XLSX, XLS or CSV only'}</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-4 pt-4">
+                                    <button
+                                        onClick={() => setShowBulkModal(false)}
+                                        className="flex-1 py-4 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleBulkUpload}
+                                        disabled={!selectedFile || uploading}
+                                        className="flex-3 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-lg shadow-xl shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all disabled:opacity-50 disabled:translate-y-0"
+                                    >
+                                        {uploading ? 'Processing Bitstream...' : 'Start Import'}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

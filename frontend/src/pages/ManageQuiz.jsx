@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Plus, Trash2, ArrowLeft, CheckCircle, Edit, Save, X, Zap, LayoutList, FileText, CheckSquare, Globe, HelpCircle } from 'lucide-react';
+import { Plus, Trash2, ArrowLeft, CheckCircle, Edit, Save, X, Zap, LayoutList, FileText, CheckSquare, Globe, HelpCircle, Upload } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import * as XLSX from 'xlsx';
 import API from '../api/axios';
 import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
@@ -11,6 +12,9 @@ const ManageQuiz = () => {
     const [quiz, setQuiz] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
+    const [showBulkModal, setShowBulkModal] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [editingQuestionId, setEditingQuestionId] = useState(null);
     const [newQuestion, setNewQuestion] = useState({
         questionText: '',
@@ -57,6 +61,39 @@ const ManageQuiz = () => {
             showErrorAlert('Error', 'Failed to save question');
         }
     };
+
+    const handleBulkUpload = async (e) => {
+        e.preventDefault();
+        if (!selectedFile) {
+            showErrorAlert('Missing File', 'Please select an Excel or CSV file first.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        setUploading(true);
+        try {
+            const { data } = await API.post(`/questions/bulk-upload/${id}`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
+            // Refresh questions
+            const questionsRes = await API.get(`/questions/quiz/${id}`);
+            setQuestions(questionsRes.data);
+
+            showSuccessAlert('Success!', `${data.count} questions uploaded successfully.`);
+            setShowBulkModal(false);
+            setSelectedFile(null);
+        } catch (error) {
+            console.error(error);
+            showErrorAlert('Upload Failed', error.response?.data?.message || 'Error processing the file.');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+
 
     const handleDeleteQuestion = async (qId) => {
         const isConfirmed = await showConfirmAlert('Delete Question?', 'This action cannot be undone.');
@@ -148,8 +185,8 @@ const ManageQuiz = () => {
                                         }
                                     }}
                                     className={`px-4 py-2 rounded-lg font-bold text-sm transition-all shadow-sm ${quiz.isPublished
-                                            ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                                            : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/30'
+                                        ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                        : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/30'
                                         }`}
                                 >
                                     {quiz.isPublished ? 'Unpublish' : 'Go Live ->'}
@@ -173,19 +210,29 @@ const ManageQuiz = () => {
                         </div>
                     </div>
 
-                    <button
-                        onClick={() => {
-                            setEditingQuestionId(null);
-                            setNewQuestion({ questionText: '', options: ['', '', '', ''], correctAnswer: '', correctAnswers: [], type: 'MCQ', explanation: '' });
-                            setShowAddForm(!showAddForm);
-                        }}
-                        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-lg ${showAddForm
+                    <div className="flex gap-2 p-1">
+                        <button
+                            onClick={() => setShowBulkModal(true)}
+                            className="flex items-center gap-2 px-5 py-3 rounded-xl font-bold bg-white text-emerald-600 border-2 border-emerald-100 hover:bg-emerald-50 transition-all shadow-sm"
+                        >
+                            <Upload size={18} />
+                            <span className="hidden sm:inline">Bulk Upload</span>
+                        </button>
+
+                        <button
+                            onClick={() => {
+                                setEditingQuestionId(null);
+                                setNewQuestion({ questionText: '', options: ['', '', '', ''], correctAnswer: '', correctAnswers: [], type: 'MCQ', explanation: '' });
+                                setShowAddForm(!showAddForm);
+                            }}
+                            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-lg ${showAddForm
                                 ? 'bg-rose-50 text-rose-600 hover:bg-rose-100'
                                 : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:shadow-indigo-500/30 hover:-translate-y-0.5'
-                            }`}
-                    >
-                        {showAddForm ? <><X size={18} /> Cancel</> : <><Plus size={18} /> Add New Question</>}
-                    </button>
+                                }`}
+                        >
+                            {showAddForm ? <><X size={18} /> Cancel</> : <><Plus size={18} /> Add Question</>}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Add/Edit Form */}
@@ -218,8 +265,8 @@ const ManageQuiz = () => {
                                                     type="button"
                                                     onClick={() => setNewQuestion({ ...newQuestion, type: t, options: t === 'TF' ? ['True', 'False'] : ['', '', '', ''], correctAnswers: [], correctAnswer: '' })}
                                                     className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${newQuestion.type === t
-                                                            ? 'bg-white text-indigo-600 shadow-sm'
-                                                            : 'text-slate-500 hover:text-indigo-600'
+                                                        ? 'bg-white text-indigo-600 shadow-sm'
+                                                        : 'text-slate-500 hover:text-indigo-600'
                                                         }`}
                                                 >
                                                     {t === 'TF' ? 'True/False' : t === 'MSQ' ? 'Multiple Choice' : 'Single Choice'}
@@ -402,8 +449,8 @@ const ManageQuiz = () => {
                                                 {index + 1}
                                             </span>
                                             <span className={`text-xs font-bold px-2 py-1 rounded uppercase tracking-wider ${q.type === 'MCQ' ? 'bg-blue-100 text-blue-700' :
-                                                    q.type === 'MSQ' ? 'bg-purple-100 text-purple-700' :
-                                                        'bg-emerald-100 text-emerald-700'
+                                                q.type === 'MSQ' ? 'bg-purple-100 text-purple-700' :
+                                                    'bg-emerald-100 text-emerald-700'
                                                 }`}>
                                                 {q.type === 'TF' ? 'True / False' : q.type}
                                             </span>
@@ -418,8 +465,8 @@ const ManageQuiz = () => {
                                                     <div
                                                         key={i}
                                                         className={`flex items-start gap-3 p-3 rounded-lg border text-sm font-medium transition-colors ${isCorrect
-                                                                ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-                                                                : 'bg-slate-50 border-transparent text-slate-600'
+                                                            ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                                                            : 'bg-slate-50 border-transparent text-slate-600'
                                                             }`}
                                                     >
                                                         <span className={`font-bold ${isCorrect ? 'text-emerald-600' : 'text-slate-400'}`}>
@@ -473,6 +520,84 @@ const ManageQuiz = () => {
                     )}
                 </div>
             </div>
+
+            {/* Bulk Upload Modal */}
+            <AnimatePresence>
+                {showBulkModal && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowBulkModal(false)}
+                            className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+                        ></motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl p-8 overflow-hidden"
+                        >
+                            <div className="flex justify-between items-center mb-8">
+                                <h3 className="text-2xl font-black text-slate-800 flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                        <Upload size={20} />
+                                    </div>
+                                    Bulk Upload
+                                </h3>
+                                <button
+                                    onClick={() => setShowBulkModal(false)}
+                                    className="p-2 rounded-xl hover:bg-slate-100 text-slate-400 transition-colors"
+                                >
+                                    <X size={24} />
+                                </button>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="p-6 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200">
+                                    <div className="flex flex-col items-center text-center">
+                                        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-slate-400 mb-4 shadow-sm">
+                                            <FileText size={32} />
+                                        </div>
+                                        <h4 className="font-bold text-slate-800">Select Your File</h4>
+                                        <p className="text-sm text-slate-500 mb-6">Choose the completed Excel/CSV file from your device.</p>
+
+                                        <label className="w-full">
+                                            <input
+                                                type="file"
+                                                accept=".xlsx, .xls, .csv"
+                                                className="hidden"
+                                                onChange={(e) => setSelectedFile(e.target.files[0])}
+                                            />
+                                            <div className={`w-full py-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col items-center gap-1 ${selectedFile ? 'bg-emerald-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 hover:border-indigo-400 text-slate-500'}`}>
+                                                <span className="font-bold">{selectedFile ? selectedFile.name : 'Click to Browse'}</span>
+                                                <span className="text-xs">{selectedFile ? `${(selectedFile.size / 1024).toFixed(1)} KB` : 'XLSX, XLS or CSV only'}</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-4 pt-4">
+                                    <button
+                                        onClick={() => setShowBulkModal(false)}
+                                        className="flex-1 py-4 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleBulkUpload}
+                                        disabled={!selectedFile || uploading}
+                                        className="flex-3 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-lg shadow-xl shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all disabled:opacity-50 disabled:translate-y-0"
+                                    >
+                                        {uploading ? 'Processing Bitstream...' : 'Start Import'}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
