@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Edit, BookOpen, Clock, CheckCircle, AlertCircle, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API from '../api/axios';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const MyQuizzes = () => {
     const [quizzes, setQuizzes] = useState([]);
@@ -24,12 +25,18 @@ const MyQuizzes = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this quiz?')) {
+        const isConfirmed = await showConfirmAlert(
+            'Delete Quiz?',
+            'Are you sure you want to delete this quiz? This will also delete all associated questions.'
+        );
+
+        if (isConfirmed) {
             try {
                 await API.delete(`/quizzes/${id}`);
                 setQuizzes(quizzes.filter(q => q._id !== id));
+                showSuccessAlert('Deleted!', 'Quiz deleted successfully');
             } catch (error) {
-                alert('Failed to delete quiz');
+                showErrorAlert('Failed!', 'Failed to delete quiz');
             }
         }
     };
@@ -89,66 +96,72 @@ const MyQuizzes = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                                 key={quiz._id}
-                                className="group relative bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                                className="group bg-white rounded-[2rem] p-6 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.08)] hover:-translate-y-1.5 transition-all duration-500 overflow-hidden relative"
                             >
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="flex gap-2">
-                                        <span className={`px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide border ${quiz.isPublished
-                                            ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                            : 'bg-amber-50 text-amber-600 border-amber-100'
+                                {/* Header Info */}
+                                <div className="flex justify-between items-start mb-6">
+                                    <div className="flex flex-wrap gap-2">
+                                        <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${quiz.isPublished
+                                                ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                                : 'bg-amber-50 text-amber-600 border-amber-100'
                                             }`}>
-                                            {quiz.isPublished ? 'Published' : 'Draft'}
-                                        </span>
-                                        <span className={`px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide border ${quiz.isApproved
-                                            ? 'bg-blue-50 text-blue-600 border-blue-100'
-                                            : 'bg-violet-50 text-violet-600 border-violet-100'
+                                            <div className={`w-1.5 h-1.5 rounded-full ${quiz.isPublished ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                                            {quiz.isPublished ? 'Live' : 'Draft'}
+                                        </div>
+                                        <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${quiz.isApproved
+                                                ? 'bg-indigo-50 text-indigo-600 border-indigo-100'
+                                                : 'bg-slate-50 text-slate-400 border-slate-100'
                                             }`}>
-                                            {quiz.isApproved ? 'Approved' : 'Pending'}
-                                        </span>
+                                            {quiz.isApproved ? 'Verified' : 'Pending'}
+                                        </div>
                                     </div>
                                     <Link
                                         to={`/admin/quiz-results/${quiz._id}`}
-                                        className="p-2 text-slate-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
-                                        title="View Results"
+                                        className="p-2.5 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
+                                        title="Analytics"
                                     >
-                                        <FileText size={20} />
+                                        <FileText size={18} />
                                     </Link>
                                 </div>
 
-                                <h3 className="text-xl font-bold text-slate-800 mb-2 line-clamp-1 group-hover:text-indigo-700 transition-colors">
-                                    {quiz.title}
-                                </h3>
-                                <p className="text-slate-500 text-sm mb-6 line-clamp-2 leading-relaxed">
-                                    {quiz.description || "No description provided."}
-                                </p>
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-black text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors leading-tight">
+                                        {quiz.title}
+                                    </h3>
+                                    <p className="text-slate-400 text-sm font-medium line-clamp-2 leading-relaxed h-10">
+                                        {quiz.description || "No description provided."}
+                                    </p>
+                                </div>
 
-                                <div className="grid grid-cols-3 gap-2 py-4 border-t border-slate-50 mt-auto mb-4">
-                                    <div className="text-center px-2 py-2 rounded-xl bg-slate-50 group-hover:bg-indigo-50/50 transition-colors">
-                                        <Clock size={16} className="mx-auto mb-1 text-slate-400 group-hover:text-indigo-500" />
-                                        <span className="text-xs font-bold text-slate-700 block">{quiz.duration}m</span>
+                                {/* Stats Grid - Clean & Minimal */}
+                                <div className="flex items-center gap-3 mb-8">
+                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-indigo-100 group-hover:bg-white transition-all duration-300">
+                                        <Clock size={16} className="text-slate-400 mb-1.5 group-hover:text-indigo-500" />
+                                        <span className="text-xs font-black text-slate-700">{quiz.duration}m</span>
                                     </div>
-                                    <div className="text-center px-2 py-2 rounded-xl bg-slate-50 group-hover:bg-indigo-50/50 transition-colors">
-                                        <AlertCircle size={16} className="mx-auto mb-1 text-slate-400 group-hover:text-indigo-500" />
-                                        <span className="text-xs font-bold text-slate-700 block">{quiz.numQuestions} Qs</span>
+                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-indigo-100 group-hover:bg-white transition-all duration-300">
+                                        <AlertCircle size={16} className="text-slate-400 mb-1.5 group-hover:text-indigo-500" />
+                                        <span className="text-xs font-black text-slate-700">{quiz.numQuestions} Qs</span>
                                     </div>
-                                    <div className="text-center px-2 py-2 rounded-xl bg-slate-50 group-hover:bg-indigo-50/50 transition-colors">
-                                        <CheckCircle size={16} className="mx-auto mb-1 text-slate-400 group-hover:text-indigo-500" />
-                                        <span className="text-xs font-bold text-slate-700 block">{quiz.totalMarks} Pts</span>
+                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-indigo-100 group-hover:bg-white transition-all duration-300">
+                                        <CheckCircle size={16} className="text-slate-400 mb-1.5 group-hover:text-indigo-500" />
+                                        <span className="text-xs font-black text-slate-700">{quiz.totalMarks} Pt</span>
                                     </div>
                                 </div>
 
+                                {/* Actions */}
                                 <div className="flex gap-3">
                                     <Link
                                         to={`/admin/manage-quiz/${quiz._id}`}
-                                        className="flex-1 py-3 bg-slate-50 hover:bg-indigo-600 hover:text-white text-slate-700 font-bold rounded-xl transition-all flex items-center justify-center gap-2 group/btn"
+                                        className="flex-[4] py-4 bg-slate-900 text-white hover:bg-indigo-600 font-black rounded-2xl transition-all flex items-center justify-center gap-2 group/btn shadow-lg shadow-slate-900/10 hover:shadow-indigo-500/20"
                                     >
-                                        <Edit size={16} className="group-hover/btn:scale-110 transition-transform" />
-                                        Manage
+                                        <Edit size={16} className="group-hover/btn:rotate-12 transition-transform" />
+                                        Manage Quiz
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(quiz._id)}
-                                        className="p-3 text-red-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                        title="Delete Quiz"
+                                        className="flex-1 py-4 bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white rounded-2xl transition-all flex items-center justify-center border border-rose-100 hover:border-rose-500 shadow-sm"
+                                        title="Discard"
                                     >
                                         <Trash2 size={20} />
                                     </button>

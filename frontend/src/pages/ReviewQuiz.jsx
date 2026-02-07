@@ -92,9 +92,9 @@ const ReviewQuiz = () => {
                             <div>
                                 <button
                                     onClick={() => navigate(-1)}
-                                    className="inline-flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-bold mb-2 transition-colors"
+                                    className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl border border-slate-200 mb-4 transition-all"
                                 >
-                                    <ArrowLeft size={18} /> Back to Results
+                                    <ArrowLeft size={18} /> Back to Result
                                 </button>
                                 <h1 className="text-3xl font-black text-slate-800">
                                     {result.quiz?.title || result.quizTitle || 'Unknown Quiz'}
@@ -159,14 +159,14 @@ const ReviewQuiz = () => {
                                 transition={{ delay: index * 0.05 }}
                                 key={q._id}
                                 className={`bg-white rounded-[2rem] p-8 shadow-sm border-2 transition-all ${isCorrect ? 'border-emerald-100 shadow-emerald-100' :
-                                        isSkipped ? 'border-slate-100' :
-                                            'border-rose-100 shadow-rose-100'
+                                    isSkipped ? 'border-slate-100' :
+                                        'border-rose-100 shadow-rose-100'
                                     }`}
                             >
                                 <div className="flex items-start gap-4 mb-6">
                                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0 ${isCorrect ? 'bg-emerald-100 text-emerald-600' :
-                                            isSkipped ? 'bg-slate-100 text-slate-500' :
-                                                'bg-rose-100 text-rose-600'
+                                        isSkipped ? 'bg-slate-100 text-slate-500' :
+                                            'bg-rose-100 text-rose-600'
                                         }`}>
                                         {index + 1}
                                     </div>

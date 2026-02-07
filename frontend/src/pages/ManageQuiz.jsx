@@ -87,7 +87,9 @@ const ManageQuiz = () => {
             setSelectedFile(null);
         } catch (error) {
             console.error(error);
-            showErrorAlert('Upload Failed', error.response?.data?.message || 'Error processing the file.');
+            const msg = error.response?.data?.message || 'Error processing the file.';
+            const details = error.response?.data?.details ? `\n\n${error.response.data.details}` : '';
+            showErrorAlert('Upload Failed', msg + details);
         } finally {
             setUploading(false);
         }

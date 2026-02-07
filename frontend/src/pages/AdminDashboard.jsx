@@ -28,6 +28,7 @@ import API from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import DepartmentDashboard from './DepartmentDashboard';
 import HODDashboard from './HODDashboard';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
@@ -134,28 +135,33 @@ const AdminDashboard = () => {
 
     const handleDeleteQuiz = async (id) => {
         if (isSuperAdmin) {
-            alert("Super Admins are not allowed to delete quizzes.");
+            showErrorAlert("Denied", "Super Admins are not allowed to delete quizzes.");
             return;
         }
-        if (window.confirm('Are you sure you want to delete this quiz? all questions will be removed.')) {
+        const isConfirmed = await showConfirmAlert(
+            'Delete Quiz?',
+            'Are you sure you want to delete this quiz? All associated questions will be removed.'
+        );
+        if (isConfirmed) {
             try {
                 await API.delete(`/quizzes/${id}`);
                 setQuizzes(quizzes.filter(q => q._id !== id));
+                showSuccessAlert('Deleted!', 'Quiz deleted successfully');
             } catch (error) {
-                alert('Failed to delete quiz');
+                showErrorAlert('Failed!', 'Failed to delete quiz');
             }
         }
     };
 
     const handleDeleteMessage = async (id) => {
-        if (window.confirm('Delete this message?')) {
+        const isConfirmed = await showConfirmAlert('Delete Message?', 'Are you sure you want to delete this message?');
+        if (isConfirmed) {
             try {
                 await API.delete(`/contact/${id}`);
-                setMessages(messages.filter(m => m._id !== id));
-                // Update stats locally
-                setStats(stats.map(s => s.title === 'Active Queries' ? { ...s, value: messages.length - 1 } : s));
+                setMessages(prev => prev.filter(m => m._id !== id));
+                showSuccessAlert('Deleted!', 'Message removed successfully');
             } catch (error) {
-                alert('Failed to delete message');
+                showErrorAlert('Failed!', 'Failed to delete message');
             }
         }
     };

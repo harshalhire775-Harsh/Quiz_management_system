@@ -16,6 +16,7 @@ import {
 import { motion } from 'framer-motion';
 import API from '../api/axios';
 import useAuth from '../hooks/useAuth';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const TeacherDashboard = () => {
     const { user } = useAuth();
@@ -61,14 +62,19 @@ const TeacherDashboard = () => {
     }, [user]);
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this quiz?')) {
+        const isConfirmed = await showConfirmAlert(
+            'Delete Quiz?',
+            'Are you sure you want to delete this quiz? This action cannot be undone.'
+        );
+
+        if (isConfirmed) {
             try {
                 await API.delete(`/quizzes/${id}`);
-                setRecentQuizzes(recentQuizzes.filter(q => q._id !== id));
-                // Update stats locally as well
+                setRecentQuizzes(prev => prev.filter(q => q._id !== id));
                 setStats(prev => prev.map(s => s.title === 'My Quizzes' ? { ...s, value: s.value - 1 } : s));
+                showSuccessAlert('Deleted!', 'Quiz deleted successfully');
             } catch (error) {
-                alert('Failed to delete quiz');
+                showErrorAlert('Failed!', 'Failed to delete quiz');
             }
         }
     };

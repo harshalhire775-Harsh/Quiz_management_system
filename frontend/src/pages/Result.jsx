@@ -65,70 +65,50 @@ const Result = () => {
     const percentage = (result.score / result.totalQuestions) * 100;
 
     return (
-        <div className="container animate-fade-in" style={{ padding: '60px 20px', minHeight: '80vh' }}>
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
             <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                style={{ maxWidth: '800px', margin: '0 auto' }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full max-w-2xl bg-white rounded-3xl shadow-xl shadow-slate-200/60 p-10 md:p-16 border border-slate-100"
             >
-                <div className="glass-card" style={{ padding: '60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-                    {/* Decorative Elements */}
-                    <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'var(--primary)', opacity: 0.1, borderRadius: '50%', filter: 'blur(50px)' }}></div>
-                    <div style={{ position: 'absolute', bottom: '-50px', left: '-50px', width: '200px', height: '200px', background: 'var(--secondary)', opacity: 0.1, borderRadius: '50%', filter: 'blur(50px)' }}></div>
+                <div className="text-center mb-12">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full mb-6">
+                        <CheckCircle2 size={40} />
+                    </div>
+                    <h1 className="text-4xl font-black text-slate-900 mb-2">Quiz Completed</h1>
+                    <p className="text-slate-500 font-medium italic text-lg">{result.quiz?.title}</p>
+                </div>
 
-                    <div style={{ position: 'relative', zIndex: 1 }}>
-                        <motion.div
-                            initial={{ y: 20 }}
-                            animate={{ y: 0, transition: { type: 'spring' } }}
-                            style={{ marginBottom: '30px' }}
-                        >
-                            <div style={{ width: '100px', height: '100px', margin: '0 auto', background: 'rgba(245, 158, 11, 0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 30px rgba(245, 158, 11, 0.3)' }}>
-                                <Trophy size={50} color="#f59e0b" />
-                            </div>
-                        </motion.div>
-
-                        <h1 style={{ fontSize: '3rem', fontWeight: '800', marginBottom: '10px' }}>
-                            {percentage >= 80 ? 'Mastery Unlocked! 🏆' : percentage >= 50 ? 'Well Done! 🌟' : 'Challenge Accepted? 💪'}
-                        </h1>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', marginBottom: '50px' }}>
-                            Achieved in: <span style={{ color: 'var(--text-main)', fontWeight: '700' }}>{result.quiz?.title}</span>
-                        </p>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '25px', marginBottom: '60px' }}>
-                            <div style={{ padding: '30px 20px', background: 'rgba(255,255,255,0.03)', borderRadius: '24px', border: '1px solid var(--glass-border)' }}>
-                                <Star color="#f59e0b" size={24} style={{ marginBottom: '10px' }} />
-                                <div style={{ fontSize: '2.5rem', fontWeight: '800' }}>{result.score}</div>
-                                <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Correct Answer</div>
-                            </div>
-                            <div style={{ padding: '30px 20px', background: 'rgba(255,255,255,0.03)', borderRadius: '24px', border: '1px solid var(--glass-border)' }}>
-                                <Zap color="#06b6d4" size={24} style={{ marginBottom: '10px' }} />
-                                <div style={{ fontSize: '2.5rem', fontWeight: '800', color: percentage >= 50 ? 'var(--success)' : 'var(--error)' }}>{Math.round(percentage)}%</div>
-                                <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Efficiency</div>
-                            </div>
-                            <div style={{ padding: '30px 20px', background: 'rgba(255,255,255,0.03)', borderRadius: '24px', border: '1px solid var(--glass-border)' }}>
-                                <Medal color="#ec4899" size={24} style={{ marginBottom: '10px' }} />
-                                <div style={{ fontSize: '2.5rem', fontWeight: '800' }}>{result.totalQuestions}</div>
-                                <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Total Tasks</div>
-                            </div>
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                            <button onClick={shareOnWhatsApp} className="btn btn-primary" style={{ padding: '16px 30px', fontSize: '1rem', background: '#22c55e', border: 'none', boxShadow: '0 10px 20px rgba(34, 197, 94, 0.3)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Share2 size={20} /> Share on WhatsApp
-                            </button>
-                            <Link to={`/review/${id}`} className="btn btn-primary" style={{ padding: '16px 30px', fontSize: '1rem' }}>
-                                <Eye size={20} /> Review Journey
-                            </Link>
-                            <Link to="/quizzes" className="btn btn-secondary" style={{ padding: '16px 30px', fontSize: '1rem' }}>
-                                <RefreshCw size={20} /> Next Challenge
-                            </Link>
-                        </div>
+                {/* Simplified Score Card */}
+                <div className="bg-slate-50 rounded-2xl p-8 mb-10 flex flex-col items-center">
+                    <div className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Your Final Score</div>
+                    <div className={`text-6xl font-black mb-1 ${percentage >= 50 ? 'text-indigo-600' : 'text-rose-600'}`}>
+                        {result.score} <span className="text-slate-300 text-3xl">/ {result.totalQuestions}</span>
+                    </div>
+                    <div className="text-lg font-bold text-slate-600">
+                        Accuracy: {Math.round(percentage)}%
                     </div>
                 </div>
 
-                <div style={{ textAlign: 'center', marginTop: '30px' }}>
-                    <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                        <ArrowLeft size={18} /> Back to Hub
+                {/* Action Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Link
+                        to={`/review/${id}`}
+                        className="flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-slate-100 text-slate-700 font-bold rounded-2xl hover:bg-slate-50 hover:border-slate-200 transition-all"
+                    >
+                        <Eye size={20} /> Review Answers
+                    </Link>
+                    <Link
+                        to="/quizzes"
+                        className="flex items-center justify-center gap-2 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20"
+                    >
+                        <RefreshCw size={20} /> Try Another Quiz
+                    </Link>
+                </div>
+
+                <div className="mt-12 text-center">
+                    <Link to="/student-dashboard" className="text-slate-400 hover:text-indigo-600 font-bold text-sm transition-all flex items-center justify-center gap-2">
+                        <ArrowLeft size={16} /> Back to Dashboard
                     </Link>
                 </div>
             </motion.div>

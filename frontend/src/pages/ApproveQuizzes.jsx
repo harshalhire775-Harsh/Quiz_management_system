@@ -3,6 +3,7 @@ import { CheckCircle, XCircle, FileText, Clock, AlertCircle } from 'lucide-react
 import { motion, AnimatePresence } from 'framer-motion';
 import API from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const ApproveQuizzes = () => {
     const navigate = useNavigate();
@@ -25,25 +26,33 @@ const ApproveQuizzes = () => {
     }, []);
 
     const handleApprove = async (id) => {
-        if (window.confirm('Are you sure you want to approve this quiz? It will go live immediately.')) {
+        const isConfirmed = await showConfirmAlert(
+            'Approve Quiz?',
+            'Are you sure you want to approve this quiz? It will go live immediately.'
+        );
+        if (isConfirmed) {
             try {
                 await API.put(`/quizzes/${id}/approve`);
-                alert('Quiz Approved Successfully! 🟢');
                 setPendingQuizzes(prev => prev.filter(q => q._id !== id));
+                showSuccessAlert('Approved!', 'Quiz Approved Successfully! 🟢');
             } catch (error) {
-                alert('Approval Failed');
+                showErrorAlert('Failed!', 'Approval Failed');
             }
         }
     };
 
     const handleReject = async (id) => {
-        if (window.confirm('Are you sure you want to REJECT (Delete) this quiz? This action cannot be undone.')) {
+        const isConfirmed = await showConfirmAlert(
+            'Reject Quiz?',
+            'Are you sure you want to REJECT (Delete) this quiz? This action cannot be undone.'
+        );
+        if (isConfirmed) {
             try {
                 await API.delete(`/quizzes/${id}`);
-                alert('Quiz Rejected and Deleted. 🔴');
                 setPendingQuizzes(prev => prev.filter(q => q._id !== id));
+                showSuccessAlert('Rejected!', 'Quiz Rejected and Deleted. 🔴');
             } catch (error) {
-                alert('Rejection Failed');
+                showErrorAlert('Failed!', 'Rejection Failed');
             }
         }
     };

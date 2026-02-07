@@ -79,116 +79,140 @@ const QuizStart = () => {
     const selectedAnswer = answers.find((a) => a.questionId === currentQuestion._id)?.selectedAnswer;
 
     return (
-        <div className="container animate-fade-in" style={{ paddingBottom: '100px', maxWidth: '800px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-                <div>
-                    <h2 style={{ fontSize: '2.2rem', fontWeight: '800', marginBottom: '5px' }}>{quiz.title}</h2>
-                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-                        <p style={{ color: 'var(--text-muted)', margin: 0 }}>Question {currentQuestionIndex + 1} of {questions.length}</p>
-                        <button
-                            onClick={() => setSoundEnabled(!soundEnabled)}
-                            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-                        >
-                            {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
-                        </button>
-                    </div>
-                </div>
-                <Timer duration={quiz.duration} onTimeUp={handleSubmit} />
+        <div className="min-h-screen bg-[#F8FAFC] font-sans selection:bg-indigo-500/30 selection:text-indigo-900 pb-20 pt-10 px-4">
+            {/* Background elements */}
+            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-100/50 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-violet-100/50 rounded-full blur-[120px]" />
             </div>
 
-            {/* Progress Bar */}
-            <div style={{ width: '100%', height: '8px', background: 'var(--card-bg)', borderRadius: '10px', marginBottom: '40px', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
+            <div className="max-w-4xl mx-auto relative z-10">
+                {/* Header */}
                 <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
-                    style={{ height: '100%', background: 'linear-gradient(to right, var(--primary), var(--secondary))' }}
-                />
-            </div>
-
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={currentQuestionIndex}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    className="glass-card"
-                    style={{ padding: '50px' }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10"
                 >
-                    <h3 style={{ fontSize: '1.6rem', marginBottom: '40px', lineHeight: '1.5', fontWeight: '700' }}>
-                        {currentQuestion.questionText}
-                    </h3>
-
-                    <div style={{ display: 'grid', gap: '20px' }}>
-                        {currentQuestion.options.map((option, index) => (
-                            <motion.div
-                                key={index}
-                                whileHover={{ scale: 1.01 }}
-                                whileTap={{ scale: 0.99 }}
-                                onClick={() => handleAnswerSelect(option)}
-                                style={{
-                                    padding: '22px 30px',
-                                    borderRadius: '18px',
-                                    background: selectedAnswer === option ? 'rgba(99, 102, 241, 0.15)' : 'rgba(15, 23, 42, 0.3)',
-                                    border: `2px solid ${selectedAnswer === option ? 'var(--primary)' : 'var(--glass-border)'}`,
-                                    cursor: 'pointer',
-                                    transition: 'all 0.3s ease',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '20px',
-                                    fontSize: '1.15rem',
-                                    position: 'relative',
-                                    overflow: 'hidden'
-                                }}
+                    <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                            <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-[10px] font-black uppercase tracking-[0.2em]">
+                                QUESTION {currentQuestionIndex + 1} OF {questions.length}
+                            </span>
+                            <button
+                                onClick={() => setSoundEnabled(!soundEnabled)}
+                                className={`p-2 rounded-xl transition-all ${soundEnabled ? 'text-indigo-600 bg-indigo-50' : 'text-slate-400 bg-slate-100'}`}
+                                title={soundEnabled ? "Disable Sound" : "Enable Sound"}
                             >
-                                {selectedAnswer === option && (
-                                    <motion.div
-                                        layoutId="active-bg"
-                                        style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px', background: 'var(--primary)' }}
-                                    />
-                                )}
-                                <div style={{
-                                    width: '28px', height: '28px', borderRadius: '50%',
-                                    border: `2px solid ${selectedAnswer === option ? 'var(--primary)' : 'var(--text-muted)'}`,
-                                    background: selectedAnswer === option ? 'var(--primary)' : 'transparent',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.3s'
-                                }}>
-                                    {selectedAnswer === option && <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'white' }} />}
-                                </div>
-                                <span style={{ fontWeight: selectedAnswer === option ? '700' : '500' }}>{option}</span>
-                            </motion.div>
-                        ))}
+                                {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+                            </button>
+                        </div>
+                        <h1 className="text-4xl font-black tracking-tight text-slate-900">
+                            {quiz.title}
+                        </h1>
+                    </div>
+
+                    <div className="w-full md:w-auto">
+                        <Timer duration={quiz.duration} onTimeUp={handleSubmit} />
                     </div>
                 </motion.div>
-            </AnimatePresence>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '50px' }}>
-                <button
-                    className="btn btn-secondary"
-                    disabled={currentQuestionIndex === 0}
-                    onClick={() => { playNext(); setCurrentQuestionIndex(currentQuestionIndex - 1); }}
-                    style={{ width: '160px', padding: '14px', borderRadius: '15px' }}
+                {/* Main Quiz Area */}
+                <div className="relative">
+                    {/* Visual Progress Line */}
+                    <div className="absolute -left-4 md:-left-8 top-0 bottom-0 w-1 bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div
+                            initial={{ height: 0 }}
+                            animate={{ height: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+                            className="w-full bg-gradient-to-b from-indigo-500 to-violet-600 rounded-full"
+                        />
+                    </div>
+
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={currentQuestionIndex}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100 p-8 md:p-12"
+                        >
+                            <h2 className="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-[1.4]">
+                                {currentQuestion.questionText}
+                            </h2>
+
+                            <div className="grid grid-cols-1 gap-4">
+                                {currentQuestion.options.map((option, index) => {
+                                    const isSelected = selectedAnswer === option;
+                                    return (
+                                        <motion.button
+                                            key={index}
+                                            whileHover={{ scale: 1.01, x: 5 }}
+                                            whileTap={{ scale: 0.99 }}
+                                            onClick={() => handleAnswerSelect(option)}
+                                            className={`relative flex items-center gap-5 p-6 rounded-2xl text-left transition-all duration-300 group ${isSelected
+                                                    ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 ring-4 ring-indigo-500/10'
+                                                    : 'bg-slate-50 text-slate-700 hover:bg-white border-2 border-transparent hover:border-indigo-100'
+                                                }`}
+                                        >
+                                            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-black transition-all ${isSelected ? 'bg-white/20 text-white' : 'bg-white text-slate-400 border border-slate-200 group-hover:border-indigo-200'
+                                                }`}>
+                                                {String.fromCharCode(65 + index)}
+                                            </div>
+
+                                            <span className="text-lg font-bold flex-1">{option}</span>
+
+                                            {isSelected && (
+                                                <motion.div
+                                                    initial={{ scale: 0 }}
+                                                    animate={{ scale: 1 }}
+                                                    className="w-6 h-6 rounded-full bg-white text-indigo-600 flex items-center justify-center"
+                                                >
+                                                    <CheckCircle size={16} weight="fill" />
+                                                </motion.div>
+                                            )}
+                                        </motion.button>
+                                    );
+                                })}
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
+                {/* Footer Controls */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex justify-between items-center mt-10"
                 >
-                    <ChevronLeft size={22} /> Previous
-                </button>
+                    <button
+                        onClick={() => { playNext(); setCurrentQuestionIndex(prev => prev - 1); }}
+                        disabled={currentQuestionIndex === 0}
+                        className="flex items-center gap-2 px-8 py-4 rounded-2xl font-bold transition-all disabled:opacity-0 group"
+                    >
+                        <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 flex items-center justify-center group-hover:border-indigo-500 group-hover:text-indigo-600 transition-all">
+                            <ChevronLeft size={20} />
+                        </div>
+                        <span className="text-slate-500 group-hover:text-indigo-600">Previous</span>
+                    </button>
 
-                {currentQuestionIndex === questions.length - 1 ? (
-                    <button
-                        className="btn btn-primary"
-                        style={{ width: '160px', padding: '14px', background: 'var(--success)', borderRadius: '15px' }}
-                        onClick={handleSubmit}
-                        disabled={submitting}
-                    >
-                        <CheckCircle size={22} /> {submitting ? 'Submitting...' : 'Finish Quiz'}
-                    </button>
-                ) : (
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => { playNext(); setCurrentQuestionIndex(currentQuestionIndex + 1); }}
-                        style={{ width: '160px', padding: '14px', borderRadius: '15px' }}
-                    >
-                        Next <ChevronRight size={22} />
-                    </button>
-                )}
+                    {currentQuestionIndex === questions.length - 1 ? (
+                        <button
+                            onClick={handleSubmit}
+                            disabled={submitting}
+                            className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-lg shadow-xl shadow-emerald-500/30 hover:shadow-emerald-500/40 hover:-translate-y-1 transition-all group disabled:opacity-50"
+                        >
+                            <CheckCircle size={22} className="group-hover:scale-110 transition-transform" />
+                            {submitting ? 'Submitting...' : 'Complete Quiz'}
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => { playNext(); setCurrentQuestionIndex(prev => prev + 1); }}
+                            className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-slate-900 text-white font-black text-lg shadow-xl shadow-slate-900/20 hover:shadow-slate-900/30 hover:-translate-y-1 transition-all group"
+                        >
+                            Next Question
+                            <ChevronRight size={22} className="group-hover:translate-x-1 transition-transform" />
+                        </button>
+                    )}
+                </motion.div>
             </div>
         </div>
     );
