@@ -20,15 +20,17 @@ const io = new Server(server, {
 app.set('socketio', io);
 
 io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
+    console.log('🔌 New Client Connected:', socket.id);
 
-    socket.on('join_room', (email) => {
-        socket.join(email);
-        console.log(`User ${socket.id} joined room: ${email}`);
+    socket.on('join_room', (roomName) => {
+        if (roomName) {
+            socket.join(roomName);
+            console.log(`🏠 Socket ${socket.id} joined room: ${roomName}`);
+        }
     });
 
     socket.on('disconnect', () => {
-        console.log('User disconnected:', socket.id);
+        console.log('❌ Client Disconnected:', socket.id);
     });
 });
 

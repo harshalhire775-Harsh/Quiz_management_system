@@ -31,6 +31,14 @@ const contactSchema = mongoose.Schema(
         },
         senderRole: {
             type: String,
+        },
+        year: {
+            type: String,
+            default: ''
+        },
+        isRead: {
+            type: Boolean,
+            default: false
         }
     },
     {

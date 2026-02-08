@@ -15,6 +15,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Routes MUST be ordered: specific before generic
+router.get('/student-dashboard', protect, require('../controllers/quizController').getStudentDashboardStats);
 router.route('/pending').get(protect, admin, require('../controllers/quizController').getPendingQuizzes);
 router.route('/my-quizzes').get(protect, instructorOrAdmin, require('../controllers/quizController').getMyQuizzes);
 router.route('/bulk-upload').post(protect, instructorOrAdmin, upload.single('file'), bulkUploadQuizzes);

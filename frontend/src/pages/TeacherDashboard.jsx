@@ -11,7 +11,8 @@ import {
     Trash2,
     Edit,
     Power,
-    Eye
+    Eye,
+    MessageSquare
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API from '../api/axios';
@@ -29,6 +30,7 @@ const TeacherDashboard = () => {
         { title: 'My Students', value: '0', icon: Users, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
     ]);
     const [studentStats, setStudentStats] = useState({ fy: 0, sy: 0, ty: 0 });
+    const [unreadCount, setUnreadCount] = useState(0);
 
     useEffect(() => {
         const fetchTeacherStats = async () => {
@@ -39,6 +41,11 @@ const TeacherDashboard = () => {
                 // Fetch student year stats
                 const { data: years } = await API.get('/users/student-years');
                 setStudentStats(years);
+
+                // Fetch Unread Messages
+                const msgRes = await API.get('/contact');
+                const unread = msgRes.data.filter(m => !m.isRead).length;
+                setUnreadCount(unread);
 
                 // Calculate stats
                 const totalQuizzes = quizzes.length;
@@ -214,6 +221,26 @@ const TeacherDashboard = () => {
                         <div>
                             <h3 className="font-bold text-lg text-slate-800 group-hover:text-emerald-600 transition-colors">My Students</h3>
                             <p className="text-sm text-slate-500">View student details</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    onClick={() => navigate('/admin/notifications')}
+                    className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group relative overflow-visible"
+                >
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center relative">
+                            <MessageSquare size={24} />
+                            {unreadCount > 0 && (
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+                                    {unreadCount}
+                                </span>
+                            )}
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-lg text-slate-800 group-hover:text-amber-600 transition-colors">Notifications</h3>
+                            <p className="text-sm text-slate-500">View messages & alerts</p>
                         </div>
                     </div>
                 </div>

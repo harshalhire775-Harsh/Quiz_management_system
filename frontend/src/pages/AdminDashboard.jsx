@@ -311,35 +311,6 @@ const AdminDashboard = () => {
                     <div className="space-y-4 flex-1">
 
 
-                        {isSuperAdmin && (
-                            <button onClick={() => navigate('/super-admin/departments')} className="w-full p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-emerald-200 hover:bg-emerald-50/50 transition-all group">
-                                <div className="p-3 rounded-xl bg-emerald-100 text-emerald-600 group-hover:scale-110 transition-transform">
-                                    <ShieldCheck size={20} />
-                                </div>
-                                <div className="text-left">
-                                    <span className="block font-bold text-slate-700">Manage College</span>
-                                    <span className="text-xs text-slate-500">Control role access</span>
-                                </div>
-                                <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-emerald-500" size={18} />
-                            </button>
-                        )}
-
-                        {isSuperAdmin && (
-                            <button onClick={() => navigate('/admin/admin-requests')} className="w-full p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-amber-200 hover:bg-amber-50/50 transition-all group">
-                                <div className="p-3 rounded-xl bg-amber-100 text-amber-600 group-hover:scale-110 transition-transform">
-                                    <ShieldCheck size={20} />
-                                </div>
-                                <div className="text-left">
-                                    <span className="block font-bold text-slate-700">Admin Requests</span>
-                                    <span className="text-xs text-slate-500">Review new admins</span>
-                                </div>
-                                <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-amber-500" size={18} />
-                            </button>
-                        )}
-
-
-
-
 
                         {isDeptHead && !isSuperAdmin && (
                             <button onClick={() => navigate('/admin/manage-sirs')} className="w-full p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-violet-200 hover:bg-violet-50/50 transition-all group">

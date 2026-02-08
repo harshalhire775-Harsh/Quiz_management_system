@@ -152,6 +152,49 @@ const bulkUploadQuizzes = async (req, res) => {
     }
 };
 
+const getStudentDashboardStats = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const totalQuizzes = await Quiz.countDocuments({ isActive: true });
+
+        // This requires 'Result' model which we haven't imported in this file yet if it's separate
+        // Let's assume we need to fetch results. 
+        // Best practice is to have this in resultController, but user asked for dashboard stats.
+        // We will do a simple aggregation if Result model is available or fetch from User.
+
+        // Let's use the Result model. We need to import it.
+        const Result = require('../models/resultModel');
+
+        const results = await Result.find({ user: userId }).sort({ createdAt: -1 });
+
+        const quizzesTaken = results.length;
+        const totalScore = results.reduce((acc, curr) => acc + (curr.score / curr.totalQuestions) * 100, 0);
+        const averageScore = quizzesTaken > 0 ? Math.round(totalScore / quizzesTaken) : 0;
+
+        // Completion Rate (Quizzes Taken / Total Available Quizzes)
+        const completionRate = totalQuizzes > 0 ? Math.round((quizzesTaken / totalQuizzes) * 100) : 0;
+
+        const recentActivity = results.slice(0, 5).map(r => ({
+            id: r._id,
+            quizTitle: r.quiz?.title || 'Unknown Quiz', // Populate if needed
+            score: r.score,
+            date: r.createdAt
+        }));
+
+        res.json({
+            quizzesTaken,
+            averageScore,
+            completionRate,
+            recentActivity
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
 module.exports = {
+    getStudentDashboardStats,
     getQuizzes, getPendingQuizzes, getMyQuizzes, approveQuiz, getQuizById, createQuiz, updateQuiz, deleteQuiz, bulkUploadQuizzes
 };

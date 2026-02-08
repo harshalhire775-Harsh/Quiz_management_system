@@ -28,9 +28,6 @@ import ManageSirs from './pages/ManageSirs';
 import MyQuizzes from './pages/MyQuizzes';
 import QuizResults from './pages/QuizResults';
 import ContactTeacher from './pages/ContactTeacher';
-import StudentMessages from './pages/StudentMessages';
-
-import StudentDashboard from './pages/StudentDashboard';
 import CreateAdmin from './pages/CreateAdmin';
 import ApproveQuizzes from './pages/ApproveQuizzes';
 import RegisterSir from './pages/RegisterSir';
@@ -45,7 +42,11 @@ import ManageHODs from './pages/ManageHODs';
 import HODDashboard from './pages/HODDashboard';
 import DepartmentDashboard from './pages/DepartmentDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
+import StudentNotifications from './pages/StudentNotifications';
+import TeacherNotifications from './pages/TeacherNotifications';
 
+import StudentDashboard from './pages/StudentDashboard';
+import StudentMessages from './pages/StudentMessages';
 import AuthPoller from "./components/AuthPoller";
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route element={<StudentLayout />}>
                 <Route path="/student-dashboard" element={<StudentDashboard />} />
+                <Route path="/notifications" element={<StudentNotifications />} />
                 <Route path="/quizzes" element={<QuizList />} />
                 <Route path="/quiz/:id" element={<QuizStart />} />
                 <Route path="/result/:id" element={<Result />} />
@@ -85,6 +87,7 @@ function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/department-dashboard" element={<DepartmentDashboard />} />
                 <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+                <Route path="/admin/notifications" element={<TeacherNotifications />} />
 
                 <Route path="/admin/users" element={<ManageUsers />} />
                 <Route path="/admin/create-quiz" element={<CreateQuiz />} />

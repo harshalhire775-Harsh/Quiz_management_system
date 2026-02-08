@@ -64,8 +64,10 @@ const AdminLayout = () => {
             ]
         },
 
-        { path: "/admin/manage-hods", icon: ShieldCheck, label: "Manage HODs", roles: ['Admin (HOD)'] },
-        { path: "/admin/manage-hods", icon: ShieldCheck, label: "Manage HODs", roles: ['Admin (HOD)'] },
+        { path: "/teacher/contact-student", icon: MessageSquare, label: "Contact Student", roles: (user?.role === 'Sir' && !user?.isHead) ? ['Sir'] : [] },
+
+        { path: "/admin/manage-hods", icon: ShieldCheck, label: "Department Heads", roles: ['Admin (HOD)'] },
+        { path: "/super-admin/manage-hods", icon: ShieldCheck, label: "Manage HODs", roles: ['Super Admin'] },
         { path: "/admin/queries", icon: Users, label: "Complaint Section", roles: ['Super Admin'] },
     ];
 

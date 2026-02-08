@@ -37,10 +37,11 @@ const UserQueries = () => {
     };
 
     const filteredMessages = messages.filter(msg =>
-        msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        msg.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        msg.message.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        msg.senderRole !== 'Sir' && (
+            msg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            msg.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            msg.message.toLowerCase().includes(searchTerm.toLowerCase())
+        ));
 
     return (
         <div className="p-8 space-y-8 bg-slate-50 min-h-screen">

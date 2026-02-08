@@ -1,10 +1,12 @@
+require('dotenv').config({ path: '../.env' });
 const mongoose = require('mongoose');
 const User = require('../src/models/userModel');
 
 const resetAdmin = async () => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/quiz-system');
-        console.log('MongoDB Connected');
+        const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/quiz-system';
+        await mongoose.connect(mongoURI);
+        console.log('MongoDB Connected to:', mongoURI);
 
         // 1. Reset/Update superadmin@quiz.com
         let superUser = await User.findOne({ email: 'superadmin@quiz.com' });

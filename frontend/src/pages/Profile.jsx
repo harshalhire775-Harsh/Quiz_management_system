@@ -24,7 +24,7 @@ const Profile = () => {
 
     // Form States
     const [formData, setFormData] = useState({
-        name: '', email: '', phoneNumber: '', bio: ''
+        name: '', email: '', phoneNumber: '', bio: '', year: ''
     });
 
     useEffect(() => {
@@ -33,7 +33,8 @@ const Profile = () => {
                 name: user.name || '',
                 email: user.email || '',
                 phoneNumber: user.phoneNumber || '',
-                bio: user.bio || ''
+                bio: user.bio || '',
+                year: user.year || ''
             });
         }
     }, [user]);
@@ -315,6 +316,23 @@ const Profile = () => {
                             <form onSubmit={handleUpdateProfile} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px' }}>
                                 <div className="form-group"><label>Display Name</label><input type="text" name="name" className="form-control" value={formData.name} onChange={handleInputChange} /></div>
                                 <div className="form-group"><label>Phone Number</label><input type="text" name="phoneNumber" className="form-control" value={formData.phoneNumber} onChange={handleInputChange} /></div>
+
+                                {user.role === 'Student' && (
+                                    <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                                        <label>Academic Year</label>
+                                        <select
+                                            name="year"
+                                            className="form-control"
+                                            value={formData.year}
+                                            onChange={handleInputChange}
+                                        >
+                                            <option value="">Select Year</option>
+                                            <option value="FY">First Year (FY)</option>
+                                            <option value="SY">Second Year (SY)</option>
+                                            <option value="TY">Third Year (TY)</option>
+                                        </select>
+                                    </div>
+                                )}
                                 <div className="form-group" style={{ gridColumn: 'span 2' }}>
                                     <label>Professional Bio</label>
                                     <textarea name="bio" className="form-control" rows="4" value={formData.bio} onChange={handleInputChange} style={{ resize: 'none' }} placeholder="Aspiring developer, quiz master, and lifelong learner..."></textarea>

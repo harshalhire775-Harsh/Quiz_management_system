@@ -7,7 +7,9 @@ import {
     Zap,
     Target,
     Star,
-    ArrowRight
+    ArrowRight,
+    Bell,
+    MessageSquare
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import useAuth from '../hooks/useAuth';
@@ -21,30 +23,35 @@ const StudentDashboard = () => {
         averageScore: 0,
         recentActivity: []
     });
+    const [recentActivities, setRecentActivities] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchStats = async () => {
+        const fetchDashboardData = async () => {
             try {
-                const { data } = await API.get('/results/myresults').catch(() => ({ data: [] }));
-                const quizzesTaken = data?.length || 0;
-                const totalScore = data?.reduce((acc, curr) => acc + (curr.score / curr.totalQuestions) * 100, 0) || 0;
-                const averageScore = quizzesTaken > 0 ? Math.round(totalScore / quizzesTaken) : 0;
-
+                const { data } = await API.get('/quizzes/student-dashboard'); // Existing
                 setStats({
-                    quizzesTaken,
-                    averageScore,
-                    recentActivity: data?.slice(0, 3) || []
+                    quizzesTaken: data.quizzesTaken,
+                    averageScore: data.averageScore,
+                    completionRate: data.completionRate
                 });
+                setRecentActivities(data.recentActivity || []);
+
+                // Fetch Unread Messages Count
+                const msgRes = await API.get('/contact');
+                const unread = msgRes.data.filter(m => !m.isRead).length;
+                setUnreadCount(unread);
+
             } catch (error) {
-                console.error("Dashboard data error", error);
+                console.error("Failed to fetch dashboard data", error);
             } finally {
                 setLoading(false);
             }
         };
 
         if (user) {
-            fetchStats();
+            fetchDashboardData();
         }
     }, [user]);
 
@@ -127,6 +134,44 @@ const StudentDashboard = () => {
                 </motion.div>
             </div>
 
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Notifications */}
+                <motion.div
+                    variants={item}
+                    onClick={() => navigate('/notifications')}
+                    className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group flex items-center gap-4 relative overflow-visible"
+                >
+                    <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center relative">
+                        <Bell size={24} />
+                        {unreadCount > 0 && (
+                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+                                {unreadCount}
+                            </span>
+                        )}
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-slate-800 group-hover:text-amber-600 transition-colors">Notifications</h3>
+                        <p className="text-sm text-slate-500">View latest updates & replies</p>
+                    </div>
+                </motion.div>
+
+                {/* Contact Teacher */}
+                <motion.div
+                    variants={item}
+                    onClick={() => navigate('/contact-teacher')}
+                    className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group flex items-center gap-4"
+                >
+                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <MessageSquare size={24} />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-slate-800 group-hover:text-indigo-600 transition-colors">Contact Teacher</h3>
+                        <p className="text-sm text-slate-500">Ask questions or report issues</p>
+                    </div>
+                </motion.div>
+            </div>
+
             {/* Recent Activity Section */}
             <div className="grid grid-cols-1 gap-8">
                 <motion.div variants={item} className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8">
@@ -143,40 +188,28 @@ const StudentDashboard = () => {
                     <div className="space-y-4">
                         {loading ? (
                             <div className="text-center py-8 text-slate-400">Loading...</div>
-                        ) : stats.recentActivity.length > 0 ? (
-                            stats.recentActivity.map((activity, index) => (
+                        ) : recentActivities.length > 0 ? (
+                            recentActivities.map((activity, index) => (
                                 <div key={index} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
                                     <div className="flex items-center gap-4">
-                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-white shadow-md ${(activity.score / activity.totalQuestions) * 100 >= 50
-                                            ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
-                                            : 'bg-gradient-to-br from-orange-400 to-red-500'
-                                            }`}>
-                                            {(activity.score / activity.totalQuestions) * 100 >= 50 ? <Star size={20} /> : <Activity size={20} />}
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-white shadow-md">
+                                            <Activity size={20} />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-slate-800">{activity.quiz?.title || 'Quiz'}</h4>
-                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                                                {new Date(activity.createdAt).toLocaleDateString()}
+                                            <h3 className="font-bold text-slate-800">{activity.quizTitle}</h3>
+                                            <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">
+                                                {new Date(activity.date).toLocaleDateString()}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <span className="block font-black text-lg text-slate-800">
-                                            {activity.score}/{activity.totalQuestions}
-                                        </span>
-                                        <span className={`text-xs font-bold uppercase ${(activity.score / activity.totalQuestions) * 100 >= 50 ? 'text-emerald-500' : 'text-rose-500'
-                                            }`}>
-                                            {(activity.score / activity.totalQuestions) * 100 >= 50 ? 'Passed' : 'Failed'}
-                                        </span>
+                                        <span className="block text-xl font-black text-slate-800">{activity.score} pts</span>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div className="text-center py-10">
-                                <div className="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
-                                    <BookOpen size={24} className="text-slate-300" />
-                                </div>
-                                <p className="text-slate-400 font-medium">No activity yet.</p>
+                            <div className="text-center py-12 text-slate-400 font-medium">
+                                No recent activity found.
                             </div>
                         )}
                     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Bell, CheckCircle, Info, AlertTriangle, Trash2, Reply } from 'lucide-react';
+import { Bell, Reply, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import API from '../api/axios';
 import useAuth from '../hooks/useAuth';
@@ -7,7 +7,7 @@ import { io } from 'socket.io-client';
 import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 import { useNavigate } from 'react-router-dom';
 
-const Notifications = () => {
+const StudentNotifications = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
@@ -34,35 +34,22 @@ const Notifications = () => {
         fetchNotifications();
 
         if (user?.email) {
-            console.log('🔗 Connecting to Socket.io for Notifications...');
+            console.log('🔗 Connecting to Socket.io for Student Notifications...');
             const socket = io('http://127.0.0.1:5000', {
                 transports: ['websocket', 'polling']
             });
 
             socket.on('connect', () => {
                 console.log('✅ Connected to socket server:', socket.id);
-                if (user.role === 'Student') {
-                    socket.emit('join_room', user.email.trim().toLowerCase());
-                } else {
-                    socket.emit('join_room', 'admin_room');
-                }
+                // Join room with student's email
+                socket.emit('join_room', user.email.trim().toLowerCase());
             });
 
             socket.on('new_message', (newMessage) => {
                 console.log('📩 New notification received:', newMessage);
-
-                // Filter logic matches backend:
-                // Student receives if recipientEmail matches
-                // Teacher receives if recipientEmail is null (inquiry)
-
-                if (user.role === 'Student') {
-                    if (newMessage.recipientEmail?.trim().toLowerCase() === user.email.trim().toLowerCase()) {
-                        setNotifications(prev => [newMessage, ...prev]);
-                    }
-                } else {
-                    if (!newMessage.recipientEmail) {
-                        setNotifications(prev => [newMessage, ...prev]);
-                    }
+                // Strict check: only if recipient is ME
+                if (newMessage.recipientEmail?.trim().toLowerCase() === user.email.trim().toLowerCase()) {
+                    setNotifications(prev => [newMessage, ...prev]);
                 }
             });
 
@@ -89,17 +76,9 @@ const Notifications = () => {
         }
     };
 
-    const handleReply = (msg) => {
-        if (user.role === 'Student') {
-            // Students reply by going to contact teacher page? 
-            // Currently ContactTeacher is just general inquiry, so navigating there is fine.
-            navigate('/contact-teacher');
-        } else {
-            // Teacher replying to student
-            if (msg.user) {
-                navigate('/teacher/contact-student', { state: { replyTo: msg.user } });
-            }
-        }
+    const handleReply = () => {
+        // Reply to teacher -> Contact Teacher Page
+        navigate('/contact-teacher');
     };
 
     return (
@@ -109,8 +88,8 @@ const Notifications = () => {
                     <Bell size={32} />
                 </div>
                 <div>
-                    <h1 className="text-3xl font-black text-slate-800">Notifications</h1>
-                    <p className="text-slate-500 font-medium">Your inbox and important alerts.</p>
+                    <h1 className="text-3xl font-black text-slate-800">My Inbox</h1>
+                    <p className="text-slate-500 font-medium">Messages from your teachers.</p>
                 </div>
             </div>
 
@@ -142,10 +121,8 @@ const Notifications = () => {
                                 <div className="flex flex-col md:flex-row gap-4 justify-between items-start pl-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${note.senderRole === 'Sir' ? 'bg-indigo-50 text-indigo-600' :
-                                                'bg-slate-100 text-slate-600'
-                                                }`}>
-                                                {note.senderRole === 'Sir' ? 'Teacher' : 'Student'}
+                                            <span className="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-50 text-indigo-600">
+                                                Teacher Check-in
                                             </span>
                                             <span className="text-xs font-bold text-slate-400">
                                                 {new Date(note.createdAt).toLocaleString()}
@@ -154,37 +131,17 @@ const Notifications = () => {
                                         <h3 className="text-lg font-bold text-slate-800 mb-1">{note.subject}</h3>
                                         <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">{note.message}</p>
 
-                                        {note.senderRole === 'Student' ? (
-                                            <div className="mt-3 space-y-1">
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                                    <User size={14} className="text-indigo-500" />
-                                                    <span>Name: {note.name}</span>
-                                                </div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                                    <Mail size={14} className="text-indigo-500" />
-                                                    <span>Email: {note.email}</span>
-                                                </div>
-                                                {note.year && (
-                                                    <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                                        <GraduationCap size={14} className="text-indigo-500" />
-                                                        <span>Category: {note.year}</span>
-                                                    </div>
-                                                )}
+                                        <div className="mt-3 flex items-center gap-2 text-xs font-bold text-indigo-600">
+                                            <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px]">
+                                                {note.name ? note.name.charAt(0) : 'T'}
                                             </div>
-                                        ) : (
-                                            <div className="mt-3 flex items-center gap-2 text-xs font-bold text-indigo-600">
-                                                <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px]">
-                                                    {note.name?.charAt(0)}
-                                                </div>
-                                                <span>Teacher: {note.name}</span>
-                                            </div>
-                                        )}
+                                            <span>From Teacher: {note.name || 'Admin'}</span>
+                                        </div>
                                     </div>
 
                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity self-start md:self-center">
-                                        {/* Only show Reply for Teachers regarding Student Inquiries, or Students replying to Teachers */}
                                         <button
-                                            onClick={() => handleReply(note)}
+                                            onClick={handleReply}
                                             className="p-2 text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-all"
                                             title="Reply"
                                         >
@@ -208,4 +165,4 @@ const Notifications = () => {
     );
 };
 
-export default Notifications;
+export default StudentNotifications;
