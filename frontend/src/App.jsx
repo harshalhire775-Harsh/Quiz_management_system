@@ -45,6 +45,7 @@ import TeacherDashboard from './pages/TeacherDashboard';
 import StudentNotifications from './pages/StudentNotifications';
 import TeacherNotifications from './pages/TeacherNotifications';
 
+
 import StudentDashboard from './pages/StudentDashboard';
 import StudentMessages from './pages/StudentMessages';
 import AuthPoller from "./components/AuthPoller";
@@ -61,6 +62,7 @@ function App() {
             <Route element={<UserLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Route>

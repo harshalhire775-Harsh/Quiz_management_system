@@ -125,16 +125,9 @@ const SuperAdminDashboard = () => {
                             <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-emerald-500" size={18} />
                         </button>
 
-                        <button onClick={() => navigate('/super-admin/manage-hods')} className="p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-violet-200 hover:bg-violet-50/50 transition-all group">
-                            <div className="p-3 rounded-xl bg-violet-100 text-violet-600 group-hover:scale-110 transition-transform">
-                                <ShieldCheck size={20} />
-                            </div>
-                            <div className="text-left">
-                                <span className="block font-bold text-slate-700">Manage HODs</span>
-                                <span className="text-xs text-slate-500">View and manage HOD list</span>
-                            </div>
-                            <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-violet-500" size={18} />
-                        </button>
+
+
+
 
                         <button onClick={() => navigate('/admin/admin-requests')} className="p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-amber-200 hover:bg-amber-50/50 transition-all group">
                             <div className="p-3 rounded-xl bg-amber-100 text-amber-600 group-hover:scale-110 transition-transform">

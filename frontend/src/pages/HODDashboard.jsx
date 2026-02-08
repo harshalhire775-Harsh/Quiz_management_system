@@ -138,6 +138,7 @@ const HODDashboard = () => {
                         Quick Actions
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
                         <button onClick={() => navigate('/admin/manage-hods')} className="p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-violet-200 hover:bg-violet-50/50 transition-all group">
                             <div className="p-3 rounded-xl bg-violet-100 text-violet-600 group-hover:scale-110 transition-transform">
                                 <ShieldCheck size={20} />

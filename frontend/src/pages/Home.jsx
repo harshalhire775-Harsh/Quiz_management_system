@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
-import { FaCheckCircle, FaUserShield, FaChartLine, FaEnvelope, FaPhone, FaMapMarkerAlt, FaInstagram, FaFacebook, FaTwitter, FaPlay, FaUserPlus, FaGithub, FaHeart, FaBolt } from "react-icons/fa";
-import { motion } from "framer-motion";
-
+import { FaCheckCircle, FaUserShield, FaChartLine, FaEnvelope, FaPhone, FaMapMarkerAlt, FaInstagram, FaFacebook, FaTwitter, FaPlay, FaUserPlus, FaHeart, FaBrain } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 const Home = () => {
     const navigate = useNavigate();
     const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
@@ -26,6 +25,21 @@ const Home = () => {
         }
     };
 
+    const heroImages = [
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1000",
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1000",
+        "/1.png"
+    ];
+
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
     const fadeIn = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -44,405 +58,403 @@ const Home = () => {
     return (
         <div className="min-h-screen font-sans overflow-x-hidden bg-white text-slate-800 selection:bg-purple-100 selection:text-purple-700">
 
-            {/* Background Pattern - Subtle Grid */}
+            {/* Background Pattern - Immersive Dynamic Slider */}
             <div className="fixed inset-0 z-0 pointer-events-none">
+                <div className="absolute inset-0 bg-[#0a0c10]">
+                    <AnimatePresence mode="wait">
+                        <motion.img
+                            key={currentImageIndex}
+                            src={heroImages[currentImageIndex]}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.4 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1.5 }}
+                            className="w-full h-full object-cover"
+                            alt="Background"
+                        />
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[#0a0c10]"></div>
+                </div>
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-                <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-purple-400 opacity-20 blur-[100px]"></div>
-                <div className="absolute right-0 top-0 -z-10 h-[310px] w-[310px] rounded-full bg-blue-400 opacity-20 blur-[100px] translate-x-1/2"></div>
             </div>
 
             {/* Hero Section */}
-            <section id="home" className="relative pt-4 pb-20 lg:pt-4 lg:pb-32 z-10 overflow-hidden bg-white">
-                <div className="container mx-auto px-6">
-                    <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-
-                        {/* Left Content */}
-                        <motion.div
-                            className="flex-1 text-center lg:text-left"
-                            initial="hidden"
-                            animate="visible"
-                            variants={staggerContainer}
-                        >
-                            <motion.div variants={fadeIn} className="inline-block mb-6 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-100 text-purple-600 font-semibold text-sm tracking-wide shadow-sm">
-                                ✨ The #1 Learning Platform
-                            </motion.div>
-
-                            <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl font-black tracking-tighter leading-[1.1] mb-8 text-slate-900">
-                                Master <br />
-                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 via-purple-600 to-orange-500 animate-gradient-x">
-                                    Your Knowledge
-                                </span>
-                            </motion.h1>
-
-                            <motion.p variants={fadeIn} className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
-                                Challenge yourself with interactive quizzes, explore millions of resources, and track your progress. <br className="hidden md:block" />All completely <span className="text-green-600 font-bold underline decoration-green-200 decoration-4 underline-offset-2">free for everyone!</span>
-                            </motion.p>
-
-                            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row justify-center lg:justify-start gap-5">
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => navigate('/quizzes')}
-                                    className="group flex items-center justify-center gap-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white px-8 py-4 rounded-2xl text-lg font-bold shadow-xl shadow-purple-200 hover:shadow-2xl hover:shadow-purple-300 transition-all"
-                                >
-                                    <div className="bg-white/20 p-1 rounded-full">
-                                        <FaPlay size={14} className="ml-0.5" />
-                                    </div>
-                                    Start Quiz Now
-                                </motion.button>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => navigate('/register')}
-                                    className="flex items-center justify-center gap-3 bg-white text-slate-700 px-8 py-4 rounded-2xl text-lg font-bold border border-slate-200 shadow-lg shadow-slate-100 hover:border-purple-200 hover:text-purple-600 hover:bg-purple-50 transition-all"
-                                >
-                                    <FaUserPlus size={18} />
-                                    Create Account
-                                </motion.button>
-                            </motion.div>
-
-                            {/* Stats */}
-                            <motion.div variants={fadeIn} className="mt-12 pt-8 border-t border-slate-100 flex flex-wrap justify-center lg:justify-start gap-8 md:gap-16 grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100">
-                                {[
-                                    { number: "10K+", label: "Active Users" },
-                                    { number: "500+", label: "Quizzes" },
-                                    { number: "4.9/5", label: "User Rating" }
-                                ].map((stat, i) => (
-                                    <div key={i} className="text-center lg:text-left">
-                                        <h4 className="text-3xl font-black text-slate-800">{stat.number}</h4>
-                                        <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">{stat.label}</p>
-                                    </div>
-                                ))}
-                            </motion.div>
-                        </motion.div>
-
-                        {/* Right Content - Image (Restored) */}
-                        <motion.div
-                            className="flex-1 relative"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                        >
-                            <div className="relative z-10 w-full max-w-lg mx-auto">
-                                <motion.img
-                                    src="/hero-image.png"
-                                    alt="Student learning online"
-                                    className="w-full h-auto drop-shadow-2xl"
-                                    animate={{ y: [0, -15, 0] }}
-                                    transition={{
-                                        repeat: Infinity,
-                                        duration: 6,
-                                        ease: "easeInOut"
-                                    }}
-                                />
-                            </div>
-
-                            {/* Decorative Elements around image */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-purple-500/10 to-orange-500/10 rounded-full blur-3xl -z-10" />
-                        </motion.div>
-
-                    </div>
+            <section id="home" className="relative min-h-screen flex items-center pt-28 pb-32 overflow-hidden">
+                {/* Enhanced Professional Light Accents */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                    <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-cyan-500/15 rounded-full blur-[160px] animate-pulse"></div>
+                    <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[160px]"></div>
+                    <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-blue-400/5 via-transparent to-transparent"></div>
                 </div>
-            </section>
 
-            {/* Features Section */}
-            <section id="app-features" className="py-24 relative z-10 overflow-hidden">
-
-
-
-                <div className="container mx-auto px-6 relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-20"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-black text-slate-800 mb-6 tracking-tight">Why Choose <span className="text-purple-600">QuizPro?</span></h2>
-                        <p className="text-xl text-slate-500 max-w-2xl mx-auto">Discover the powerful features that make QuizPro the preferred choice for thousands of users.</p>
-                    </motion.div>
+                <div className="container mx-auto px-6 lg:px-12 relative z-10 flex flex-col items-center justify-center">
 
                     <motion.div
-                        variants={staggerContainer}
+                        className="w-full text-center flex flex-col items-center"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                        variants={staggerContainer}
                     >
+                        <motion.div variants={fadeIn} className="inline-flex items-center gap-3 mb-10 px-6 py-2.5 rounded-full bg-white/5 border border-white/20 text-cyan-300 font-bold text-[11px] tracking-[0.3em] uppercase backdrop-blur-xl shadow-[0_0_30px_rgba(34,211,238,0.1)]">
+                            <span className="flex h-2.5 w-2.5 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,1)]"></span>
+                            The Next Gen Learning Platform
+                        </motion.div>
+
+                        <motion.h1
+                            variants={fadeIn}
+                            className="text-7xl md:text-8xl lg:text-[8.5rem] font-[1000] tracking-[-0.05em] leading-[0.9] mb-14 text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                        >
+                            Master your <br />
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 filter drop-shadow-[0_0_40px_rgba(79,70,229,0.3)]">
+                                Knowledge
+                            </span>
+                        </motion.h1>
+
+                        <motion.p
+                            variants={fadeIn}
+                            className="text-2xl md:text-3xl text-slate-300 mb-20 max-w-4xl mx-auto leading-relaxed font-semibold tracking-tight opacity-90"
+                        >
+                            Join <span className="text-white font-[1000] relative">
+                                10,000+ elite learners
+                                <span className="absolute bottom-0 left-0 w-full h-1 bg-cyan-500/40 blur-[2px]"></span>
+                            </span> mastering subjects through hyper-interactive quizzes and real-time deep analytics.
+                        </motion.p>
+
+                        <motion.div variants={fadeIn} className="flex flex-col sm:flex-row justify-center gap-8 relative">
+                            <motion.button
+                                whileHover={{ scale: 1.05, y: -5 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => navigate('/quizzes')}
+                                className="bg-blue-600 text-white px-14 py-7 rounded-3xl text-xl font-[1000] shadow-[0_25px_50px_-12px_rgba(37,99,235,0.4)] hover:bg-blue-500 transition-all flex items-center justify-center gap-4 z-10"
+                            >
+                                Start Learning
+                                <FaPlay size={14} className="opacity-70" />
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 1.05, y: -5 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => navigate('/register')}
+                                className="bg-white/5 backdrop-blur-md text-white border border-white/10 px-14 py-7 rounded-3xl text-xl font-[1000] hover:bg-white/10 transition-all z-10"
+                            >
+                                Join Global Community
+                            </motion.button>
+
+                        </motion.div>
+
+                        {/* Trust Badge */}
+                        <motion.div variants={fadeIn} className="mt-20 pt-10 border-t border-white/5 flex flex-wrap justify-center gap-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+                            <div className="text-xl font-black text-white italic tracking-tighter">TRUSTED BY</div>
+                            <div className="flex items-center gap-10 font-bold text-slate-500 text-lg">
+                                <span>Google</span>
+                                <span>Coursera</span>
+                                <span>Khan Academy</span>
+                                <span>Udemy</span>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Decorative Overlay */}
+                    <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-500/5 rounded-full blur-[100px]"></div>
+                </div>
+            </section>
+
+            {/* Expanded Discovery Gallery - REVERTED IMAGES */}
+            <section className="py-40 bg-[#0a0c10] relative overflow-hidden">
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="text-blue-500 font-[1000] uppercase tracking-[0.4em] text-[10px] mb-6">Discovery</h2>
+                            <h3 className="text-6xl md:text-7xl font-[1000] text-white tracking-tighter leading-none">
+                                Learning <br /> <span className="opacity-30">Universe</span>
+                            </h3>
+                        </motion.div>
+                        <motion.p
+                            className="text-slate-500 max-w-sm font-bold text-lg leading-relaxed"
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            Dive into a meticulously curated collection of knowledge crafted by the world's leading academic experts.
+                        </motion.p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
+                        {[
+                            { img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=800", title: "Humanities", count: "12k+ Records", col: "md:col-span-2" },
+                            { img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800", title: "Science", count: "250+ Quizzes", col: "md:col-span-1" },
+                            { img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800", title: "Programming", count: "10k+ Courses", col: "md:col-span-1" },
+                            { img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800", title: "Technology", count: "300+ Quizzes", col: "md:col-span-1" },
+                            { img: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&q=80&w=800", title: "Visual Arts", count: "500+ Studios", col: "md:col-span-2" },
+                            { img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=800", title: "Languages", count: "150+ Quizzes", col: "md:col-span-1" },
+                            { img: "https://images.unsplash.com/photo-1454165833767-1300961440cc?auto=format&fit=crop&q=80&w=800", title: "Business", count: "15k+ Cases", col: "md:col-span-1" },
+                            { img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&q=80&w=800", title: "Research", count: "10k+ Courses", col: "md:col-span-1" },
+                            { img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800", title: "Global Study", count: "2k+ Groups", col: "md:col-span-2" }
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.05 }}
+                                viewport={{ once: true }}
+                                className={`relative h-[300px] rounded-[2.5rem] overflow-hidden group cursor-pointer border border-white/5 ${item.col}`}
+                            >
+                                <img src={item.img} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={item.title} />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                                <div className="absolute bottom-10 left-10">
+                                    <h4 className="text-3xl font-[1000] text-white mb-2 tracking-tight">{item.title}</h4>
+                                    <p className="text-blue-400 text-xs font-black uppercase tracking-[0.2em]">{item.count}</p>
+                                </div>
+                                <div className="absolute top-10 right-10 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 text-white">
+                                    <FaPlay size={10} />
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section >
+
+            {/* Features Section */}
+            < section id="features" className="py-32 bg-white relative overflow-hidden" >
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-24">
+                        <motion.h2 variants={fadeIn} className="text-blue-600 font-extrabold uppercase tracking-[0.3em] text-[10px] mb-4">Why QuizPro?</motion.h2>
+                        <motion.h3 variants={fadeIn} className="text-5xl md:text-6xl font-[1000] text-slate-900 tracking-tight">The Future of Learning</motion.h3>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-12">
                         {[
                             {
-                                icon: <FaUserShield size={28} />,
-                                title: "Secure & Reliable",
-                                desc: "Enterprise-grade security ensuring your data and progress remain safe and private.",
-                                color: "bg-blue-50 text-blue-600",
-                                border: "group-hover:border-blue-200"
+                                icon: <FaBrain size={32} />,
+                                title: "Adaptive AI",
+                                desc: "Quizzes that evolve with your skill level, ensuring you always stay challenged but never overwhelmed.",
+                                color: "bg-blue-600",
+                                light: "bg-blue-50 text-blue-600"
                             },
                             {
-                                icon: <FaCheckCircle size={28} />,
-                                title: "Easy to Use",
-                                desc: "Intuitive interface made for everyone. Start creating and taking quizzes in seconds.",
-                                color: "bg-green-50 text-green-600",
-                                border: "group-hover:border-green-200"
+                                icon: <FaChartLine size={32} />,
+                                title: "Live Analytics",
+                                desc: "Deep insights into your learning patterns with 100% accurate real-time data visualization.",
+                                color: "bg-indigo-600",
+                                light: "bg-indigo-50 text-indigo-600"
                             },
                             {
-                                icon: <FaChartLine size={28} />,
-                                title: "Smart Analytics",
-                                desc: "Get deep insights into performance with comprehensive charts and real-time tracking.",
-                                color: "bg-orange-50 text-orange-600",
-                                border: "group-hover:border-orange-200"
+                                icon: <FaUserShield size={32} />,
+                                title: "Secure & Fast",
+                                desc: "Enterprise-grade security and lighting-fast performance for a seamless experience.",
+                                color: "bg-fuchsia-600",
+                                light: "bg-fuchsia-50 text-fuchsia-600"
                             }
                         ].map((feature, i) => (
                             <motion.div
-                                variants={fadeIn}
                                 key={i}
-                                className={`group p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-200/80 hover:-translate-y-2 transition-all duration-300 ${feature.border}`}
+                                whileHover={{ y: -15 }}
+                                className="group p-12 rounded-[3.5rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.08)] transition-all duration-500"
                             >
-                                <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
+                                <div className={`w-20 h-20 ${feature.light} group-hover:bg-blue-600 group-hover:text-white rounded-[2rem] flex items-center justify-center mb-10 shadow-sm transition-all duration-500 group-hover:rotate-6`}>
                                     {feature.icon}
                                 </div>
-                                <h3 className="text-2xl font-bold mb-4 text-slate-800">{feature.title}</h3>
-                                <p className="text-slate-500 leading-relaxed text-lg">{feature.desc}</p>
+                                <h4 className="text-3xl font-black text-slate-900 mb-6">{feature.title}</h4>
+                                <p className="text-slate-500 font-medium leading-relaxed text-lg">{feature.desc}</p>
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
-            </section>
+            </section >
 
-            {/* How It Works Section */}
-            <section id="how-it-works" className="py-24 bg-slate-50 relative z-10 border-y border-slate-100 overflow-hidden">
+            {/* How It Works */}
+            < section className="py-32 bg-[#0a0c10] text-white overflow-hidden relative" >
+                <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent"></div>
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col lg:flex-row items-center gap-20">
+                        <div className="flex-1">
+                            <h2 className="text-blue-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">The Process</h2>
+                            <h3 className="text-5xl md:text-6xl font-black mb-16 tracking-tight">How It Works</h3>
 
-
-
-                <div className="container mx-auto px-6 relative z-10">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-black text-center text-slate-800 mb-20"
-                    >
-                        How It Works
-                    </motion.h2>
-
-                    <motion.div
-                        variants={staggerContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-10"
-                    >
-                        {[
-                            { step: 1, title: "Create Account", desc: "Sign up for free and set up your profile in seconds." },
-                            { step: 2, title: "Create or Join", desc: "Teachers create quizzes; Students join via code." },
-                            { step: 3, title: "Get Results", desc: "Instant grading and performance analysis." }
-                        ].map(({ step, title, desc }) => (
-                            <motion.div variants={fadeIn} key={step} className="relative bg-white p-10 rounded-3xl shadow-lg border border-slate-100 hover:border-purple-200 transition-colors duration-300">
-                                <div className="absolute -top-6 -left-6 bg-gradient-to-br from-purple-600 to-indigo-600 text-white w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black shadow-lg shadow-purple-200 rotate-3">
-                                    {step}
-                                </div>
-                                <h3 className="text-2xl font-bold mt-6 mb-3 text-slate-800">{title}</h3>
-                                <p className="text-slate-500 text-lg leading-relaxed">{desc}</p>
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                            <div className="space-y-12">
+                                {[
+                                    { step: "01", title: "Instant Registration", desc: "Join our global community in seconds and set your learning goals." },
+                                    { step: "02", title: "Select Your Domain", desc: "Pick from 500+ verified categories and start challenging yourself." },
+                                    { step: "03", title: "Master & Track", desc: "Get real-time feedback and watch your skills climb the global leaderboard." }
+                                ].map((step, i) => (
+                                    <div key={i} className="flex gap-8 group">
+                                        <span className="text-6xl font-[1000] text-white/5 group-hover:text-blue-500/20 transition-colors uppercase italic">{step.step}</span>
+                                        <div>
+                                            <h4 className="text-2xl font-black mb-3">{step.title}</h4>
+                                            <p className="text-slate-400 font-medium max-w-md">{step.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex-1 relative">
+                            <div className="w-full aspect-square bg-blue-600/10 rounded-full absolute top-10 right-10 blur-[120px] animate-pulse"></div>
+                            <div className="relative group">
+                                <img
+                                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000"
+                                    className="rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] relative z-10 border border-white/10 group-hover:scale-[1.02] transition-transform duration-700"
+                                    alt="Online Test Demo"
+                                />
+                                {/* Floating Badge */}
+                                <motion.div
+                                    animate={{ x: [0, 10, 0], y: [0, -10, 0] }}
+                                    transition={{ duration: 4, repeat: Infinity }}
+                                    className="absolute -top-8 -right-8 z-20 bg-blue-600 text-white px-8 py-4 rounded-3xl font-black text-xs uppercase tracking-widest shadow-2xl skew-y-1"
+                                >
+                                    Real-time Sync
+                                </motion.div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </section >
 
-            {/* Testimonials Section */}
-            <section id="testimonials" className="py-24 bg-white relative overflow-hidden z-10">
-                <div className="container mx-auto px-6 relative z-10">
-                    <motion.h2
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-black text-center text-slate-800 mb-20"
-                    >
-                        Loved by Students & Teachers
-                    </motion.h2>
+            {/* Testimonials */}
+            < section className="py-32 bg-white relative overflow-hidden" >
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-24">
+                        <h2 className="text-blue-600 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Praise</h2>
+                        <h3 className="text-5xl font-[1000] text-slate-900 tracking-tight">Voices of Success</h3>
+                    </div>
 
-                    <motion.div
-                        variants={staggerContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    >
+                    <div className="grid md:grid-cols-3 gap-10">
                         {[
-                            {
-                                name: "Alex Johnson",
-                                role: "Student",
-                                text: "This platform changed how I learn. The instant feedback is amazing!",
-                                image: "https://randomuser.me/api/portraits/men/32.jpg"
-                            },
-                            {
-                                name: "Sarah Williams",
-                                role: "Teacher",
-                                text: "Creating quizzes has never been easier. My students love the interface.",
-                                image: "https://randomuser.me/api/portraits/women/44.jpg"
-                            },
-                            {
-                                name: "Michael Chen",
-                                role: "Developer",
-                                text: "Clean code and great performance. A truly well-designed system.",
-                                image: "https://randomuser.me/api/portraits/men/86.jpg"
-                            }
-                        ].map((t, idx) => (
+                            { name: "Harshal Hire", role: "UI Designer", text: "The cleanest interface I've ever built with. It's fast, intuitive, and extremely scalable.", img: "https://randomuser.me/api/portraits/men/1.jpg" },
+                            { name: "Sarah Khan", role: "Professor", text: "My students have never been more engaged. The real-time tracking is a total game changer.", img: "https://randomuser.me/api/portraits/women/2.jpg" },
+                            { name: "David Miller", role: "Lead Dev", text: "The engineering behind the adaptive quizzes is top-notch. Highly recommended for all learners.", img: "https://randomuser.me/api/portraits/men/3.jpg" }
+                        ].map((t, i) => (
                             <motion.div
-                                variants={fadeIn}
-                                key={idx}
-                                className="bg-slate-50 p-8 rounded-[2rem] hover:bg-white border border-transparent hover:border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300"
+                                key={i}
+                                whileHover={{ scale: 1.02 }}
+                                className="p-12 rounded-[3.5rem] bg-slate-50 border border-slate-100 flex flex-col justify-between"
                             >
-                                <div className="flex items-center gap-1 mb-6 text-yellow-400">
-                                    {"★★★★★"}
-                                </div>
-                                <p className="mb-8 text-slate-600 text-lg italic font-medium leading-relaxed">"{t.text}"</p>
-                                <div className="flex items-center gap-4">
-                                    <div className="p-1 bg-white rounded-full border border-slate-100 shadow-sm">
-                                        <img
-                                            src={t.image}
-                                            alt={t.name}
-                                            className="w-12 h-12 rounded-full object-cover"
-                                        />
-                                    </div>
+                                <p className="text-xl font-medium text-slate-600 italic mb-10 leading-relaxed">"{t.text}"</p>
+                                <div className="flex items-center gap-5">
+                                    <img src={t.img} className="w-16 h-16 rounded-2xl border-2 border-white shadow-md" alt={t.name} />
                                     <div>
-                                        <h4 className="font-bold text-lg text-slate-900">{t.name}</h4>
-                                        <span className="text-sm text-slate-500 font-semibold uppercase tracking-wide">{t.role}</span>
+                                        <h4 className="font-black text-slate-900 text-lg">{t.name}</h4>
+                                        <p className="text-blue-600 text-xs font-bold uppercase tracking-widest">{t.role}</p>
                                     </div>
                                 </div>
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
-            </section>
+            </section >
 
             {/* Contact Section */}
-            <section id="contact" className="py-24 bg-white relative z-10">
-                <div className="container mx-auto px-6 max-w-5xl">
+            < section id="contact" className="py-32 bg-slate-50 relative overflow-hidden" >
+                <div className="container mx-auto px-6 max-w-6xl">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        className="bg-white rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.05)] border border-slate-100 overflow-hidden flex flex-col lg:flex-row"
                     >
+                        {/* Info */}
+                        <div className="bg-[#0a0c10] lg:w-5/12 p-16 text-white flex flex-col justify-between relative">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full blur-[80px]"></div>
+                            <div>
+                                <h3 className="text-4xl font-black mb-8 italic">Get in Touch</h3>
+                                <p className="text-white/60 mb-12 text-lg">Have questions? Our support team is here 24/7 to help you succeed.</p>
 
-                        {/* Contact Info (Left) */}
-                        <div className="md:w-5/12 text-white p-12 flex flex-col justify-between relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/30 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
-                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600/30 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
-
-                            <div className="relative z-10">
-                                <h3 className="text-3xl font-bold mb-6">Contact Us</h3>
-                                <p className="text-slate-300 mb-10 text-lg">We'd love to hear from you. Fill out the form or reach us via email.</p>
-
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-4 group cursor-pointer">
-                                        <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-purple-600 transition-colors">
-                                            <FaEnvelope className="text-white" />
+                                <div className="space-y-8">
+                                    {[
+                                        { icon: <FaEnvelope />, text: "support@quizpro.com" },
+                                        { icon: <FaPhone />, text: "+91 91067 37867" },
+                                        { icon: <FaMapMarkerAlt />, text: "Surat, Gujarat, India" }
+                                    ].map((item, i) => (
+                                        <div key={i} className="flex items-center gap-5 group cursor-pointer">
+                                            <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                                                {item.icon}
+                                            </div>
+                                            <span className="font-medium text-white/80 group-hover:text-white transition-colors">{item.text}</span>
                                         </div>
-                                        <span className="text-slate-300 group-hover:text-white transition-colors">harshalhire775@gmail.com</span>
-                                    </div>
-                                    <div className="flex items-center gap-4 group cursor-pointer">
-                                        <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-purple-600 transition-colors">
-                                            <FaPhone className="text-white" />
-                                        </div>
-                                        <span className="text-slate-300 group-hover:text-white transition-colors">+91 9106737867</span>
-                                    </div>
-                                    <div className="flex items-center gap-4 group cursor-pointer">
-                                        <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-purple-600 transition-colors">
-                                            <FaMapMarkerAlt className="text-white" />
-                                        </div>
-                                        <span className="text-slate-300 group-hover:text-white transition-colors">342, Jay Gaytri Nagar, Navagam, Surat - 394210</span>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
 
-                            <div className="mt-12 flex gap-4 relative z-10">
-                                {/* Social Icons */}
-                                <a href="https://www.facebook.com/HarshalPatil" className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white hover:text-blue-600 text-white rounded-xl transition-all duration-300">
-                                    <FaFacebook size={20} />
-                                </a>
-                                <a href="https://www.Twitter.com/Harshal_1520" className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white hover:text-sky-500 text-white rounded-xl transition-all duration-300">
-                                    <FaTwitter size={20} />
-                                </a>
-                                <a href="https://www.instagram.com/harshal_1520" className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white hover:text-pink-600 text-white rounded-xl transition-all duration-300">
-                                    <FaInstagram size={20} />
-                                </a>
+                            <div className="flex gap-4 mt-16">
+                                {[<FaFacebook />, <FaTwitter />, <FaInstagram />].map((icon, i) => (
+                                    <div key={i} className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer">
+                                        {icon}
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
-                        {/* Contact Form (Right) */}
-                        <div className="md:w-7/12 p-12 bg-white">
-                            <form onSubmit={handleContactSubmit} className="space-y-6">
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Full Name</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={contactData.name}
-                                        onChange={handleContactchange}
-                                        placeholder="John Doe"
-                                        required
-                                        className="w-full px-4 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all font-medium"
-                                    />
+                        {/* Form */}
+                        <div className="flex-1 p-16 bg-white">
+                            <form onSubmit={handleContactSubmit} className="space-y-8">
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="space-y-3">
+                                        <label className="text-xs font-black uppercase tracking-widest text-slate-400 pl-4">Your Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={contactData.name}
+                                            onChange={handleContactchange}
+                                            required
+                                            className="w-full px-6 py-5 rounded-3xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold"
+                                            placeholder="John Doe"
+                                        />
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-xs font-black uppercase tracking-widest text-slate-400 pl-4">Your Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={contactData.email}
+                                            onChange={handleContactchange}
+                                            required
+                                            className="w-full px-6 py-5 rounded-3xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold"
+                                            placeholder="john@example.com"
+                                        />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Email Address</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={contactData.email}
-                                        onChange={handleContactchange}
-                                        placeholder="john@example.com"
-                                        required
-                                        className="w-full px-4 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all font-medium"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Message</label>
+                                <div className="space-y-3">
+                                    <label className="text-xs font-black uppercase tracking-widest text-slate-400 pl-4">Your Message</label>
                                     <textarea
                                         rows="4"
                                         name="message"
                                         value={contactData.message}
                                         onChange={handleContactchange}
-                                        placeholder="How can we help you?"
                                         required
-                                        className="w-full px-4 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all font-medium resize-none"
+                                        className="w-full px-6 py-5 rounded-3xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-blue-500 transition-all outline-none font-bold resize-none"
+                                        placeholder="How can we help you today?"
                                     ></textarea>
                                 </div>
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     disabled={contactStatus === 'sending'}
-                                    className="w-full bg-slate-900 hover:bg-purple-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-purple-500/30 transition-all text-lg disabled:opacity-50"
+                                    className="w-full py-6 bg-blue-600 text-white rounded-3xl font-[1000] text-xl shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)] hover:bg-blue-700 transition-all"
                                 >
-                                    {contactStatus === 'sending' ? 'Sending...' : 'Send Message'}
+                                    {contactStatus === 'sending' ? "Sending..." : "Send Message"}
                                 </motion.button>
                             </form>
                         </div>
-
                     </motion.div>
                 </div>
-            </section>
+            </section >
 
             {/* Footer */}
-            <footer className="bg-white relative">
-                <div className="container mx-auto px-6 py-8">
-                    {/* Bottom Section */}
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-                        <div className="text-center md:text-left">
-                            <p>&copy; {new Date().getFullYear()} QuizPro. All rights reserved.</p>
-                        </div>
-
-                        <div className="flex items-center gap-1">
-                            <span>Made with</span>
-                            <FaHeart className="text-red-500" size={14} />
-                            <span>by <span className="font-semibold text-fuchsia-600">Harshal Hire</span></span>
+            < footer className="py-12 bg-white relative" >
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-slate-100 pt-12">
+                        <p className="text-slate-400 font-bold text-sm tracking-tight">&copy; {new Date().getFullYear()} QuizPro Platform. All rights reserved.</p>
+                        <div className="flex items-center gap-2">
+                            <span className="text-slate-400 text-sm font-bold">Built with</span>
+                            <FaHeart className="text-red-500" />
+                            <span className="text-slate-800 font-black text-sm uppercase tracking-widest">by Harshal Hire</span>
                         </div>
                     </div>
                 </div>
-            </footer>
-
-        </div>
+            </footer >
+        </div >
     );
 };
 
