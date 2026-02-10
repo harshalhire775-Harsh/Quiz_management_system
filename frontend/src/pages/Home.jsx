@@ -570,13 +570,13 @@ const Home = () => {
                             {
                                 name: "Harshal Patil",
                                 role: "Lead Developer & Architect",
-                                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
+                                img: "david_miller.png",
                                 social: ["twitter", "linkedin", "github"]
                             },
                             {
                                 name: "Harshal Hire",
                                 role: "UI/UX Designer",
-                                img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?fit=crop&w=800&q=80",
+                                img: "harshal_hire.jpg",
                                 social: ["dribbble", "instagram", "linkedin"]
                             }
                         ].map((member, index) => (
