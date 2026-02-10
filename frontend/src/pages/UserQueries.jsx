@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Trash2, Search, Users, ArrowLeft, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API from '../api/axios';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const UserQueries = () => {
@@ -26,12 +27,62 @@ const UserQueries = () => {
     }, []);
 
     const handleDeleteMessage = async (id) => {
-        if (window.confirm('Are you sure you want to delete this Message?')) {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            background: '#1a1c23', // Dark background
+            color: '#fff', // White text
+            showClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeInDown
+                  animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeOutUp
+                  animate__faster
+                `
+            }
+        });
+
+        if (result.isConfirmed) {
             try {
                 await API.delete(`/contact/${id}`);
                 setMessages(messages.filter(msg => msg._id !== id));
+
+                // Success Popup with Animation
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Message has been deleted.',
+                    icon: 'success',
+                    background: '#1a1c23',
+                    color: '#fff',
+                    confirmButtonColor: '#f59e0b',
+                    showClass: {
+                        popup: `
+                          animate__animated
+                          animate__tada
+                          animate__faster
+                        `
+                    }
+                });
             } catch (error) {
-                alert('Failed to delete message');
+                console.error(error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to delete message.',
+                    icon: 'error',
+                    background: '#1a1c23',
+                    color: '#fff'
+                });
             }
         }
     };
