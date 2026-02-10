@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import API from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import { io } from 'socket.io-client';
-import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const TeacherNotifications = () => {
@@ -59,18 +59,63 @@ const TeacherNotifications = () => {
     }, [user]);
 
     const handleDelete = async (id) => {
-        const isConfirmed = await showConfirmAlert(
-            'Delete Notification?',
-            'Are you sure you want to delete this notification?'
-        );
+        // Fancy Delete Confirmation
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            background: '#1a1c23', // Dark background
+            color: '#fff', // White text
+            showClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeInDown
+                  animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeOutUp
+                  animate__faster
+                `
+            }
+        });
 
-        if (isConfirmed) {
+        if (result.isConfirmed) {
             try {
                 await API.delete(`/contact/${id}`);
                 setNotifications(prev => prev.filter(n => n._id !== id));
-                showSuccessAlert('Deleted!', 'Notification removed.');
+
+                // Success Popup with Animation
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Message has been deleted.',
+                    icon: 'success',
+                    background: '#1a1c23',
+                    color: '#fff',
+                    confirmButtonColor: '#f59e0b',
+                    showClass: {
+                        popup: `
+                          animate__animated
+                          animate__tada
+                          animate__faster
+                        `
+                    }
+                });
             } catch (error) {
-                showErrorAlert('Error', 'Failed to delete notification.');
+                console.error(error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to delete message.',
+                    icon: 'error',
+                    background: '#1a1c23',
+                    color: '#fff'
+                });
             }
         }
     };

@@ -1,28 +1,80 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
-import { FaCheckCircle, FaUserShield, FaChartLine, FaEnvelope, FaPhone, FaMapMarkerAlt, FaInstagram, FaFacebook, FaTwitter, FaPlay, FaUserPlus, FaHeart, FaBrain } from "react-icons/fa";
+import { FaCheckCircle, FaUserShield, FaChartLine, FaEnvelope, FaPhone, FaMapMarkerAlt, FaInstagram, FaFacebook, FaTwitter, FaPlay, FaUserPlus, FaHeart, FaBrain, FaChevronDown, FaReact, FaNodeJs, FaHtml5, FaCss3, FaServer, FaDatabase, FaJs, FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import Swal from 'sweetalert2';
 const Home = () => {
     const navigate = useNavigate();
     const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
     const [contactStatus, setContactStatus] = useState('idle'); // idle, sending, success, error
     const [activeStep, setActiveStep] = useState(0);
+    const [activeFaq, setActiveFaq] = useState(null);
 
     const handleContactchange = (e) => setContactData({ ...contactData, [e.target.name]: e.target.value });
 
     const handleContactSubmit = async (e) => {
         e.preventDefault();
-        setContactStatus('sending');
-        try {
-            await API.post('/contact', contactData);
-            setContactStatus('success');
-            setContactData({ name: '', email: '', message: '' });
-            alert("Message sent successfully!");
-        } catch (error) {
-            console.error(error);
-            setContactStatus('error');
-            alert("Failed to send message.");
+
+        // Confirmation Popup
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to send this message?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#f59e0b', // Amber-500
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, send it!',
+            background: '#1a1c23', // Dark background
+            color: '#fff', // White text
+            showClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeInDown
+                  animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeOutUp
+                  animate__faster
+                `
+            }
+        });
+
+        if (result.isConfirmed) {
+            setContactStatus('sending');
+            try {
+                await API.post('/contact', contactData);
+                setContactStatus('success');
+                setContactData({ name: '', email: '', message: '' });
+
+                // Success Popup
+                Swal.fire({
+                    title: 'Sent!',
+                    text: 'Your message has been sent successfully.',
+                    icon: 'success',
+                    confirmButtonColor: '#f59e0b',
+                    background: '#1a1c23',
+                    color: '#fff',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            } catch (error) {
+                console.error(error);
+                setContactStatus('error');
+
+                // Error Popup
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to send message. Please try again later.',
+                    icon: 'error',
+                    confirmButtonColor: '#f59e0b',
+                    background: '#1a1c23',
+                    color: '#fff'
+                });
+            }
         }
     };
 
@@ -177,6 +229,42 @@ const Home = () => {
             </section>
 
 
+
+            {/* Infinite Tech Marquee */}
+            <section className="py-12 bg-[#0a0c10] border-y border-white/5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0a0c10] via-transparent to-[#0a0c10] z-20 pointer-events-none"></div>
+                {/* Subtle Background Glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-20 bg-indigo-500/5 blur-[60px] pointer-events-none"></div>
+
+                <div className="flex overflow-hidden relative z-10">
+                    <motion.div
+                        className="flex gap-20 items-center whitespace-nowrap"
+                        animate={{ x: ["0%", "-50%"] }}
+                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                        style={{ width: "fit-content" }}
+                    >
+                        {[...Array(2)].map((_, i) => (
+                            <div key={i} className="flex gap-20 items-center">
+                                {[
+                                    { icon: <FaReact size={45} />, name: "React", color: "group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.6)]" },
+                                    { icon: <FaNodeJs size={45} />, name: "Node.js", color: "group-hover:text-emerald-500 group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.6)]" },
+                                    { icon: <FaDatabase size={45} />, name: "MongoDB", color: "group-hover:text-green-500 group-hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.6)]" },
+                                    { icon: <FaJs size={45} />, name: "JavaScript", color: "group-hover:text-yellow-400 group-hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.6)]" },
+                                    { icon: <FaHtml5 size={45} />, name: "HTML5", color: "group-hover:text-orange-500 group-hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" },
+                                    { icon: <FaCss3 size={45} />, name: "CSS3", color: "group-hover:text-blue-500 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" },
+                                    { icon: <FaServer size={45} />, name: "Express", color: "group-hover:text-white group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]" },
+                                    { icon: <FaReact size={45} />, name: "Vite", color: "group-hover:text-purple-500 group-hover:drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]" }
+                                ].map((tech, idx) => (
+                                    <div key={idx} className={`flex items-center gap-4 text-slate-600 font-black text-2xl uppercase tracking-widest transition-all duration-500 cursor-pointer group`}>
+                                        <span className={`transform group-hover:scale-110 transition-all duration-300 ${tech.color}`}>{tech.icon}</span>
+                                        <span className="opacity-50 group-hover:opacity-100 group-hover:text-white transition-all duration-300 shadow-black">{tech.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
 
             {/* Discovery Gallery Section */}
             <section className="py-40 bg-[#06070a] relative overflow-hidden">
@@ -432,8 +520,8 @@ const Home = () => {
                     <div className="grid md:grid-cols-3 gap-10">
                         {[
                             { name: "Harshal Hire", role: "UI Designer", text: "The cleanest interface I've ever worked with. It's fast, intuitive, and extremely scalable.", img: "/harshal_hire.jpg" },
-                            { name: "Sarah Khan", role: "Professor", text: "My students have never been more engaged. The real-time tracking is a total game changer.", img: "https://randomuser.me/api/portraits/women/2.jpg" },
-                            { name: "David Miller", role: "Lead Dev", text: "The engineering behind the adaptive quizzes is top-notch. Highly recommended for all learners.", img: "/david_miller.png" }
+                            { name: "Sarah Khan", role: "Professor", text: "My students have never been more engaged. The real-time tracking is a total game changer.", img: "/Screenshot 2026-02-10 122601.png" },
+                            { name: "Harshal Patil", role: "Lead Dev", text: "The engineering behind the adaptive quizzes is top-notch. Highly recommended for all learners.", img: "/david_miller.png" }
                         ].map((t, i) => (
                             <motion.div
                                 key={i}
@@ -454,103 +542,354 @@ const Home = () => {
                 </div>
             </section >
 
-            {/* Contact Section */}
-            <section id="contact" className="py-32 bg-[#06070a] relative overflow-hidden" >
-                <div className="container mx-auto px-6 max-w-6xl">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        className="bg-white/5 backdrop-blur-xl rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] border border-white/10 overflow-hidden flex flex-col lg:flex-row"
-                    >
-                        {/* Info */}
-                        <div className="bg-black/40 lg:w-5/12 p-16 text-white flex flex-col justify-between relative">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px]"></div>
-                            <div>
-                                <h3 className="text-4xl font-black mb-8 italic">Get in Touch</h3>
-                                <p className="text-white/60 mb-12 text-lg">Have questions? Our support team is here 24/7 to help you succeed.</p>
+            {/* Meet the Creators - 3D Tilt Section */}
+            <section className="py-32 bg-[#06070a] relative overflow-hidden">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-20">
+                        <motion.span
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
+                        >
+                            The Team
+                        </motion.span>
+                        <motion.h3
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="text-5xl md:text-6xl font-[1000] text-white tracking-tight"
+                        >
+                            Meet the <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-600">Creators</span>
+                        </motion.h3>
+                    </div>
 
-                                <div className="space-y-8">
-                                    {[
-                                        { icon: <FaEnvelope />, text: "support@quizpro.com" },
-                                        { icon: <FaPhone />, text: "+91 91067 37867" },
-                                        { icon: <FaMapMarkerAlt />, text: "Surat, Gujarat, India" }
-                                    ].map((item, i) => (
-                                        <div key={i} className="flex items-center gap-5 group cursor-pointer">
-                                            <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-amber-500 group-hover:text-black transition-colors">
-                                                {item.icon}
-                                            </div>
-                                            <span className="font-medium text-white/80 group-hover:text-white transition-colors">{item.text}</span>
-                                        </div>
-                                    ))}
+                    <div className="grid md:grid-cols-2 gap-10 perspective-[2000px] max-w-4xl mx-auto">
+                        {[
+                            {
+                                name: "Harshal Patil",
+                                role: "Lead Developer & Architect",
+                                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80",
+                                social: ["twitter", "linkedin", "github"]
+                            },
+                            {
+                                name: "Harshal Hire",
+                                role: "UI/UX Designer",
+                                img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?fit=crop&w=800&q=80",
+                                social: ["dribbble", "instagram", "linkedin"]
+                            }
+                        ].map((member, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                                className="group relative h-[450px] w-full rounded-[2.5rem] bg-[#0f1115] border border-white/5 shadow-2xl transition-all duration-300 ease-out cursor-pointer overflow-hidden"
+                                onMouseMove={(e) => {
+                                    const el = e.currentTarget;
+                                    const rect = el.getBoundingClientRect();
+                                    const x = e.clientX - rect.left;
+                                    const y = e.clientY - rect.top;
+                                    const centerX = rect.width / 2;
+                                    const centerY = rect.height / 2;
+                                    const rotateX = ((y - centerY) / 20) * -1; // Invert for natural tilt
+                                    const rotateY = (x - centerX) / 20;
+
+                                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                                }}
+                                style={{ transformStyle: 'preserve-3d' }}
+                            >
+                                {/* Image Layer */}
+                                <div className="absolute inset-0 z-0">
+                                    <img src={member.img} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#06070a] via-[#06070a]/40 to-transparent"></div>
+                                </div>
+
+                                {/* Content Layer (Floating) */}
+                                <div className="absolute bottom-0 left-0 right-0 p-8 z-20" style={{ transform: 'translateZ(50px)' }}>
+                                    <h4 className="text-2xl font-black text-white mb-2 group-hover:text-amber-500 transition-colors">{member.name}</h4>
+                                    <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-6">{member.role}</p>
+                                </div>
+
+                                {/* Border Glow */}
+                                <div className="absolute inset-0 border border-white/10 rounded-[2.5rem] group-hover:border-amber-500/50 transition-colors duration-500 pointer-events-none z-40"></div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Stylish FAQ Section - Popup Style */}
+            <section className="py-24 bg-[#0a0c10] relative text-white">
+                <div className="container mx-auto px-6 max-w-4xl">
+                    <div className="text-center mb-16">
+                        <span className="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs mb-3 block">Got Questions?</span>
+                        <h3 className="text-4xl md:text-5xl font-[1000] tracking-tight">Frequently Asked Questions</h3>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {[
+                            {
+                                q: "Is QuizPro free to use?",
+                                a: "Yes, absolutely! QuizPro offers a completely free tier that allows students to take unlimited quizzes and teachers to create basic assessments. We believe quality education should be accessible to everyone. For large institutions requiring advanced analytics, bulk user management, and custom branding, we offer affordable premium plans."
+                            },
+                            {
+                                q: "How can I enhance my learning with QuizPro?",
+                                a: "QuizPro is designed to be your personal learning companion. By taking quizzes across various domains, you get instant feedback on your answers. Our adaptive system identifies your weak areas and suggests relevant topics to focus on, ensuring you improve step-by-step every single day."
+                            },
+                            {
+                                q: "Can teachers track individual student progress?",
+                                a: "Yes! Teachers get a powerful dashboard that shows detailed performance reports for every student. You can see who completed the quiz, their scores, time taken, and even question-wise analysis. This helps you identify which students are excelling and who might need a little extra help."
+                            },
+                            {
+                                q: "Is my personal data safe and secure?",
+                                a: "Security is our top priority. We use industry-standard encryption to protect your personal information and quiz data. We never share your data with third parties without your consent, ensuring a safe and private learning environment for all our users."
+                            }
+                        ].map((faq, index) => (
+                            <motion.div
+                                key={index}
+                                whileHover={{ scale: 1.02, y: -5 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => setActiveFaq(faq)}
+                                className="p-8 rounded-[2rem] bg-white/5 border border-white/5 hover:border-amber-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-amber-500/10 cursor-pointer group transition-all duration-300 flex flex-col justify-between"
+                            >
+                                <h4 className="text-xl font-bold text-slate-200 group-hover:text-amber-500 transition-colors mb-4 leading-tight">
+                                    {faq.q}
+                                </h4>
+                                <div className="flex items-center gap-2 text-sm font-bold text-slate-500 group-hover:text-slate-300 uppercase tracking-wider mt-auto">
+                                    <span>Read Answer</span>
+                                    <FaChevronDown className="group-hover:translate-x-1 transition-transform -rotate-90" />
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* FAQ Popup Modal */}
+                <AnimatePresence>
+                    {activeFaq && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setActiveFaq(null)}
+                                className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                            ></motion.div>
+                            <motion.div
+                                layoutId={`faq-${activeFaq.q}`}
+                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                                className="relative bg-[#1a1c23] border border-white/10 text-white p-8 md:p-12 rounded-[2.5rem] max-w-2xl w-full shadow-2xl shadow-black/50 overflow-hidden"
+                            >
+                                {/* Decorative Glow */}
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+
+                                <button
+                                    onClick={() => setActiveFaq(null)}
+                                    className="absolute top-6 right-6 p-2 rounded-full bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                                >
+                                    <FaTimes size={20} />
+                                </button>
+
+                                <div className="relative z-10">
+                                    <span className="text-amber-500 font-bold tracking-widest uppercase text-xs mb-4 block">Answer</span>
+                                    <h3 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-white">
+                                        {activeFaq.q}
+                                    </h3>
+                                    <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-8"></div>
+                                    <p className="text-lg text-slate-300 leading-relaxed font-medium">
+                                        {activeFaq.a}
+                                    </p>
+
+                                    <button
+                                        onClick={() => setActiveFaq(null)}
+                                        className="mt-10 px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all w-full md:w-auto"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+            </section>
+
+            {/* Contact Section */}
+            <section id="contact" className="py-16 bg-[#0a0c10] relative overflow-hidden">
+                {/* Background Glows */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+                <div className="container mx-auto px-6 max-w-5xl relative z-10">
+                    <div className="text-center mb-12">
+                        <motion.span
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-amber-500 font-bold tracking-widest uppercase text-xs mb-3 block"
+                        >
+                            Contact Us
+                        </motion.span>
+                        <motion.h3
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="text-3xl md:text-4xl font-black text-white"
+                        >
+                            Let's Start a Conversation
+                        </motion.h3>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+                        {/* Contact Info Side */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="space-y-6"
+                        >
+                            <p className="text-lg text-slate-400 leading-relaxed font-medium">
+                                Have a question about our platform or just want to say hi? We're here to help you succeed.
+                            </p>
+
+                            <div className="space-y-4">
+                                {/* Email Card */}
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-amber-500/30 transition-all group cursor-default">
+                                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                                        <FaEnvelope size={18} />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Email Us</p>
+                                        <p className="text-base font-bold text-white group-hover:text-amber-400 transition-colors">harshalhire775@gmail.com</p>
+                                    </div>
+                                </div>
+
+                                {/* Phone Card */}
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-amber-500/30 transition-all group cursor-default">
+                                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                                        <FaPhone size={18} />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Call Us</p>
+                                        <p className="text-base font-bold text-white group-hover:text-amber-400 transition-colors">+91 91067 37867</p>
+                                    </div>
+                                </div>
+
+                                {/* Location Card */}
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-amber-500/30 transition-all group cursor-default">
+                                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                                        <FaMapMarkerAlt size={18} />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Visit Us</p>
+                                        <p className="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Surat, Gujarat, India</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="flex gap-4 mt-16">
-                                {[<FaFacebook />, <FaTwitter />, <FaInstagram />].map((icon, i) => (
-                                    <div key={i} className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer">
-                                        {icon}
-                                    </div>
-                                ))}
+                            <div className="pt-4">
+                                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Follow Us</h4>
+                                <div className="flex gap-3">
+                                    {[
+                                        { icon: <FaFacebook />, link: "https://www.facebook.com/share/1Rskcpw8Xr/" },
+                                        { icon: <FaTwitter />, link: "https://r.search.yahoo.com/_ylt=Awr1VTso3opp4wIAt2G7HAx.;_ylu=Y29sbwNzZzMEcG9zAzEEdnRpZAMEc2VjA3Ny/RV=2/RE=1771918121/RO=10/RU=https%3a%2f%2ftwitter.com%2f%3flang%3den-in/RK=2/RS=nMomkGCNAk4aaRVHX.815H_aFKU-" },
+                                        { icon: <FaInstagram />, link: "https://www.instagram.com/harshal_1520/" }
+                                    ].map((item, i) => (
+                                        <a
+                                            key={i}
+                                            href={item.link}
+                                            target={item.link !== "#" ? "_blank" : "_self"}
+                                            rel="noopener noreferrer"
+                                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
+                                        >
+                                            {item.icon}
+                                        </a>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        </motion.div>
 
-                        {/* Form */}
-                        <div className="flex-1 p-16 bg-white/5">
-                            <form onSubmit={handleContactSubmit} className="space-y-8">
-                                <div className="grid md:grid-cols-2 gap-8">
-                                    <div className="space-y-3">
-                                        <label className="text-xs font-black uppercase tracking-widest text-slate-500 pl-4">Your Name</label>
+                        {/* Form Side */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="bg-white/5 backdrop-blur-md rounded-[2rem] p-6 md:p-8 border border-white/10 shadow-xl relative overflow-hidden"
+                        >
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-[30px] pointer-events-none"></div>
+
+                            <form onSubmit={handleContactSubmit} className="space-y-4 relative z-10">
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-slate-400 ml-2">Your Name</label>
                                         <input
                                             type="text"
                                             name="name"
                                             value={contactData.name}
                                             onChange={handleContactchange}
                                             required
-                                            className="w-full px-6 py-5 rounded-3xl bg-white/5 border border-white/10 text-white focus:bg-white/10 focus:border-amber-500 transition-all outline-none font-bold"
-                                            placeholder="John Doe"
+                                            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 focus:bg-white/5 transition-all font-medium"
+                                            placeholder="Enter your name"
                                         />
                                     </div>
-                                    <div className="space-y-3">
-                                        <label className="text-xs font-black uppercase tracking-widest text-slate-500 pl-4">Your Email</label>
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-slate-400 ml-2">Email Address</label>
                                         <input
                                             type="email"
                                             name="email"
                                             value={contactData.email}
                                             onChange={handleContactchange}
                                             required
-                                            className="w-full px-6 py-5 rounded-3xl bg-white/5 border border-white/10 text-white focus:bg-white/10 focus:border-amber-500 transition-all outline-none font-bold"
-                                            placeholder="john@example.com"
+                                            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 focus:bg-white/5 transition-all font-medium"
+                                            placeholder="Enter your email"
                                         />
                                     </div>
                                 </div>
-                                <div className="space-y-3">
-                                    <label className="text-xs font-black uppercase tracking-widest text-slate-500 pl-4">Your Message</label>
+
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-slate-400 ml-2">Your Message</label>
                                     <textarea
                                         rows="4"
                                         name="message"
                                         value={contactData.message}
                                         onChange={handleContactchange}
                                         required
-                                        className="w-full px-6 py-5 rounded-3xl bg-white/5 border border-white/10 text-white focus:bg-white/10 focus:border-amber-500 transition-all outline-none font-bold resize-none"
-                                        placeholder="How can we help you today?"
+                                        className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 focus:bg-white/5 transition-all font-medium resize-none"
+                                        placeholder="How can we help you today"
                                     ></textarea>
                                 </div>
+
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     disabled={contactStatus === 'sending'}
-                                    className="w-full py-6 bg-amber-500 text-black rounded-3xl font-[1000] text-xl shadow-[0_20px_40px_-10px_rgba(245,158,11,0.4)] hover:bg-amber-600 transition-all"
+                                    className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-xl font-bold text-base shadow-lg hover:shadow-amber-500/25 transition-all disabled:opacity-70 disabled:cursor-not-allowed mt-2"
                                 >
-                                    {contactStatus === 'sending' ? "Sending..." : "Send Message"}
+                                    {contactStatus === 'sending' ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                            Sending...
+                                        </span>
+                                    ) : (
+                                        "Send Message"
+                                    )}
                                 </motion.button>
                             </form>
-                        </div>
-                    </motion.div>
-                </div>
+                        </motion.div>
+                    </div >
+                </div >
             </section >
 
             {/* Footer */}
-            <footer className="py-12 bg-[#06070a] relative border-t border-white/5" >
+            < footer className="py-12 bg-[#06070a] relative border-t border-white/5" >
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12">
                         <p className="text-slate-500 font-bold text-sm tracking-tight">&copy; {new Date().getFullYear()} QuizPro Platform. All rights reserved.</p>
@@ -561,7 +900,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </footer>
+            </footer >
         </div >
     );
 };
