@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Building2, Mail, User, Phone, MapPin, Lock, Check, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Building2, Mail, User, Phone, MapPin, Check, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API from '../api/axios';
 import logo from '../assets/logo.png';
@@ -13,9 +13,6 @@ const Register = () => {
         adminName: '',
         phone: '',
         address: '',
-
-        password: '',
-        confirmPassword: '',
         agreed: false
     });
     const [loading, setLoading] = useState(false);
@@ -32,10 +29,6 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            alert('Passwords do not match');
-            return;
-        }
         if (!formData.agreed) {
             alert('Please accept the terms and conditions');
             return;
@@ -47,7 +40,6 @@ const Register = () => {
             const payload = {
                 name: formData.adminName,
                 email: formData.email,
-                password: formData.password,
                 phoneNumber: formData.phone,
                 role: 'Admin (HOD)',
                 department: formData.collegeName, // Using department field to store college name
@@ -174,49 +166,6 @@ const Register = () => {
                                             placeholder="Complete institutional address..."
                                             required
                                         ></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        {/* 03. Credentials */}
-                        <div className="space-y-6">
-                            <h3 className="text-xs font-bold text-blue-600 uppercase tracking-widest flex items-center gap-2">
-                                <span className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px]">02</span>
-                                Portal Credentials
-                            </h3>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide ml-1">Password</label>
-                                    <div className="relative">
-                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                            className="w-full pl-12 pr-4 py-3.5 bg-slate-50 rounded-xl border border-transparent focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
-                                            placeholder="Min. 8 Chars"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide ml-1">Confirm Password</label>
-                                    <div className="relative">
-                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                                        <input
-                                            type="password"
-                                            name="confirmPassword"
-                                            value={formData.confirmPassword}
-                                            onChange={handleChange}
-                                            className="w-full pl-12 pr-4 py-3.5 bg-slate-50 rounded-xl border border-transparent focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
-                                            placeholder="Repeat Password"
-                                            required
-                                        />
                                     </div>
                                 </div>
                             </div>

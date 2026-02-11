@@ -78,12 +78,7 @@ const Home = () => {
         }
     };
 
-    const heroImages = [
-        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=2000",
-        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=2000",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=2000",
-        "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=2000"
-    ];
+
 
     useEffect(() => {
         const handleGlobalMouseMove = (e) => {
@@ -94,14 +89,7 @@ const Home = () => {
         return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
     }, []);
 
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, []);
 
     const fadeIn = {
         hidden: { opacity: 0, y: 20 },
@@ -119,34 +107,34 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen font-sans overflow-x-hidden bg-[#0a0c10] text-slate-200 selection:bg-amber-500/30 selection:text-amber-200">
+        <div className="min-h-screen font-sans overflow-x-hidden bg-white text-slate-900 selection:bg-amber-500/30 selection:text-amber-900">
 
-            {/* Background Pattern - Immersive Dynamic Slider */}
+            {/* Background Image - Quiz/Education Theme */}
             <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute inset-0 bg-[#0a0c10]">
-                    <AnimatePresence mode="wait">
-                        <motion.img
-                            key={currentImageIndex}
-                            src={heroImages[currentImageIndex]}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 1.5 }}
-                            className="w-full h-full object-cover contrast-[1.15] saturate-[1.2] brightness-[0.85]"
-                            alt="Background"
-                        />
-                    </AnimatePresence>
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-[#0a0c10]/80"></div>
+                <div className="absolute inset-0 bg-white"></div>
+
+                {/* Main Background Image */}
+                <div className="absolute inset-0">
+                    <img
+                        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop"
+                        alt="Quiz Background"
+                        className="w-full h-full object-cover opacity-[0.7]"
+                    />
                 </div>
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+
+                {/* Soft Gradient Overlay for Readability */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-white/60 to-amber-50/40"></div>
+
+                {/* Subtle Technical Grid */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
             </div>
 
             {/* Hero Section */}
             <section id="home" className="relative min-h-screen flex items-center pt-16 pb-32 overflow-hidden">
                 {/* Enhanced Professional Light Accents */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
-                    <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-blue-400/5 rounded-full blur-[140px]"></div>
-                    <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-cyan-400/5 rounded-full blur-[140px]"></div>
+                    <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-blue-400/10 rounded-full blur-[140px]"></div>
+                    <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-amber-400/10 rounded-full blur-[140px]"></div>
                 </div>
 
                 <div className="container mx-auto px-6 lg:px-12 relative z-10 flex flex-col items-center justify-center">
@@ -160,29 +148,29 @@ const Home = () => {
                     >
                         <motion.div
                             variants={fadeIn}
-                            className="inline-flex items-center gap-3 mb-6 px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 text-amber-700 font-bold text-[11px] tracking-[0.3em] uppercase backdrop-blur-xl shadow-lg shadow-amber-500/10 relative overflow-hidden group"
+                            className="inline-flex items-center gap-3 mb-6 px-6 py-2.5 rounded-full bg-white border border-slate-200 text-slate-600 font-bold text-[11px] tracking-[0.3em] uppercase shadow-lg shadow-slate-200/50 hover:shadow-xl hover:scale-105 transition-all duration-300"
                         >
-                            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-600 shadow-[0_0_15px_rgba(245,158,11,0.6)] animate-pulse"></span>
+                            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] animate-pulse"></span>
                             The Next Gen Learning Platform
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                         </motion.div>
 
                         <motion.h1
                             variants={fadeIn}
-                            className="text-5xl md:text-7xl lg:text-[5.5rem] font-[1000] tracking-[-0.05em] leading-[1.1] mb-10"
+                            className="text-6xl md:text-8xl lg:text-[6rem] font-[1000] tracking-[-0.04em] leading-[1] mb-10 text-slate-900 drop-shadow-sm"
                         >
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400 inline-block drop-shadow-lg">
-                                Smart Quizzes for <br /> Smart Minds
+                            Smart Quizzes for <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 inline-block">
+                                Smart Minds
                             </span>
                         </motion.h1>
 
                         <motion.p
                             variants={fadeIn}
-                            className="text-2xl md:text-3xl text-slate-400 mb-12 max-w-4xl mx-auto leading-relaxed font-semibold tracking-tight"
+                            className="text-2xl md:text-3xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed font-medium tracking-tight"
                         >
-                            Join students who are improving their knowledge through <span className="text-amber-500 font-[1000] relative px-1">
+                            Join students who are improving their knowledge through <span className="text-amber-600 font-[1000] relative px-1">
                                 interactive online quizzes
-                                <span className="absolute bottom-1 left-0 w-full h-3 bg-amber-500/20 -z-10 rounded-lg"></span>
+                                <span className="absolute bottom-1 left-0 w-full h-3 bg-amber-200/40 -z-10 rounded-lg"></span>
                             </span> and instant results.
                         </motion.p>
 
@@ -197,8 +185,8 @@ const Home = () => {
                                     <motion.button
                                         onClick={() => navigate(idx === 0 ? '/quizzes' : '/register')}
                                         className={`${idx === 0
-                                            ? "bg-blue-600 text-white shadow-xl shadow-blue-500/20"
-                                            : "bg-white text-slate-900 shadow-xl shadow-white/10"
+                                            ? "bg-blue-600 text-white shadow-xl shadow-blue-500/30 hover:bg-blue-700"
+                                            : "bg-white text-slate-900 border border-slate-200 shadow-xl shadow-slate-200 hover:bg-slate-50"
                                             } px-10 py-5 rounded-2xl text-lg font-[1000] transition-all flex items-center justify-center gap-3 z-10 relative overflow-hidden group`}
                                     >
                                         {label}
@@ -267,7 +255,7 @@ const Home = () => {
             </section>
 
             {/* Discovery Gallery Section */}
-            <section className="py-40 bg-[#06070a] relative overflow-hidden">
+            <section className="py-40 bg-slate-50 relative overflow-hidden">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
                         <motion.div
@@ -275,12 +263,12 @@ const Home = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
-                            <h3 className="text-6xl md:text-7xl font-[1000] text-white tracking-tighter leading-none">
-                                Learning <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">Universe</span>
+                            <h3 className="text-6xl md:text-7xl font-[1000] text-slate-900 tracking-tighter leading-none">
+                                Learning <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Universe</span>
                             </h3>
                         </motion.div>
                         <motion.p
-                            className="text-slate-300 max-w-sm font-bold text-lg leading-relaxed opacity-80"
+                            className="text-slate-600 max-w-sm font-bold text-lg leading-relaxed opacity-90"
                             initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
@@ -341,7 +329,7 @@ const Home = () => {
                                     onMouseMove={handleMouseMove}
                                     onMouseLeave={handleMouseLeave}
                                     viewport={{ once: false, margin: "-50px" }}
-                                    className="relative h-[380px] rounded-[2.5rem] overflow-hidden group cursor-pointer border border-white/5 bg-[#0a0c10] shadow-2xl transition-all duration-700 ease-out will-change-transform hover:shadow-[0_20px_50px_-12px_rgba(245,158,11,0.2)]"
+                                    className="relative h-[380px] rounded-[2.5rem] overflow-hidden group cursor-pointer border border-slate-200 bg-white shadow-2xl transition-all duration-700 ease-out will-change-transform hover:shadow-[0_20px_50px_-12px_rgba(37,99,235,0.2)]"
                                     style={{ transformStyle: 'preserve-3d' }}
                                 >
                                     {/* Cinematic Image Layer */}
@@ -510,11 +498,11 @@ const Home = () => {
             </section >
 
             {/* Testimonials */}
-            <section className="py-32 bg-[#06070a] relative overflow-hidden" >
+            <section className="py-32 bg-white relative overflow-hidden" >
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-24">
                         <h2 className="text-amber-500 font-bold uppercase tracking-[0.4em] text-base mb-6">Praise</h2>
-                        <h3 className="text-5xl font-[1000] text-white tracking-tight">Voices of Success</h3>
+                        <h3 className="text-5xl font-[1000] text-slate-900 tracking-tight">Voices of Success</h3>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-10">
@@ -526,14 +514,14 @@ const Home = () => {
                             <motion.div
                                 key={i}
                                 whileHover={{ scale: 1.02 }}
-                                className="p-12 rounded-[3.5rem] bg-white/5 border border-white/10 flex flex-col justify-between"
+                                className="p-12 rounded-[3.5rem] bg-slate-50 border border-slate-100 flex flex-col justify-between hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-300"
                             >
-                                <p className="text-xl font-medium text-slate-300 italic mb-10 leading-relaxed">"{t.text}"</p>
+                                <p className="text-xl font-medium text-slate-600 italic mb-10 leading-relaxed">"{t.text}"</p>
                                 <div className="flex items-center gap-5">
-                                    <img src={t.img} className="w-24 h-24 object-cover object-top rounded-3xl border-4 border-white/5 shadow-2xl" alt={t.name} />
+                                    <img src={t.img} className="w-24 h-24 object-cover object-top rounded-3xl border-4 border-white shadow-xl" alt={t.name} />
                                     <div>
-                                        <h4 className="font-black text-white text-lg">{t.name}</h4>
-                                        <p className="text-amber-500 text-xs font-bold uppercase tracking-widest">{t.role}</p>
+                                        <h4 className="font-black text-slate-900 text-lg">{t.name}</h4>
+                                        <p className="text-amber-600 text-xs font-bold uppercase tracking-widest">{t.role}</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -625,10 +613,10 @@ const Home = () => {
             </section>
 
             {/* Stylish FAQ Section - Popup Style */}
-            <section className="py-24 bg-[#0a0c10] relative text-white">
+            <section className="py-24 bg-slate-50 relative text-slate-900">
                 <div className="container mx-auto px-6 max-w-4xl">
                     <div className="text-center mb-16">
-                        <span className="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs mb-3 block">Got Questions?</span>
+                        <span className="text-amber-600 font-bold tracking-[0.3em] uppercase text-xs mb-3 block">Got Questions?</span>
                         <h3 className="text-4xl md:text-5xl font-[1000] tracking-tight">Frequently Asked Questions</h3>
                     </div>
 
@@ -640,7 +628,7 @@ const Home = () => {
                             },
                             {
                                 q: "How can I enhance my learning with QuizPro?",
-                                a: "QuizPro is designed to be your personal learning companion. By taking quizzes across various domains, you get instant feedback on your answers. Our adaptive system identifies your weak areas and suggests relevant topics to focus on, ensuring you improve step-by-step every single day."
+                                a: "QuizPro is designed to be your personal learning companion. By taking quizzes across various domains, you get instant feedback on your answers. Our adaptive system identifies your weak areas and suggests relevant topics to focus on, ensuring you improve step by step every single day."
                             },
                             {
                                 q: "Can teachers track individual student progress?",
@@ -656,12 +644,12 @@ const Home = () => {
                                 whileHover={{ scale: 1.02, y: -5 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setActiveFaq(faq)}
-                                className="p-8 rounded-[2rem] bg-white/5 border border-white/5 hover:border-amber-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-amber-500/10 cursor-pointer group transition-all duration-300 flex flex-col justify-between"
+                                className="p-8 rounded-[2rem] bg-white border border-slate-200 hover:border-amber-500/30 hover:shadow-2xl hover:shadow-amber-500/10 cursor-pointer group transition-all duration-300 flex flex-col justify-between"
                             >
-                                <h4 className="text-xl font-bold text-slate-200 group-hover:text-amber-500 transition-colors mb-4 leading-tight">
+                                <h4 className="text-xl font-bold text-slate-700 group-hover:text-amber-600 transition-colors mb-4 leading-tight">
                                     {faq.q}
                                 </h4>
-                                <div className="flex items-center gap-2 text-sm font-bold text-slate-500 group-hover:text-slate-300 uppercase tracking-wider mt-auto">
+                                <div className="flex items-center gap-2 text-sm font-bold text-slate-400 group-hover:text-slate-600 uppercase tracking-wider mt-auto">
                                     <span>Read Answer</span>
                                     <FaChevronDown className="group-hover:translate-x-1 transition-transform -rotate-90" />
                                 </div>
@@ -687,31 +675,31 @@ const Home = () => {
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                                className="relative bg-[#1a1c23] border border-white/10 text-white p-8 md:p-12 rounded-[2.5rem] max-w-2xl w-full shadow-2xl shadow-black/50 overflow-hidden"
+                                className="relative bg-white border border-slate-200 text-slate-900 p-8 md:p-12 rounded-[2.5rem] max-w-2xl w-full shadow-2xl shadow-slate-300/50 overflow-hidden"
                             >
                                 {/* Decorative Glow */}
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
 
                                 <button
                                     onClick={() => setActiveFaq(null)}
-                                    className="absolute top-6 right-6 p-2 rounded-full bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                                    className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-900 transition-colors"
                                 >
                                     <FaTimes size={20} />
                                 </button>
 
                                 <div className="relative z-10">
                                     <span className="text-amber-500 font-bold tracking-widest uppercase text-xs mb-4 block">Answer</span>
-                                    <h3 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-white">
+                                    <h3 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-slate-900">
                                         {activeFaq.q}
                                     </h3>
                                     <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-8"></div>
-                                    <p className="text-lg text-slate-300 leading-relaxed font-medium">
+                                    <p className="text-lg text-slate-600 leading-relaxed font-medium">
                                         {activeFaq.a}
                                     </p>
 
                                     <button
                                         onClick={() => setActiveFaq(null)}
-                                        className="mt-10 px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all w-full md:w-auto"
+                                        className="mt-10 px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold rounded-xl transition-all w-full md:w-auto"
                                     >
                                         Close
                                     </button>
