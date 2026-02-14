@@ -12,13 +12,35 @@ const findValue = (row, key) => {
 
 // @desc    Get all quizzes (Approved only for public, all for Admin/HOD)
 const getQuizzes = async (req, res) => {
-    const quizzes = await Quiz.find({ isActive: true, isPublished: true });
+    let query = { isActive: true, isPublished: true };
+
+    if (req.user && req.user.role !== 'Super Admin') {
+        if (req.user.collegeName) {
+            query.collegeName = req.user.collegeName;
+        }
+        if (req.user.role === 'Sir') {
+            query.department = req.user.department;
+        }
+    }
+
+    const quizzes = await Quiz.find(query);
     res.json(quizzes);
 };
 
 // @desc    Get pending quizzes for HOD
 const getPendingQuizzes = async (req, res) => {
-    const quizzes = await Quiz.find({ isApproved: false }).populate('createdBy', 'name email');
+    let query = { isApproved: false };
+
+    if (req.user.role !== 'Super Admin') {
+        if (req.user.collegeName) {
+            query.collegeName = req.user.collegeName;
+        }
+        if (req.user.role === 'Sir') {
+            query.department = req.user.department;
+        }
+    }
+
+    const quizzes = await Quiz.find(query).populate('createdBy', 'name email');
     res.json(quizzes);
 };
 
@@ -60,7 +82,10 @@ const createQuiz = async (req, res) => {
         duration, scheduledDate: scheduledDate || null,
         totalMarks: totalMarks || 100, passingMarks: passingMarks || 40,
         allowedAttempts: allowedAttempts || 0, negativeMarks: negativeMarks || 0,
-        createdBy: req.user._id, isApproved: false, isPublished: false,
+        createdBy: req.user._id,
+        collegeName: req.user.collegeName,
+        isApproved: false,
+        isPublished: false,
     });
     const createdQuiz = await quiz.save();
     res.status(201).json(createdQuiz);

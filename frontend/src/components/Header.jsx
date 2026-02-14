@@ -40,30 +40,18 @@ const Header = () => {
                 <div className="flex items-center gap-28">
                     {/* Navigation Links */}
                     <nav className="hidden md:flex items-center gap-10">
-                        {navLinks.map((item) => {
-                            const isHashLink = item.path.includes('#');
-                            const isActive = location.pathname === item.path;
-                            return isHashLink ? (
-                                <a
-                                    key={item.name}
-                                    href={item.path}
-                                    className="text-slate-600 font-semibold hover:text-blue-600 transition-colors relative py-1 group text-sm"
-                                >
-                                    {item.name}
-                                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 rounded-full transition-all duration-300 group-hover:w-full"></span>
-                                </a>
-                            ) : (
-                                <Link
-                                    key={item.name}
-                                    to={item.path}
-                                    className={`font-semibold transition-colors relative py-1 group text-sm ${isActive ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'
-                                        }`}
-                                >
-                                    {item.name}
-                                    <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 rounded-full transition-all duration-300 group-hover:w-full ${isActive ? 'w-full' : 'w-0'}`}></span>
-                                </Link>
-                            );
-                        })}
+                        {navLinks.map((item) => (
+                            <Link
+                                key={item.name}
+                                to={item.path}
+                                className={`font-semibold transition-colors relative py-1 group text-sm ${location.pathname === item.path ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'
+                                    }`}
+                            >
+                                {item.name}
+                                <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 rounded-full transition-all duration-300 group-hover:w-full ${location.pathname === item.path ? 'w-full' : 'w-0'
+                                    }`}></span>
+                            </Link>
+                        ))}
                     </nav>
 
                     <div className="flex items-center gap-3">

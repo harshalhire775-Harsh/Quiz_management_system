@@ -2,16 +2,20 @@ import { useState } from 'react';
 import { UserPlus, Mail, Lock, Book, User, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API from '../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const RegisterSir = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const filterDept = location.state?.filterDept;
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
         subject: '',
+        department: filterDept || ''
     });
     const [inputSubject, setInputSubject] = useState('');
     const [loading, setLoading] = useState(false);
@@ -42,7 +46,11 @@ const RegisterSir = () => {
         }
 
         try {
-            await API.post('/users/sirs', { ...formData, subject: finalSubject });
+            await API.post('/users/sirs', {
+                ...formData,
+                subject: finalSubject,
+                department: filterDept || formData.department || ''
+            });
             showSuccessAlert('Success!', 'Teacher Added Successfully! 🎓');
             navigate('/admin/manage-sirs');
         } catch (error) {

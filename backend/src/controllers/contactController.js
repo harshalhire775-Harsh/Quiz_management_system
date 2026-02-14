@@ -34,11 +34,31 @@ const submitContact = async (req, res) => {
         const mailSubject = cleanRecipientEmail ? `New Message from ${name}` : `New Contact Message from ${name}`;
 
         const emailContent = `
-            <h3>${cleanRecipientEmail ? 'New Message' : 'New Contact Inquiry'}</h3>
-            <p><strong>From:</strong> ${name} (${email}) ${year ? `[${year}]` : ''}</p>
-            <p><strong>Subject:</strong> ${subject || 'N/A'} (${priority || 'Normal'})</p>
-            <p><strong>Message:</strong></p>
-            <p>${message}</p>
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+                <div style="background-color: #6366f1; padding: 24px; text-align: center;">
+                    <h1 style="color: #ffffff; margin: 0; font-size: 24px;">${cleanRecipientEmail ? 'New Message' : 'Contact Inquiry'}</h1>
+                </div>
+                <div style="padding: 32px;">
+                    <p style="font-size: 16px; color: #374151; margin-bottom: 24px;">Hello,</p>
+                    <p style="font-size: 16px; color: #4b5563; line-height: 1.5; margin-bottom: 24px;">
+                        You have received a new message from <strong>${name}</strong> via the QuizPro platform.
+                    </p>
+                    <div style="background-color: #f3f4f6; border-left: 4px solid #6366f1; padding: 20px; border-radius: 4px; margin-bottom: 24px;">
+                        <p style="margin: 0 0 10px 0; font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Message Details</p>
+                        <p style="margin: 4px 0; font-size: 16px; color: #111827;"><strong>From:</strong> ${name} (${email}) ${year ? `[${year}]` : ''}</p>
+                        <p style="margin: 4px 0; font-size: 16px; color: #111827;"><strong>Subject:</strong> ${subject || 'N/A'} (${priority || 'Normal'})</p>
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+                            <p style="margin: 0; font-size: 16px; color: #374151; white-space: pre-wrap;">${message}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 32px; text-align: center;">
+                         <a href="mailto:${email}" style="background-color: #6366f1; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Reply via Email</a>
+                    </div>
+                </div>
+                <div style="background-color: #f9fafb; padding: 16px; text-align: center; border-top: 1px solid #e2e8f0;">
+                     <p style="font-size: 12px; color: #9ca3af; margin: 0;">&copy; ${new Date().getFullYear()} QuizPro System. All rights reserved.</p>
+                </div>
+            </div>
         `;
 
         await sendMail({

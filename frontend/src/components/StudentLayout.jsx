@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import {
     BookOpen,
     MessageSquare,
-    User,
+
     LogOut,
     Menu,
     X,
@@ -29,7 +29,6 @@ const StudentLayout = () => {
         { name: 'Dashboard', path: '/student-dashboard', icon: LayoutDashboard },
         { name: 'My Quizzes', path: '/quizzes', icon: BookOpen },
         { name: 'Contact Teacher', path: '/contact-teacher', icon: MessageSquare },
-        { name: 'Profile', path: '/profile', icon: User },
     ];
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);

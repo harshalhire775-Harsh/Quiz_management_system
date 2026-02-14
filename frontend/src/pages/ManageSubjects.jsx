@@ -4,6 +4,7 @@ import { Building2, Plus, Trash2, Search, ArrowLeft, User, Mail, Lock, ShieldChe
 import { Link } from 'react-router-dom';
 import API from '../api/axios';
 import useAuth from '../hooks/useAuth';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const ManageSubjects = () => {
     // Admin (HOD) View Only
@@ -41,9 +42,6 @@ const ManageSubjects = () => {
         setIsModalOpen(true);
     };
 
-    const [successMsg, setSuccessMsg] = useState('');
-    const [errorMsg, setErrorMsg] = useState('');
-
     const handleCreate = async (e) => {
         e.preventDefault();
         try {
@@ -54,27 +52,22 @@ const ManageSubjects = () => {
             await API.post('/departments', payload);
             setNewDept({ name: '', hodName: '', hodEmail: '', hodPassword: '', collegeId: '' });
             setIsModalOpen(false);
-            setSuccessMsg('Department Created Successfully! Credentials Saved.');
-            setErrorMsg('');
-            setTimeout(() => setSuccessMsg(''), 5000);
+            showSuccessAlert('Success', 'Department Created Successfully! Credentials Saved.');
             fetchDepartments();
         } catch (error) {
-            setErrorMsg(error.response?.data?.message || 'Failed to create department');
-            setSuccessMsg('');
-            setTimeout(() => setErrorMsg(''), 5000);
+            showErrorAlert('Error', error.response?.data?.message || 'Failed to create department');
         }
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure? This action cannot be undone.')) {
+        const isConfirmed = await showConfirmAlert('Delete Department?', 'Are you sure? This action cannot be undone.');
+        if (isConfirmed) {
             try {
                 await API.delete(`/departments/${id}`);
                 setDepartments(departments.filter(d => d._id !== id));
-                setSuccessMsg('Department Deleted Successfully');
-                setTimeout(() => setSuccessMsg(''), 3000);
+                showSuccessAlert('Deleted!', 'Department Deleted Successfully');
             } catch (error) {
-                setErrorMsg('Failed to delete department');
-                setTimeout(() => setErrorMsg(''), 3000);
+                showErrorAlert('Error', 'Failed to delete department');
             }
         }
     };
@@ -83,9 +76,9 @@ const ManageSubjects = () => {
         try {
             const { data } = await API.put(`/departments/${dept._id}/toggle-status`);
             setDepartments(departments.map(d => d._id === dept._id ? { ...d, isActive: data.isActive } : d));
+            showSuccessAlert('Status Updated', `Department is now ${data.isActive ? 'Active' : 'Inactive'}`);
         } catch (error) {
-            setErrorMsg('Failed to update status');
-            setTimeout(() => setErrorMsg(''), 3000);
+            showErrorAlert('Error', 'Failed to update status');
         }
     };
 
@@ -95,30 +88,6 @@ const ManageSubjects = () => {
 
     return (
         <div className="p-8 bg-slate-50 min-h-screen animate-fade-in relative">
-
-            {/* Success Message Banner */}
-            {successMsg && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="fixed top-24 right-8 z-50 bg-emerald-100 text-emerald-800 px-6 py-4 rounded-xl shadow-lg border border-emerald-200 flex items-center gap-3 font-bold"
-                >
-                    <div className="bg-emerald-500 text-white p-1 rounded-full"><ShieldCheck size={16} /></div>
-                    {successMsg}
-                </motion.div>
-            )}
-
-            {/* Error Message Banner */}
-            {errorMsg && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="fixed top-24 right-8 z-50 bg-red-100 text-red-800 px-6 py-4 rounded-xl shadow-lg border border-red-200 flex items-center gap-3 font-bold"
-                >
-                    <div className="bg-red-500 text-white p-1 rounded-full"><AlertCircle size={16} /></div>
-                    {errorMsg}
-                </motion.div>
-            )}
 
             {/* Create Modal */}
             {isModalOpen && (

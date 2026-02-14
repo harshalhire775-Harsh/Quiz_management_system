@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Building2, Plus, Trash2, Search, ArrowLeft, User, Mail, Lock, UserCog, Briefcase, Users, ExternalLink, LayoutDashboard, UserCheck, ShieldCheck, AlertCircle, CheckCircle, X, Key } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 import useAuth from '../hooks/useAuth'; // Assuming useAuth hook exists
 import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const ManageDepartments = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const isSuperAdmin = user?.role === 'Super Admin';
 
     const [departments, setDepartments] = useState([]);
@@ -383,8 +384,21 @@ const ManageDepartments = () => {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="mt-auto pt-4 border-t border-slate-100 flex gap-2">
-
+                                <div className="mt-auto pt-4 border-t border-slate-100 grid grid-cols-2 gap-2">
+                                    <button
+                                        onClick={() => navigate('/admin/manage-users', { state: { filterDept: dept.name } })}
+                                        className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold hover:bg-blue-100 transition-all border border-blue-100"
+                                    >
+                                        <Users size={14} />
+                                        Students
+                                    </button>
+                                    <button
+                                        onClick={() => navigate('/admin/manage-sirs', { state: { filterDept: dept.name } })}
+                                        className="flex items-center justify-center gap-2 px-3 py-2 bg-violet-50 text-violet-600 rounded-xl text-xs font-bold hover:bg-violet-100 transition-all border border-violet-100"
+                                    >
+                                        <Briefcase size={14} />
+                                        Teachers
+                                    </button>
                                 </div>
                             </div>
 

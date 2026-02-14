@@ -3,6 +3,7 @@ import { UserPlus, Trash2, Search, UserCheck, ShieldCheck, ArrowLeft, Key } from
 import { motion } from 'framer-motion';
 import API from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const ManageAdmins = () => {
     const navigate = useNavigate();
@@ -27,12 +28,14 @@ const ManageAdmins = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this Admin?')) {
+        const isConfirmed = await showConfirmAlert('Delete Admin?', 'Are you sure you want to delete this Admin?');
+        if (isConfirmed) {
             try {
                 await API.delete(`/auth/users/${id}`); // Correct path based on authRoutes.js
                 setAdmins(admins.filter(admin => admin._id !== id));
+                showSuccessAlert('Deleted', 'Admin deleted successfully');
             } catch (error) {
-                alert('Failed to delete admin');
+                showErrorAlert('Error', 'Failed to delete admin');
             }
         }
     };
@@ -42,25 +45,28 @@ const ManageAdmins = () => {
 
     const handleBlockToggle = async (admin) => {
         const action = admin.isBlocked ? 'unblock' : 'block';
-        if (window.confirm(`Are you sure you want to ${action} ${admin.name}?`)) {
+        const isConfirmed = await showConfirmAlert(`${action === 'block' ? 'Block' : 'Unblock'} Admin?`, `Are you sure you want to ${action} ${admin.name}?`);
+        if (isConfirmed) {
             try {
                 await API.put(`/users/${admin._id}/${action}`);
                 fetchAdmins(); // Refresh to ensure state sync
+                showSuccessAlert('Success', `Admin ${action}ed successfully`);
             } catch (error) {
                 console.error(error);
-                alert(`Failed to ${action} user`);
+                showErrorAlert('Error', `Failed to ${action} user`);
             }
         }
     };
 
     const handleResend = async (admin) => {
-        if (window.confirm(`Resend Credentials for ${admin.name}?\n\nWARNING: This will RESET their password and email them the new one.`)) {
+        const isConfirmed = await showConfirmAlert('Resend Credentials?', `Resend Credentials for ${admin.name}?\n\nWARNING: This will RESET their password and email them the new one.`);
+        if (isConfirmed) {
             try {
                 await API.put(`/auth/users/${admin._id}/resend-credentials`);
-                alert(`Credentials reset and emailed to ${admin.email}`);
+                showSuccessAlert('Sent', `Credentials reset and emailed to ${admin.email}`);
             } catch (error) {
                 console.error(error);
-                alert(error.response?.data?.message || 'Failed to resend credentials');
+                showErrorAlert('Error', error.response?.data?.message || 'Failed to resend credentials');
             }
         }
     };

@@ -46,6 +46,10 @@ const userSchema = mongoose.Schema(
             type: String, // E.g., 'Computer Science', 'Civil'
             default: ''
         },
+        collegeName: {
+            type: String,
+            default: ''
+        },
         year: {
             type: String,
             enum: ['FY', 'SY', 'TY', ''],

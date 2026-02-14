@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { UserCheck, X, Check, Search, ShieldAlert, Building2, Mail, Lock, Key } from 'lucide-react';
 import API from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const AdminRequests = () => {
     const [requests, setRequests] = useState([]);
@@ -39,27 +40,19 @@ const AdminRequests = () => {
 
     const generateCredentials = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const passChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
 
         // Generate College ID
         let id = 'CLG-';
         for (let i = 0; i < 4; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
 
-        // Generate Password
-        let pass = '';
-        pass += passChars.charAt(Math.floor(Math.random() * 26));
-        pass += passChars.charAt(Math.floor(Math.random() * 26) + 26);
-        pass += '0123456789'.charAt(Math.floor(Math.random() * 10));
-        for (let i = 0; i < 7; i++) pass += passChars.charAt(Math.floor(Math.random() * passChars.length));
-
-        return { id, pass };
+        return { id };
     };
 
     const handleOpenOption = (req) => {
-        const { id, pass } = generateCredentials();
+        const { id } = generateCredentials();
         setApprovalData({
             collegeId: id,
-            password: pass,
+            password: '', // Default to empty (keep user password)
             collegeName: req.department || ''
         });
         setSelectedRequest(req);
@@ -69,7 +62,7 @@ const AdminRequests = () => {
         if (!selectedRequest) return;
 
         if (!approvalData.collegeName) {
-            alert("College Name is required");
+            showErrorAlert("Error", "College Name is required");
             return;
         }
 
@@ -80,22 +73,24 @@ const AdminRequests = () => {
                 collegeName: approvalData.collegeName,
                 createDepartment: true // Flag to tell backend to create dept
             });
-            alert('Request Approved! College Created and Email Sent.');
+            showSuccessAlert('Approved!', 'Request Approved! College Created and Email Sent.');
             setSelectedRequest(null);
             fetchRequests();
         } catch (error) {
             console.error(error);
-            alert(error.response?.data?.message || 'Approval Failed');
+            showErrorAlert('Error', error.response?.data?.message || 'Approval Failed');
         }
     };
 
     const handleReject = async (id) => {
-        if (window.confirm('Are you sure you want to reject and delete this request?')) {
+        const isConfirmed = await showConfirmAlert('Reject Request?', 'Are you sure you want to reject and delete this request?');
+        if (isConfirmed) {
             try {
                 await API.delete(`/auth/users/${id}`);
                 setRequests(requests.filter(r => r._id !== id));
+                showSuccessAlert('Rejected', 'Request rejected and deleted.');
             } catch (error) {
-                alert('Failed to reject request');
+                showErrorAlert('Error', 'Failed to reject request');
             }
         }
     };
@@ -239,9 +234,10 @@ const AdminRequests = () => {
                                             value={approvalData.password}
                                             onChange={(e) => setApprovalData({ ...approvalData, password: e.target.value })}
                                             className="w-full pl-12 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-blue-500 outline-none font-mono font-bold text-slate-700"
+                                            placeholder="Leave empty to keep user password"
                                         />
                                     </div>
-                                    <p className="text-[10px] text-slate-400 mt-1 ml-1">This password will be emailed to the admin.</p>
+                                    <p className="text-[10px] text-slate-400 mt-1 ml-1">If set, new password will be emailed. If empty, user uses their registration password.</p>
                                 </div>
                             </div>
 

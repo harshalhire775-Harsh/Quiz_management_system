@@ -3,6 +3,7 @@ import { UserPlus, Trash2, Search, UserCheck, ShieldCheck, ArrowLeft, Key } from
 import { motion } from 'framer-motion';
 import API from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const ManageHODs = () => {
     const navigate = useNavigate();
@@ -27,25 +28,29 @@ const ManageHODs = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this HOD?')) {
+        const isConfirmed = await showConfirmAlert('Delete HOD?', 'Are you sure you want to delete this HOD?');
+        if (isConfirmed) {
             try {
                 await API.delete(`/auth/users/${id}`); // Correct path based on authRoutes.js
                 setAdmins(admins.filter(admin => admin._id !== id));
+                showSuccessAlert('Deleted!', 'HOD Deleted Successfully');
             } catch (error) {
-                alert('Failed to delete admin');
+                showErrorAlert('Error', 'Failed to delete admin');
             }
         }
     };
 
     const handleBlockToggle = async (admin) => {
         const action = admin.isBlocked ? 'unblock' : 'block';
-        if (window.confirm(`Are you sure you want to ${action} ${admin.name}?`)) {
+        const isConfirmed = await showConfirmAlert(`${action === 'block' ? 'Block' : 'Unblock'} HOD?`, `Are you sure you want to ${action} ${admin.name}?`);
+        if (isConfirmed) {
             try {
                 await API.put(`/users/${admin._id}/${action}`);
+                showSuccessAlert('Success', `User has been ${action}ed.`);
                 fetchAdmins(); // Refresh to ensure state sync
             } catch (error) {
                 console.error(error);
-                alert(`Failed to ${action} user`);
+                showErrorAlert('Error', `Failed to ${action} user`);
             }
         }
     };

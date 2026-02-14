@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import API from "../api/axios";
 import { FaCheckCircle, FaUserShield, FaChartLine, FaEnvelope, FaPhone, FaMapMarkerAlt, FaInstagram, FaFacebook, FaTwitter, FaPlay, FaUserPlus, FaHeart, FaBrain, FaChevronDown, FaReact, FaNodeJs, FaHtml5, FaCss3, FaServer, FaDatabase, FaJs, FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import Swal from 'sweetalert2';
+import Footer from "../components/Footer";
 const Home = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Handle hash scrolling
+    useEffect(() => {
+        if (location.hash === '#contact') {
+            const element = document.getElementById('contact');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [location]);
+
     const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
     const [contactStatus, setContactStatus] = useState('idle'); // idle, sending, success, error
     const [activeStep, setActiveStep] = useState(0);
@@ -219,41 +232,8 @@ const Home = () => {
 
 
             {/* Infinite Tech Marquee */}
-            {/* Infinite Tech Marquee */}
-            <section className="py-12 bg-white border-y border-slate-200 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-20 pointer-events-none"></div>
-                {/* Subtle Background Glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-20 bg-indigo-500/5 blur-[60px] pointer-events-none"></div>
 
-                <div className="flex overflow-hidden relative z-10">
-                    <motion.div
-                        className="flex gap-20 items-center whitespace-nowrap"
-                        animate={{ x: ["0%", "-50%"] }}
-                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                        style={{ width: "fit-content" }}
-                    >
-                        {[...Array(2)].map((_, i) => (
-                            <div key={i} className="flex gap-20 items-center">
-                                {[
-                                    { icon: <FaReact size={45} />, name: "React", color: "text-cyan-400 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.6)]" },
-                                    { icon: <FaNodeJs size={45} />, name: "Node.js", color: "text-emerald-500 group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.6)]" },
-                                    { icon: <FaDatabase size={45} />, name: "MongoDB", color: "text-green-500 group-hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.6)]" },
-                                    { icon: <FaJs size={45} />, name: "JavaScript", color: "text-yellow-400 group-hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.6)]" },
-                                    { icon: <FaHtml5 size={45} />, name: "HTML5", color: "text-orange-500 group-hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" },
-                                    { icon: <FaCss3 size={45} />, name: "CSS3", color: "text-blue-500 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" },
-                                    { icon: <FaServer size={45} />, name: "Express", color: "text-slate-800 group-hover:text-black group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.2)]" },
-                                    { icon: <FaReact size={45} />, name: "Vite", color: "text-purple-500 group-hover:drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]" }
-                                ].map((tech, idx) => (
-                                    <div key={idx} className={`flex items-center gap-4 text-slate-400 font-black text-2xl uppercase tracking-widest transition-all duration-500 cursor-pointer group`}>
-                                        <span className={`transform group-hover:scale-110 transition-all duration-300 ${tech.color}`}>{tech.icon}</span>
-                                        <span className="opacity-70 group-hover:opacity-100 group-hover:text-slate-900 transition-all duration-300">{tech.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
+
 
             {/* Discovery Gallery Section */}
             <section className="py-40 bg-slate-50 relative overflow-hidden">
@@ -874,23 +854,11 @@ const Home = () => {
                             </form>
                         </motion.div>
                     </div >
-                </div >
-            </section >
+                </div>
+            </section>
 
             {/* Footer */}
-            {/* Footer */}
-            <footer className="py-12 bg-white relative border-t border-slate-100" >
-                <div className="container mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-slate-100 pt-12">
-                        <p className="text-slate-500 font-bold text-sm tracking-tight">&copy; {new Date().getFullYear()} QuizPro Platform. All rights reserved.</p>
-                        <div className="flex items-center gap-2">
-                            <span className="text-slate-500 text-sm font-bold">Built with</span>
-                            <FaHeart className="text-red-500" />
-                            <span className="text-slate-900 font-black text-sm uppercase tracking-widest">by Harshal Hire</span>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div >
     );
 };

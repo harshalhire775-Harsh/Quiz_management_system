@@ -63,6 +63,11 @@ const quizSchema = mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        collegeName: {
+            type: String,
+            default: ''
+        },
+
         isApproved: {
             type: Boolean,
             default: false,

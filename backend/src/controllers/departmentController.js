@@ -25,7 +25,8 @@ const createDepartment = asyncHandler(async (req, res) => {
                 name: hodName,
                 email: hodEmail,
                 password: hodPassword,
-                role: 'Admin (HOD)'
+                role: 'Admin (HOD)',
+                collegeName: name // The college name they represent
             });
         } else {
             // User exists: Update credentials to match what Admin just set
@@ -33,6 +34,7 @@ const createDepartment = asyncHandler(async (req, res) => {
             if (user.role === 'Student') {
                 user.role = 'Admin (HOD)';
             }
+            user.collegeName = name;
             await user.save();
         }
         // ... (Email sending logic omitted for brevity, assume present or safe to skip repeating here if unchanged) ...
@@ -110,16 +112,18 @@ const createDepartment = asyncHandler(async (req, res) => {
                 name: hodName,
                 email: hodEmail,
                 password: hodPassword,
-                role: 'Sir', // Valid Enum value for Teachers
-                department: college.name, // Assign College Name
-                subject: [name] // Assign the Subject they head
+                role: 'Sir',
+                department: name, // The branch name
+                collegeName: college.name, // The parent college
+                subject: [name],
+                isHead: true
             });
         } else {
             user.password = hodPassword;
-            if (user.role === 'Student') {
-                user.role = 'Sir';
-                user.department = college.name;
-            }
+            user.role = 'Sir';
+            user.department = name;
+            user.collegeName = college.name;
+            user.isHead = true;
             if (!user.subject) user.subject = [];
             if (!user.subject.includes(name)) {
                 user.subject.push(name);
@@ -127,7 +131,7 @@ const createDepartment = asyncHandler(async (req, res) => {
             await user.save();
         }
 
-        // Send Email
+        // Email HTML
         const emailHtml = `
             <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
                 <div style="background-color: #4f46e5; padding: 24px; text-align: center;">
@@ -150,11 +154,12 @@ const createDepartment = asyncHandler(async (req, res) => {
                         <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/login" style="background-color: #4f46e5; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Access Dashboard</a>
                     </div>
                 </div>
-                 <div style="background-color: #f9fafb; padding: 16px; text-align: center; border-top: 1px solid #e2e8f0;">
+                <div style="background-color: #f9fafb; padding: 16px; text-align: center; border-top: 1px solid #e2e8f0;">
                     <p style="font-size: 12px; color: #9ca3af; margin: 0;">&copy; ${new Date().getFullYear()} QuizPro System. All rights reserved.</p>
                 </div>
             </div>
         `;
+
         try {
             await sendMail({ to: hodEmail, subject: `Welcome - ${name} Subject Head`, html: emailHtml });
         } catch (e) { console.error(e) }
@@ -162,14 +167,13 @@ const createDepartment = asyncHandler(async (req, res) => {
         // Add to sub-departments
         college.departments.push({
             name,
-            head: hodName, // Store Name as String
-            headUserId: user._id, // Store ID Reference
+            head: hodName,
+            headUserId: user._id,
             email: hodEmail,
             adminPassword: hodPassword
         });
         await college.save();
 
-        // Return the NEWLY CREATED sub-department, formatted for frontend
         const newSubDept = college.departments[college.departments.length - 1];
 
         res.status(201).json({
@@ -296,13 +300,27 @@ const toggleDepartmentStatus = async (req, res) => {
                 const statusText = updatedDepartment.isActive ? 'Reactivated' : 'Deactivated';
                 const color = updatedDepartment.isActive ? '#10b981' : '#ef4444';
                 const emailHtml = `
-                    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-                        <h2 style="color: ${color};">College Account ${statusText} ${updatedDepartment.isActive ? '✅' : '⚠️'}</h2>
-                        <p>Hello <strong>${department.hod.name}</strong>,</p>
-                        <p>Your College Account for <strong>${department.name}</strong> has been <strong>${statusText}</strong> by the Super Admin.</p>
-                        <p><strong>Impact:</strong> All access for your department (including Teachers and Students) is now <strong>${updatedDepartment.isActive ? 'Restored' : 'Suspended'}</strong>.</p>
-                    </div>
-                `;
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+            <div style="background-color: ${color}; padding: 24px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Account Status: ${statusText}</h1>
+            </div>
+            <div style="padding: 32px;">
+                <p style="font-size: 16px; color: #374151; margin-bottom: 24px;">Hello <strong>${department.hod.name}</strong>,</p>
+                <p style="font-size: 16px; color: #4b5563; line-height: 1.5; margin-bottom: 24px;">
+                    Your College Account for <strong>${department.name}</strong> has been <strong>${statusText}</strong> by the Super Admin.
+                </p>
+                <div style="background-color: ${updatedDepartment.isActive ? '#ecfdf5' : '#fef2f2'}; border-left: 4px solid ${color}; padding: 20px; border-radius: 4px; margin-bottom: 24px;">
+                    <p style="margin: 0; font-size: 14px; color: ${updatedDepartment.isActive ? '#047857' : '#b91c1c'};"><strong>IMPACT:</strong> All access for your department (including Teachers and Students) is now <strong>${updatedDepartment.isActive ? 'Restored' : 'Suspended'}</strong>.</p>
+                </div>
+                <p style="font-size: 16px; color: #4b5563; line-height: 1.5;">
+                    Please contact the administration for further details.
+                </p>
+            </div>
+            <div style="background-color: #f9fafb; padding: 16px; text-align: center; border-top: 1px solid #e2e8f0;">
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">&copy; ${new Date().getFullYear()} QuizPro System. All rights reserved.</p>
+            </div>
+        </div>
+        `;
                 try {
                     await sendMail({
                         to: department.hod.email,
@@ -430,6 +448,42 @@ const updateDepartment = asyncHandler(async (req, res) => {
             // 2. Update Sub-Dept stored password
             college.departments[subDeptIndex].adminPassword = adminPassword;
             await college.save();
+
+            // Send Email Notification
+            if (user) {
+                const emailHtml = `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+            <div style="background-color: #4f46e5; padding: 24px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Password Updated</h1>
+            </div>
+            <div style="padding: 32px;">
+                <p style="font-size: 16px; color: #374151; margin-bottom: 24px;">Hello <strong>${user.name}</strong>,</p>
+                <p style="font-size: 16px; color: #4b5563; line-height: 1.5; margin-bottom: 24px;">
+                    Your password for the <strong>${college.name} - ${subDept.name}</strong> department has been updated by the College Admin.
+                </p>
+                <div style="background-color: #f3f4f6; border-left: 4px solid #4f46e5; padding: 20px; border-radius: 4px; margin-bottom: 24px;">
+                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">New Credentials</p>
+                    <p style="margin: 4px 0; font-size: 16px; color: #111827;"><strong>Email:</strong> ${user.email}</p>
+                    <p style="margin: 4px 0; font-size: 16px; color: #111827;"><strong>Password:</strong> ${adminPassword}</p>
+                </div>
+                <p style="font-size: 16px; color: #4b5563; line-height: 1.5;">
+                    Please use these new credentials to log in.
+                </p>
+                <div style="margin-top: 32px; text-align: center;">
+                    <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/login" style="background-color: #4f46e5; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Login Now</a>
+                </div>
+            </div>
+            <div style="background-color: #f9fafb; padding: 16px; text-align: center; border-top: 1px solid #e2e8f0;">
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">&copy; ${new Date().getFullYear()} QuizPro System. All rights reserved.</p>
+            </div>
+        </div>
+        `;
+                try {
+                    await sendMail({ to: user.email, subject: `Password Changed - ${subDept.name}`, html: emailHtml });
+                } catch (e) {
+                    console.error("Failed to send password update email", e);
+                }
+            }
 
             res.json({ message: 'Credentials updated successfully', adminPassword });
         } else {

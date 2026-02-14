@@ -13,8 +13,8 @@ const ManageColleges = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // College Form State (Auto-Generated)
-    const [newDept, setNewDept] = useState({ name: '', hodName: '', hodEmail: '', hodPassword: '', collegeId: '' });
+    // College Form State
+    const [newDept, setNewDept] = useState({ name: '', hodName: '', hodEmail: '', hodPassword: '', confirmPassword: '', collegeId: '' });
 
     // HOD Table State
     const [hods, setHods] = useState([]);
@@ -76,51 +76,38 @@ const ManageColleges = () => {
         }
     };
 
-    // Helper for random credentials
-    const generateCredentials = () => {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const passChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
-
-        // Generate College ID
-        let id = 'CLG-';
-        for (let i = 0; i < 4; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
-
-        // Generate Password
-        let pass = '';
-        pass += passChars.charAt(Math.floor(Math.random() * 26)); // Uppercase
-        pass += passChars.charAt(Math.floor(Math.random() * 26) + 26); // Lowercase
-        pass += '0123456789'.charAt(Math.floor(Math.random() * 10)); // Number
-        for (let i = 0; i < 7; i++) pass += passChars.charAt(Math.floor(Math.random() * passChars.length));
-
-        return { id, pass };
-    };
-
     const openCreateModal = () => {
-        const { id, pass } = generateCredentials();
-        // Auto-generate email based on ID for backend compatibility
-        const autoEmail = `${id.toLowerCase()}@quizportal.com`;
-
         setNewDept({
             name: '',
             hodName: '',
-            hodEmail: autoEmail,
-            collegeId: id,
-            hodPassword: pass
+            hodEmail: '',
+            collegeId: '',
+            hodPassword: '',
+            confirmPassword: ''
         });
         setIsModalOpen(true);
     };
 
     const handleCreate = async (e) => {
         e.preventDefault();
+
+        if (newDept.hodPassword !== newDept.confirmPassword) {
+            showErrorAlert('Error', 'Passwords do not match!');
+            return;
+        }
+
         try {
             const payload = {
-                ...newDept,
-                hodName: newDept.name ? `${newDept.name} Admin` : 'College Admin'
+                name: newDept.name,
+                hodName: newDept.hodName,
+                hodEmail: newDept.hodEmail,
+                hodPassword: newDept.hodPassword,
+                collegeId: newDept.collegeId
             };
             await API.post('/departments', payload);
-            setNewDept({ name: '', hodName: '', hodEmail: '', hodPassword: '', collegeId: '' });
+            setNewDept({ name: '', hodName: '', hodEmail: '', hodPassword: '', confirmPassword: '', collegeId: '' });
             setIsModalOpen(false);
-            showSuccessAlert('Success!', 'College Created Successfully! Credentials Saved.');
+            showSuccessAlert('Success!', 'College Created Successfully!');
             fetchDepartments();
         } catch (error) {
             showErrorAlert('Error', error.response?.data?.message || 'Failed to create college');
@@ -163,48 +150,107 @@ const ManageColleges = () => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md"
+                        className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-lg"
                     >
                         <h3 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
                             <Building2 size={24} className="text-blue-600" /> New College
                         </h3>
-                        <form onSubmit={handleCreate} className="space-y-6">
+                        <form onSubmit={handleCreate} className="space-y-4">
+
+                            {/* College Name & ID */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">College Name</label>
+                                    <div className="relative">
+                                        <Building2 size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                        <input
+                                            type="text"
+                                            value={newDept.name}
+                                            onChange={e => setNewDept({ ...newDept, name: e.target.value })}
+                                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                            placeholder="College Name"
+                                            required
+                                            autoFocus
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">College ID</label>
+                                    <div className="relative">
+                                        <ShieldCheck size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                        <input
+                                            type="text"
+                                            value={newDept.collegeId}
+                                            onChange={e => setNewDept({ ...newDept, collegeId: e.target.value })}
+                                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                            placeholder="e.g. CLG-001"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* College Admin Name & Email */}
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-2">College Name</label>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">College Admin Name</label>
                                 <div className="relative">
-                                    <Building2 size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                    <UserCog size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                                     <input
                                         type="text"
-                                        value={newDept.name}
-                                        onChange={e => setNewDept({ ...newDept, name: e.target.value })}
-                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium text-lg"
-                                        placeholder="e.g. Government Science College"
+                                        value={newDept.hodName}
+                                        onChange={e => setNewDept({ ...newDept, hodName: e.target.value })}
+                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                        placeholder="College Admin Name"
                                         required
-                                        autoFocus
                                     />
                                 </div>
                             </div>
 
-                            {/* Auto Generated Credentials Info */}
-                            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100">
-                                <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">Auto-Generated Credentials</h4>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="text-xs font-bold text-slate-500 block mb-1">ID</label>
-                                        <div className="font-mono font-bold text-slate-700 text-lg flex items-center gap-2">
-                                            <ShieldCheck size={16} className="text-blue-500" />
-                                            {newDept.collegeId}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs font-bold text-slate-500 block mb-1">Password</label>
-                                        <div className="font-mono font-bold text-slate-700 text-lg flex items-center gap-2">
-                                            <Lock size={16} className="text-emerald-500" />
-                                            {newDept.hodPassword}
-                                        </div>
+                            <div>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">College Gmail</label>
+                                <div className="relative">
+                                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                    <input
+                                        type="email"
+                                        value={newDept.hodEmail}
+                                        onChange={e => setNewDept({ ...newDept, hodEmail: e.target.value })}
+                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                        placeholder="college@gmail.com"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Passwords */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">Password</label>
+                                    <div className="relative">
+                                        <Key size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                        <input
+                                            type="password"
+                                            value={newDept.hodPassword}
+                                            onChange={e => setNewDept({ ...newDept, hodPassword: e.target.value })}
+                                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                            placeholder="********"
+                                            required
+                                        />
                                     </div>
                                 </div>
-                                <p className="text-[10px] text-slate-400 mt-3 italic text-center">Credentials will be emailed to the HOD automatically upon creation.</p>
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">Confirm Password</label>
+                                    <div className="relative">
+                                        <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                                        <input
+                                            type="password"
+                                            value={newDept.confirmPassword}
+                                            onChange={e => setNewDept({ ...newDept, confirmPassword: e.target.value })}
+                                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                            placeholder="********"
+                                            required
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="flex gap-3 mt-8">
@@ -217,7 +263,7 @@ const ManageColleges = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all font-lg"
+                                    className="flex-1 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all"
                                 >
                                     Create and Save
                                 </button>

@@ -159,7 +159,10 @@ const DepartmentDashboard = () => {
                         <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                             <BookOpen size={18} className="text-emerald-500" /> Subject Management
                         </h2>
-                        <button className="text-xs font-bold text-white bg-emerald-600 px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition-colors">
+                        <button
+                            onClick={() => navigate('/admin/manage-departments')}
+                            className="text-xs font-bold text-white bg-emerald-600 px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition-colors"
+                        >
                             Manage All
                         </button>
                     </div>

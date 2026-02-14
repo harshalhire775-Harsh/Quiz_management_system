@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Building2, Mail, User, Phone, MapPin, Check, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Building2, Mail, User, Phone, MapPin, Check, ArrowRight, ArrowLeft, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API from '../api/axios';
 import logo from '../assets/logo.png';
@@ -13,9 +13,11 @@ const Register = () => {
         adminName: '',
         phone: '',
         address: '',
+        password: '',
         agreed: false
     });
     const [loading, setLoading] = useState(false);
+    const [showTerms, setShowTerms] = useState(false);
 
 
 
@@ -43,7 +45,8 @@ const Register = () => {
                 phoneNumber: formData.phone,
                 role: 'Admin (HOD)',
                 department: formData.collegeName, // Using department field to store college name
-                bio: formData.address // Using bio field to store address
+                bio: formData.address, // Using bio field to store address
+                password: formData.password
             };
 
             const { data } = await API.post('/auth/register', payload);
@@ -139,7 +142,6 @@ const Register = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide ml-1">Phone</label>
                                     <div className="relative">
                                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                                         <input
@@ -149,6 +151,23 @@ const Register = () => {
                                             onChange={handleChange}
                                             className="w-full pl-12 pr-4 py-3.5 bg-slate-50 rounded-xl border border-transparent focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
                                             placeholder="10-digit mobile"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide ml-1">Password</label>
+                                    <div className="relative">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                                        </div>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            className="w-full pl-12 pr-4 py-3.5 bg-slate-50 rounded-xl border border-transparent focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
+                                            placeholder="Create a strong password"
                                             required
                                         />
                                     </div>
@@ -183,7 +202,19 @@ const Register = () => {
                                     onChange={handleChange}
                                     className="hidden"
                                 />
-                                <span className="text-sm font-medium text-slate-600">I accept the Institutional <span className="text-blue-600 underline">Terms & Conditions</span></span>
+                                <span className="text-sm font-medium text-slate-600">
+                                    I accept the Institutional
+                                    <span
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setShowTerms(true);
+                                        }}
+                                        className="text-blue-600 underline ml-1 cursor-pointer hover:text-blue-800"
+                                    >
+                                        Terms & Conditions
+                                    </span>
+                                </span>
                             </label>
 
                             <button
@@ -195,10 +226,67 @@ const Register = () => {
                                 {!loading && <ArrowRight size={20} />}
                             </button>
                         </div>
-
                     </form>
                 </div>
             </motion.div>
+
+            {/* Terms & Conditions Modal */}
+            {showTerms && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-white w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+                    >
+                        <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                            <h3 className="text-xl font-bold text-slate-800">Terms & Conditions</h3>
+                            <button
+                                onClick={() => setShowTerms(false)}
+                                className="p-2 hover:bg-slate-200 rounded-full transition-colors"
+                            >
+                                <X size={24} className="text-slate-500" />
+                            </button>
+                        </div>
+                        <div className="overflow-y-auto p-6 space-y-6 bg-slate-50 text-slate-700">
+                            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                                <h4 className="font-black text-xl text-slate-800 mb-2">1. Acceptance of Terms</h4>
+                                <p className="text-sm leading-relaxed">
+                                    By accessing or using the Quiz Management System (the "Service"), you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service.
+                                </p>
+                            </div>
+
+                            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                                <h4 className="font-black text-xl text-slate-800 mb-2">2. Use License</h4>
+                                <p className="text-sm leading-relaxed">
+                                    Permission is granted to temporarily use the materials (information or software) on the Quiz Management System website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.
+                                </p>
+                            </div>
+
+                            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                                <h4 className="font-black text-xl text-slate-800 mb-2">3. User Accounts</h4>
+                                <p className="text-sm leading-relaxed">
+                                    When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.
+                                </p>
+                            </div>
+
+                            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                                <h4 className="font-black text-xl text-slate-800 mb-2">4. Content</h4>
+                                <p className="text-sm leading-relaxed">
+                                    Our Service allows you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post to the Service, including its legality, reliability, and appropriateness.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="p-4 border-t border-slate-100 bg-white flex justify-end">
+                            <button
+                                onClick={() => setShowTerms(false)}
+                                className="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
         </div>
     );
 };

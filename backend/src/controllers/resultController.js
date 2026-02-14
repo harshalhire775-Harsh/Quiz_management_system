@@ -38,6 +38,7 @@ const submitResult = async (req, res) => {
     const result = new Result({
         user: req.user._id,
         quiz: quizId,
+        collegeName: req.user.collegeName,
         quizTitle: quizDetails.title,
         quizCategory: quizDetails.category,
         score,
@@ -93,7 +94,37 @@ const submitResult = async (req, res) => {
         await sendMail({
             to: user.email,
             subject: 'Your QuizPro Result 🎉',
-            html: `<p>Hi ${user.name},</p><p>You have completed the quiz <strong>"${quizDetails.title}"</strong> with a score of <strong>${createdResult.score}/${createdResult.totalQuestions}</strong> (${Math.round((createdResult.score / createdResult.totalQuestions) * 100)}%).</p>`,
+            html: `
+                <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+                    <div style="background-color: #4f46e5; padding: 24px; text-align: center;">
+                        <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Quiz Completed!</h1>
+                    </div>
+                    <div style="padding: 32px;">
+                        <p style="font-size: 16px; color: #374151; margin-bottom: 24px;">Hi <strong>${user.name}</strong>,</p>
+                        <p style="font-size: 16px; color: #4b5563; line-height: 1.5; margin-bottom: 24px;">
+                            You have successfully completed the quiz <strong>"${quizDetails.title}"</strong>.
+                        </p>
+                        <div style="background-color: #f3f4f6; border-left: 4px solid #4f46e5; padding: 20px; border-radius: 4px; margin-bottom: 24px;">
+                            <p style="margin: 0 0 10px 0; font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Your Score</p>
+                            <p style="margin: 0; font-size: 32px; font-weight: 800; color: #4f46e5;">
+                                ${Math.round((createdResult.score / createdResult.totalQuestions) * 100)}%
+                            </p>
+                            <p style="margin: 4px 0 0 0; font-size: 14px; color: #6b7280;">
+                                (${createdResult.score} / ${createdResult.totalQuestions} Correct)
+                            </p>
+                        </div>
+                        <p style="font-size: 16px; color: #4b5563; line-height: 1.5;">
+                            Keep up the great work! Log in to view detailed analytics.
+                        </p>
+                        <div style="margin-top: 32px; text-align: center;">
+                            <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/dashboard" style="background-color: #4f46e5; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View Analysis</a>
+                        </div>
+                    </div>
+                    <div style="background-color: #f9fafb; padding: 16px; text-align: center; border-top: 1px solid #e2e8f0;">
+                         <p style="font-size: 12px; color: #9ca3af; margin: 0;">&copy; ${new Date().getFullYear()} QuizPro System. All rights reserved.</p>
+                    </div>
+                </div>
+            `,
         });
     }
 
@@ -114,7 +145,18 @@ const getMyResults = async (req, res) => {
 // @route   GET /api/results
 // @access  Private/Admin
 const getAllResults = async (req, res) => {
-    const results = await Result.find({})
+    let query = {};
+
+    if (req.user.role !== 'Super Admin') {
+        if (req.user.collegeName) {
+            query.collegeName = req.user.collegeName;
+        }
+        if (req.user.role === 'Sir') {
+            query.department = req.user.department;
+        }
+    }
+
+    const results = await Result.find(query)
         .populate('user', 'name email')
         .populate('quiz', 'title')
         .sort('-createdAt');

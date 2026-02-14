@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, UserCog, Users, Briefcase, Building2, Info, LayoutDashboard, Plus, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import API from '../api/axios';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const DepartmentDetail = () => {
     const { id } = useParams();
@@ -44,18 +45,21 @@ const DepartmentDetail = () => {
             setSubDepts(data);
             setNewSubDept({ name: '', head: '' });
             setShowAddModal(false);
+            showSuccessAlert('Success', 'Sub-department added successfully');
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to add department');
+            showErrorAlert('Error', error.response?.data?.message || 'Failed to add department');
         }
     };
 
     const handleDeleteSubDept = async (subId) => {
-        if (window.confirm('Remove this department?')) {
+        const isConfirmed = await showConfirmAlert('Delete Department?', 'Remove this department?');
+        if (isConfirmed) {
             try {
                 const { data } = await API.delete(`/departments/${id}/sub-departments/${subId}`);
                 setSubDepts(data);
+                showSuccessAlert('Deleted', 'Department removed successfully');
             } catch (error) {
-                alert('Failed to delete department');
+                showErrorAlert('Error', 'Failed to delete department');
             }
         }
     };

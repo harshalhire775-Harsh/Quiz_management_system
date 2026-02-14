@@ -12,6 +12,11 @@ const resultSchema = mongoose.Schema(
             ref: 'Quiz',
             required: true,
         },
+        collegeName: {
+            type: String,
+            default: ''
+        },
+
         quizTitle: {
             type: String,
         },

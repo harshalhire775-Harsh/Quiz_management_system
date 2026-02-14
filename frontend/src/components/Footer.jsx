@@ -34,11 +34,17 @@ const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold text-lg mb-6">Quick Links</h4>
                         <ul className="space-y-4">
-                            {['Home', 'About Us', 'Contact', 'Login', 'Register'].map((item) => (
-                                <li key={item}>
-                                    <Link to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`} className="hover:text-indigo-400 transition-colors flex items-center gap-2 group">
+                            {[
+                                { name: 'Home', path: '/' },
+                                { name: 'About Us', path: '/about' },
+                                { name: 'Contact', path: '/#contact' },
+                                { name: 'Login', path: '/login' },
+                                { name: 'Register', path: '/register' }
+                            ].map((item) => (
+                                <li key={item.name}>
+                                    <Link to={item.path} className="hover:text-indigo-400 transition-colors flex items-center gap-2 group">
                                         <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 group-hover:bg-indigo-400 transition-colors"></span>
-                                        {item}
+                                        {item.name}
                                     </Link>
                                 </li>
                             ))}
@@ -49,12 +55,15 @@ const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold text-lg mb-6">Resources</h4>
                         <ul className="space-y-4">
-                            {['Blog', 'Help Center', 'Terms of Service', 'Privacy Policy'].map((item) => (
-                                <li key={item}>
-                                    <a href="#" className="hover:text-indigo-400 transition-colors flex items-center gap-2 group">
+                            {[
+                                { name: 'Terms of Service', path: '/terms-of-service' },
+                                { name: 'Privacy Policy', path: '/privacy-policy' }
+                            ].map((item) => (
+                                <li key={item.name}>
+                                    <Link to={item.path} className="hover:text-indigo-400 transition-colors flex items-center gap-2 group">
                                         <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 group-hover:bg-indigo-400 transition-colors"></span>
-                                        {item}
-                                    </a>
+                                        {item.name}
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -90,7 +99,7 @@ const Footer = () => {
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium">
                     <p>&copy; {new Date().getFullYear()} QuizPro Inc. All rights reserved.</p>
                     <div className="flex items-center gap-1.5">
-                        Made with <FaHeart className="text-rose-500 animate-pulse" /> by <span className="text-white">Harshal Hire</span>
+                        Made with <FaHeart className="text-rose-500 animate-pulse" /> by <span className="text-white">Harshal Hire & Harshal Patil</span>
                     </div>
                 </div>
             </div>

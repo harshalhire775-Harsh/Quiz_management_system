@@ -1,494 +1,313 @@
-// import { Brain, Trophy, Shield, Users, Target, Zap } from 'lucide-react';
-
-// const About = () => {
-//     return (
-//         <div className="container animate-fade-in" style={{ padding: '60px 20px' }}>
-//             {/* Hero Section */}
-//             <div style={{ textAlign: 'center', marginBottom: '80px', maxWidth: '800px', margin: '0 auto 80px auto' }}>
-//                 <h1 style={{
-//                     fontSize: '3.5rem',
-//                     fontWeight: '800',
-//                     marginBottom: '20px',
-//                     background: 'linear-gradient(to right, var(--primary), var(--secondary))',
-//                     WebkitBackgroundClip: 'text',
-//                     WebkitTextFillColor: 'transparent'
-//                 }}>
-//                     Reimagining Learning
-//                 </h1>
-//                 <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.8' }}>
-//                     QuizPro is not just a quiz platform; it's a comprehensive ecosystem designed to make learning engaging, measurable, and fun. Whether you're a student aiming to top the leaderboard or an administrator managing hundreds of assessments, we've built the tools you need.
-//                 </p>
-//             </div>
-
-//             {/* Features Grid (Requested Content) */}
-//             <h2 style={{ textAlign: 'center', marginBottom: '50px', fontSize: '2.5rem' }}>Why Choose Us?</h2>
-
-//             <div style={{
-//                 display: 'grid',
-//                 gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-//                 gap: '40px',
-//                 marginBottom: '100px'
-//             }}>
-//                 {/* Feature 1: Diverse Topics */}
-//                 <div className="glass-card" style={{ padding: '40px', position: 'relative', overflow: 'hidden' }}>
-//                     <div style={{
-//                         position: 'absolute', top: '-20px', right: '-20px',
-//                         width: '100px', height: '100px',
-//                         background: 'radial-gradient(circle, rgba(99,102,241,0.2) 0%, rgba(0,0,0,0) 70%)',
-//                         borderRadius: '50%'
-//                     }} />
-//                     <div style={{ color: 'var(--primary)', marginBottom: '20px' }}>
-//                         <Brain size={48} />
-//                     </div>
-//                     <h3 style={{ marginBottom: '15px', fontSize: '1.5rem' }}>Diverse Topics</h3>
-//                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
-//                         From coding to general knowledge, find quizzes that match your interests. We support a wide range of categories to keep your brain challenged.
-//                     </p>
-//                 </div>
-
-//                 {/* Feature 2: Track Results */}
-//                 <div className="glass-card" style={{ padding: '40px', position: 'relative', overflow: 'hidden' }}>
-//                     <div style={{
-//                         position: 'absolute', top: '-20px', right: '-20px',
-//                         width: '100px', height: '100px',
-//                         background: 'radial-gradient(circle, rgba(236,72,153,0.2) 0%, rgba(0,0,0,0) 70%)',
-//                         borderRadius: '50%'
-//                     }} />
-//                     <div style={{ color: 'var(--secondary)', marginBottom: '20px' }}>
-//                         <Trophy size={48} />
-//                     </div>
-//                     <h3 style={{ marginBottom: '15px', fontSize: '1.5rem' }}>Track Results</h3>
-//                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
-//                         View detailed performance analyses and improve over time. Our analytics help you identify your strengths and areas for improvement.
-//                     </p>
-//                 </div>
-
-//                 {/* Feature 3: Admin Power */}
-//                 <div className="glass-card" style={{ padding: '40px', position: 'relative', overflow: 'hidden' }}>
-//                     <div style={{
-//                         position: 'absolute', top: '-20px', right: '-20px',
-//                         width: '100px', height: '100px',
-//                         background: 'radial-gradient(circle, rgba(34,211,238,0.2) 0%, rgba(0,0,0,0) 70%)',
-//                         borderRadius: '50%'
-//                     }} />
-//                     <div style={{ color: 'var(--accent)', marginBottom: '20px' }}>
-//                         <Shield size={48} />
-//                     </div>
-//                     <h3 style={{ marginBottom: '15px', fontSize: '1.5rem' }}>Admin Power</h3>
-//                     <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>
-//                         Create, manage and monitor quizzes with our comprehensive dashboard. Full control over questions, users, and results.
-//                     </p>
-//                 </div>
-//             </div>
-
-//             {/* Mission / Stats Section */}
-//             <div className="glass-card" style={{ padding: '60px', textAlign: 'center', background: 'rgba(15, 23, 42, 0.6)' }}>
-//                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px' }}>
-//                     <div>
-//                         <Target size={40} style={{ color: 'var(--success)', marginBottom: '10px' }} />
-//                         <h4 style={{ fontSize: '2.5rem', fontWeight: '800' }}>100+</h4>
-//                         <p style={{ color: 'var(--text-muted)' }}>Quizzes Available</p>
-//                     </div>
-//                     <div>
-//                         <Users size={40} style={{ color: 'var(--primary)', marginBottom: '10px' }} />
-//                         <h4 style={{ fontSize: '2.5rem', fontWeight: '800' }}>10k+</h4>
-//                         <p style={{ color: 'var(--text-muted)' }}>Active Users</p>
-//                     </div>
-//                     <div>
-//                         <Zap size={40} style={{ color: 'var(--accent)', marginBottom: '10px' }} />
-//                         <h4 style={{ fontSize: '2.5rem', fontWeight: '800' }}>Fast</h4>
-//                         <p style={{ color: 'var(--text-muted)' }}>Real-time Results</p>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default About;
-
-
-import React from 'react';
 import {
-    Globe, Shield, BookOpen, Users, Target, Heart, TrendingUp,
-    Zap, Clock, Download, Smartphone,
-    GraduationCap, Library, Brain, Quote
-} from 'lucide-react';
-import { motion } from 'framer-motion';
+    FaCheckCircle, FaUserShield, FaChartLine, FaUserPlus, FaBrain,
+    FaLightbulb, FaRocket, FaHandshake, FaGlobeAmericas, FaAward,
+    FaClock, FaLaptopCode, FaMobileAlt, FaDatabase, FaServer, FaCode,
+    FaRobot, FaCertificate, FaTrophy, FaLayerGroup, FaLock,
+    FaUserGraduate, FaChalkboardTeacher, FaSignInAlt, FaListAlt, FaPoll
+} from "react-icons/fa";
+import { motion } from "framer-motion";
+import Footer from "../components/Footer";
 
 const About = () => {
-    // Core Features
-    const features = [
-        {
-            icon: Zap,
-            title: "Interactive Quizzes",
-            description: "Test your knowledge with fun quizzes across many topics. Get instant results and see where you stand.",
-            gradient: "from-yellow-400 via-orange-500 to-pink-500"
-        },
-        {
-            icon: Library,
-            title: "Free Books Library",
-            description: "Access millions of free books from Open Library. Read online or download PDFs to study offline.",
-            gradient: "from-purple-400 via-pink-500 to-rose-500"
-        },
-        {
-            icon: Brain,
-            title: "Track Your Progress",
-            description: "See your quiz scores, track your learning journey, and watch yourself improve over time.",
-            gradient: "from-cyan-400 via-blue-500 to-indigo-600"
-        },
-        {
-            icon: Download,
-            title: "Download & Save",
-            description: "Save your favorite books to your personal library. Download PDFs to read anytime, anywhere.",
-            gradient: "from-green-400 via-emerald-500 to-teal-600"
-        }
-    ];
-
-    // What makes us different
-    const highlights = [
-        {
-            icon: Globe,
-            title: "100% Free",
-            description: "No hidden costs, no premium plans. Everything is completely free forever.",
-            gradient: "from-cyan-400 to-blue-600"
-        },
-        {
-            icon: Shield,
-            title: "No Ads",
-            description: "Learn without annoying ads or pop-ups. Just pure, clean learning experience.",
-            gradient: "from-green-400 to-emerald-600"
-        },
-        {
-            icon: Clock,
-            title: "Learn Anytime",
-            description: "Study at your own pace. Our platform is available 24/7, whenever you need it.",
-            gradient: "from-orange-400 to-red-500"
-        },
-        {
-            icon: Smartphone,
-            title: "Works Everywhere",
-            description: "Use on phone, tablet, or computer. Works great on all devices and screen sizes.",
-            gradient: "from-purple-400 to-pink-600"
-        }
-    ];
-
-    // Stats
-    const stats = [
-        { number: "24+", label: "Quiz Categories", icon: GraduationCap },
-        { number: "40+", label: "Study Topics", icon: BookOpen },
-        { number: "1M+", label: "Free Books", icon: Library },
-        { number: "100%", label: "Free Forever", icon: Heart }
-    ];
-
-    // How it works steps
-    const steps = [
-        {
-            step: 1,
-            title: "Choose What to Learn",
-            description: "Pick from 24+ categories like Science, History, Computer Science, and more.",
-            icon: Target
-        },
-        {
-            step: 2,
-            title: "Take Quizzes or Read Books",
-            description: "Test your knowledge with quizzes or explore millions of free books on any topic.",
-            icon: BookOpen
-        },
-        {
-            step: 3,
-            title: "Track Your Progress",
-            description: "See your scores, save favorite books, and watch your knowledge grow over time.",
-            icon: TrendingUp
-        }
-    ];
-
-    // Inspirational Quotes
-    const quotes = [
-        {
-            text: "Practice makes a man perfect.",
-            author: "— Ancient Proverb"
-        },
-        {
-            text: "The more you read, the more things you will know. The more that you learn, the more places you'll go.",
-            author: "— Dr. Seuss"
-        },
-        {
-            text: "Education is the most powerful weapon which you can use to change the world.",
-            author: "— Nelson Mandela"
-        }
-    ];
-
     return (
-        <div className="min-h-screen bg-white text-slate-800 transition-colors duration-200 overflow-hidden">
-            {/* Background Pattern */}
-            <div className="fixed inset-0 pointer-events-none opacity-30 dark:opacity-20 hidden md:block">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20" />
-            </div>
+        <div className="min-h-screen bg-white text-slate-800 font-sans overflow-x-hidden selection:bg-amber-500/30 selection:text-amber-800">
 
-            {/* Hero Section - About Us Style */}
-            <section className="relative z-10 pt-20 pb-16 px-4">
-                <div className="max-w-5xl mx-auto text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6">
-                            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
-                                About
-                            </span>
-                            <br />
-                            <span className="text-slate-900">
-                                QuizHub
-                            </span>
-                        </h1>
+            {/* 1. Hero Section & Who We Are */}
+            <section className="relative pt-6 pb-16 md:pt-10 md:pb-20 overflow-hidden">
+                {/* Background Decor */}
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[100px] -z-10 translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] -z-10 -translate-x-1/2 translate-y-1/2"></div>
 
-                        <p className="text-lg sm:text-xl md:text-2xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
-                            QuizHub is your free learning companion. Take quizzes to test your knowledge,
-                            read millions of books, and track your progress — all without spending a single penny.
-                        </p>
-                    </motion.div>
-                </div>
-            </section>
+                <div className="container mx-auto px-6 relative z-10">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            className="space-y-6"
+                        >
+                            <div className="inline-block px-4 py-2 bg-amber-50 rounded-full border border-amber-100/50">
+                                <span className="text-amber-600 font-bold text-xs tracking-[0.2em] uppercase">About The Project</span>
+                            </div>
 
-            {/* Stats Section */}
-            <section className="relative z-10 py-12 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-3xl p-8 md:p-12 shadow-2xl"
-                    >
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                            {stats.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.1 }}
-                                    className="text-center"
-                                >
-                                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                        <stat.icon className="w-7 h-7 text-white" />
+                            <h1 className="text-4xl md:text-6xl font-[1000] text-slate-900 leading-[1.1] tracking-tight">
+                                Empowering Learners Through <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Smart Quizzes</span>
+                            </h1>
+
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-bold text-slate-900">Who We Are</h3>
+                                <p className="text-lg text-slate-600 leading-relaxed font-medium">
+                                    The Quiz Management System is a comprehensive web-based platform designed to offer students, teachers, and institutions a seamless way to test and improve knowledge through interactive assessments. We bridge the gap between traditional testing and digital innovation.
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="relative"
+                        >
+                            <div className="aspect-[4/5] md:aspect-square max-w-lg mx-auto rounded-[3rem] overflow-hidden shadow-2xl border-8 border-slate-50/50 relative z-10 group">
+                                <img
+                                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop"
+                                    alt="About QuizPro Team"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent">
+                                    <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 text-white">
+                                        <div className="text-3xl font-black mb-2">Our Mission</div>
+                                        <p className="text-sm text-white/90 leading-relaxed font-medium">
+                                            "To make learning engaging, accessible, and the assessment process fast, fair, and effective for everyone."
+                                        </p>
                                     </div>
-                                    <div className="text-4xl md:text-5xl font-black text-white mb-2">{stat.number}</div>
-                                    <div className="text-white/90 font-medium">{stat.label}</div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 
-            {/* Core Features */}
-            <section className="relative z-10 py-20 px-4">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-                            What Can You Do Here?
-                        </h2>
-                        <p className="text-xl text-slate-500 max-w-2xl mx-auto">
-                            Everything you need to learn, test, and grow — in one simple platform
-                        </p>
-                    </motion.div>
+            {/* 2. Target Audience (User Roles) - NEW ADDITION */}
+            <section className="py-20 bg-white">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <span className="text-amber-600 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Target Audience</span>
+                        <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900">Who is this for?</h2>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {/* Student Card */}
+                        <motion.div
+                            whileHover={{ y: -5 }}
+                            className="p-8 rounded-[2.5rem] bg-indigo-50 border border-indigo-100 relative overflow-hidden group"
+                        >
+                            <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 bg-indigo-500 rounded-2xl text-white flex items-center justify-center text-3xl mb-6 shadow-lg shadow-indigo-500/30">
+                                    <FaUserGraduate />
+                                </div>
+                                <h3 className="text-2xl font-black text-slate-900 mb-6">For Students</h3>
+                                <ul className="space-y-4">
+                                    {[
+                                        "Attempt unlimited interactive quizzes",
+                                        "Track performance & progress over time",
+                                        "Compete on global leaderboards",
+                                        "Review detailed answer explanations"
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3 text-slate-700 font-medium">
+                                            <FaCheckCircle className="text-indigo-500 flex-shrink-0 mt-1" />
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </motion.div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {features.map((feature, index) => (
+                        {/* Admin Card */}
+                        <motion.div
+                            whileHover={{ y: -5 }}
+                            className="p-8 rounded-[2.5rem] bg-amber-50 border border-amber-100 relative overflow-hidden group"
+                        >
+                            <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 bg-amber-500 rounded-2xl text-white flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-500/30">
+                                    <FaChalkboardTeacher />
+                                </div>
+                                <h3 className="text-2xl font-black text-slate-900 mb-6">For Teachers & Admins</h3>
+                                <ul className="space-y-4">
+                                    {[
+                                        "Create & manage quizzes with ease",
+                                        "Control user access & secure authentication",
+                                        "View deep analytics & result reports",
+                                        "Manage question banks effectively"
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3 text-slate-700 font-medium">
+                                            <FaCheckCircle className="text-amber-500 flex-shrink-0 mt-1" />
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+
+            {/* 3. Key Features */}
+            <section className="py-20 bg-slate-50">
+                <div className="container mx-auto px-6">
+                    <div className="text-center max-w-3xl mx-auto mb-16">
+                        <span className="text-blue-600 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">System Capabilities</span>
+                        <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 mb-6">Key Features</h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {[
+                            { icon: <FaLaptopCode />, title: "Online Quiz Creation", desc: "Easily create and manage quizzes with diverse question types." },
+                            { icon: <FaClock />, title: "Timer Based Tests", desc: "Real-time countdowns to simulate exam environments." },
+                            { icon: <FaChartLine />, title: "Instant Results", desc: "Automated grading and immediate performance feedback." },
+                            { icon: <FaLock />, title: "Secure Login", desc: "Role-based authentication ensuring data privacy and safety." },
+                            { icon: <FaUserShield />, title: "Admin Dashboard", desc: "Comprehensive controls for managing users, quizzes, and data." },
+                            { icon: <FaMobileAlt />, title: "Responsive Design", desc: "Seamless experience across desktops, tablets, and mobiles." }
+                        ].map((feature, i) => (
                             <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ y: -8, scale: 1.02 }}
-                                className="group relative bg-white backdrop-blur-xl p-8 rounded-3xl border border-slate-100 shadow-xl hover:shadow-2xl transition-all"
+                                transition={{ delay: i * 0.1 }}
+                                whileHover={{ y: -5 }}
+                                className="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 hover:shadow-xl hover:border-amber-500/30 transition-all duration-300"
                             >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 rounded-3xl transition-opacity`} />
-
-                                <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform`}>
-                                    <feature.icon className="w-8 h-8 text-white" />
+                                <div className="w-12 h-12 bg-amber-50 rounded-xl text-amber-600 flex items-center justify-center mb-6 text-xl">
+                                    {feature.icon}
                                 </div>
-
-                                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                                    {feature.title}
-                                </h3>
-                                <p className="text-slate-500 leading-relaxed">
-                                    {feature.description}
-                                </p>
-
-                                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${feature.gradient} rounded-b-3xl transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left`} />
+                                <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">{feature.desc}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* How It Works */}
-            <section className="relative z-10 py-20 px-4 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent dark:via-purple-950/10">
-                <div className="max-w-5xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-                            How It Works
-                        </h2>
-                        <p className="text-xl text-slate-500">
-                            Getting started is super easy — just 3 simple steps
-                        </p>
-                    </motion.div>
+            {/* 4. How It Works - NEW ADDITION */}
+            <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+                {/* Backgrounds */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+                <div className="container mx-auto px-6 relative z-10">
+                    <div className="text-center mb-20">
+                        <span className="text-blue-400 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Simple Workflow</span>
+                        <h2 className="text-3xl md:text-5xl font-[1000]">How It Works</h2>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-12 relative">
+                        {/* Connector Line (Desktop) */}
+                        <div className="hidden md:block absolute top-[3.5rem] left-[20%] right-[20%] h-1 bg-gradient-to-r from-slate-700 via-blue-500 to-slate-700 rounded-full opacity-50"></div>
 
+                        {[
+                            { step: "01", icon: <FaSignInAlt />, title: "Register & Login", desc: "Create your secure account to get access to all quizzes." },
+                            { step: "02", icon: <FaListAlt />, title: "Select & Attempt", desc: "Choose a category, start the timer, and take the quiz." },
+                            { step: "03", icon: <FaPoll />, title: "Get Instant Results", desc: "Submit your answers and view your score immediately." }
+                        ].map((item, i) => (
+                            <div key={i} className="relative z-10 text-center group">
+                                <div className="w-28 h-28 mx-auto bg-slate-800 rounded-full border-4 border-slate-700 flex flex-col items-center justify-center mb-8 group-hover:border-blue-500 group-hover:bg-slate-700 transition-all duration-300 shadow-2xl shadow-black/50">
+                                    <div className="text-2xl text-blue-400 mb-1">{item.icon}</div>
+                                    <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">{item.step}</div>
+                                </div>
+                                <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+                                <p className="text-slate-400 text-base max-w-xs mx-auto leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* 5. Why Choose Us & Tech Stack */}
+            <section className="py-20 bg-white">
+                <div className="container mx-auto px-6">
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        <div>
+                            <span className="text-amber-600 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">The Advantage</span>
+                            <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 mb-8">Why Choose Us?</h2>
+                            <div className="space-y-6">
+                                {[
+                                    { title: "Easy to Use", desc: "Intuitive interface designed for users of all technical levels." },
+                                    { title: "Highly Secure", desc: "Advanced protection for user data and exam integrity." },
+                                    { title: "Scalable Architecture", desc: "Built to handle growing numbers of users and quizzes." },
+                                    { title: "Modern UI/UX", desc: "Aesthetically pleasing and user-friendly experience." }
+                                ].map((item, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: i * 0.1 }}
+                                        className="flex gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-colors"
+                                    >
+                                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                                            <FaCheckCircle />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-slate-900 text-lg">{item.title}</h4>
+                                            <p className="text-slate-500 text-sm mt-1">{item.desc}</p>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="bg-slate-900 rounded-[3rem] p-10 text-white relative overflow-hidden"
+                        >
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-[100px] opacity-20"></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500 rounded-full blur-[100px] opacity-20"></div>
+
+                            <h3 className="text-2xl font-bold mb-8 relative z-10">Technology Stack</h3>
+                            <div className="grid grid-cols-2 gap-6 relative z-10">
+                                <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
+                                    <FaCode className="text-blue-400 mb-3 text-2xl" />
+                                    <div className="font-bold text-sm text-slate-300 uppercase tracking-wider mb-1">Frontend</div>
+                                    <div className="font-bold text-lg">React.js</div>
+                                </div>
+                                <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
+                                    <FaServer className="text-green-400 mb-3 text-2xl" />
+                                    <div className="font-bold text-sm text-slate-300 uppercase tracking-wider mb-1">Backend</div>
+                                    <div className="font-bold text-lg">Node.js</div>
+                                </div>
+                                <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
+                                    <FaDatabase className="text-amber-400 mb-3 text-2xl" />
+                                    <div className="font-bold text-sm text-slate-300 uppercase tracking-wider mb-1">Database</div>
+                                    <div className="font-bold text-lg">MongoDB</div>
+                                </div>
+                                <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
+                                    <FaLayerGroup className="text-purple-400 mb-3 text-2xl" />
+                                    <div className="font-bold text-sm text-slate-300 uppercase tracking-wider mb-1">Tools</div>
+                                    <div className="font-bold text-lg">Git & VS Code</div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+            {/* 6. Our Core Values - NEW ADDITION */}
+            <section className="py-20 bg-slate-50">
+                <div className="container mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <span className="text-slate-500 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Our Philosophy</span>
+                        <h2 className="text-3xl md:text-5xl font-[1000] text-slate-900 mb-8">Core Values</h2>
+                    </div>
                     <div className="grid md:grid-cols-3 gap-8">
-                        {steps.map((item, index) => (
+                        {[
+                            { title: "Innovation", desc: "We constantly push for new and better ways to assess knowledge.", color: "bg-blue-500" },
+                            { title: "Integrity", desc: "We ensure fairness and honesty in every quiz result.", color: "bg-emerald-500" },
+                            { title: "User-Centric", desc: "Everything we build is designed with the user experience in mind.", color: "bg-amber-500" }
+                        ].map((val, i) => (
                             <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.15 }}
-                                className="relative text-center"
+                                key={i}
+                                whileHover={{ y: -10 }}
+                                className="bg-white p-10 rounded-[2rem] shadow-lg border border-slate-100 text-center relative overflow-hidden group"
                             >
-                                {/* Connector Line */}
-                                {index < steps.length - 1 && (
-                                    <div className="hidden md:block absolute top-12 left-[60%] w-full h-0.5 bg-gradient-to-r from-purple-400 to-pink-400" />
-                                )}
-
-                                <div className="relative inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl shadow-xl mb-6">
-                                    <span className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white font-black text-sm shadow-lg">
-                                        {item.step}
-                                    </span>
-                                    <item.icon className="w-10 h-10 text-white" />
-                                </div>
-
-                                <h3 className="text-2xl font-bold text-slate-900 mb-3">
-                                    {item.title}
-                                </h3>
-                                <p className="text-slate-500 leading-relaxed">
-                                    {item.description}
-                                </p>
+                                <div className={`absolute top-0 left-0 w-full h-2 \${val.color}`}></div>
+                                <h3 className="text-2xl font-black text-slate-900 mb-4">{val.title}</h3>
+                                <p className="text-slate-500 leading-relaxed font-medium">{val.desc}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Why Choose Us */}
-            <section className="relative z-10 py-20 px-4">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-                            Why Choose QuizHub?
-                        </h2>
-                        <p className="text-xl text-slate-500 max-w-2xl mx-auto">
-                            We believe learning should be free and accessible to everyone
-                        </p>
-                    </motion.div>
+            {/* 7. Footer */}
+            <Footer />
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {highlights.map((item, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ y: -8 }}
-                                className="bg-white backdrop-blur-xl p-6 rounded-3xl border border-slate-100 shadow-xl hover:shadow-2xl transition-all text-center"
-                            >
-                                <div className={`w-14 h-14 bg-gradient-to-br ${item.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg`}>
-                                    <item.icon className="w-7 h-7 text-white" />
-                                </div>
-                                <h3 className="text-xl font-bold text-slate-900 mb-2">
-                                    {item.title}
-                                </h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">
-                                    {item.description}
-                                </p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Inspirational Quotes Section */}
-            <section className="relative z-10 py-20 px-4 mb-12">
-                <div className="max-w-5xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-12"
-                    >
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl mb-4 shadow-lg">
-                            <Quote className="w-8 h-8 text-white" />
-                        </div>
-                        <h2 className="text-3xl md:text-4xl font-black text-slate-900">
-                            Words to Inspire You
-                        </h2>
-                    </motion.div>
-
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {quotes.map((quote, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.15 }}
-                                whileHover={{ y: -8, scale: 1.02 }}
-                                className="relative bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 rounded-3xl p-8 shadow-2xl overflow-hidden"
-                            >
-                                {/* Background Pattern */}
-                                <div className="absolute inset-0 opacity-10">
-                                    <div style={{ backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`, backgroundSize: '15px 15px' }} className="absolute inset-0" />
-                                </div>
-
-                                {/* Quote Icon */}
-                                <div className="absolute top-4 right-4 opacity-20">
-                                    <Quote className="w-12 h-12 text-white" />
-                                </div>
-
-                                <div className="relative">
-                                    <p className="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 italic">
-                                        "{quote.text}"
-                                    </p>
-                                    <p className="text-white/80 text-sm font-semibold">
-                                        {quote.author}
-                                    </p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {/* Bottom Motivational Text */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mt-12 text-center"
-                    >
-                        <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-                            Every quiz you take, every book you read brings you one step closer to your goals.
-                            <span className="font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"> Start your journey today!</span>
-                        </p>
-                    </motion.div>
-                </div>
-            </section>
         </div>
     );
 };

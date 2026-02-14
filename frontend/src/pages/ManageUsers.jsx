@@ -87,11 +87,34 @@ const ManageUsers = () => {
         }
         try {
             setLoading(true);
-            const res = await API.post('/auth/bulk-register', [newStudent]);
+
+            // Auto-assign Year if we are in a specific Year folder and user didn't select one
+            const inferredYear = newStudent.year || (['FY', 'SY', 'TY'].includes(selectedYear) ? selectedYear : '');
+
+            // Ensure student is added to the EXACT department we are currently viewing
+            const studentPayload = {
+                ...newStudent,
+                year: inferredYear,
+                department: filterDept || newStudent.subject || ''
+            };
+            const res = await API.post('/auth/bulk-register', [studentPayload]);
             if (res.data.results.success > 0) {
                 showSuccessAlert('Success!', 'Student added successfully!');
+
+                // Optimistically update UI immediately
+                const addedStudent = {
+                    ...studentPayload,
+                    year: inferredYear, // Ensure the optimistically added student reflects the inferred year
+                    _id: Date.now().toString(), // Temporary ID until refresh
+                    role: 'Student',
+                    createdAt: new Date().toISOString()
+                };
+                setUsers(prev => [addedStudent, ...prev]);
+
                 setNewStudent({ name: '', email: '', phoneNumber: '', year: '', semester: '', subject: '', password: '' });
                 setIsModalOpen(false);
+
+                // Fetch actual data in background to get real ID
                 fetchUsers();
             } else {
                 showErrorAlert('Failed', res.data.results.errors[0]?.message || 'Failed to add');
@@ -378,7 +401,8 @@ const ManageUsers = () => {
                     >
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-                                <UserPlus size={24} className="text-blue-600" /> Add New Student
+                                <UserPlus size={24} className="text-blue-600" />
+                                Add to {filterDept || 'Global List'}
                             </h3>
                             <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-red-500">
                                 <ArrowLeft size={24} className="rotate-180" />
@@ -500,8 +524,14 @@ const ManageUsers = () => {
                             <ArrowLeft size={18} /> Back
                         </button>
                         <h2 className="text-3xl font-black text-slate-800 flex items-center gap-3">
-                            <Users size={32} className="text-blue-600" /> Manage Students
+                            <Users size={32} className="text-blue-600" />
+                            {filterDept ? `Students: ${filterDept}` : 'All Students'}
                         </h2>
+                        {filterDept && (
+                            <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1 ml-11">
+                                Currently viewing Folder: <span className="text-blue-600">{filterDept}</span>
+                            </p>
+                        )}
 
                     </div>
 
@@ -551,6 +581,7 @@ const ManageUsers = () => {
                                 <tr>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Student</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Contact</th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Department</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Class</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Role</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">Joined</th>
@@ -588,6 +619,14 @@ const ManageUsers = () => {
                                             </div>
                                         </td>
 
+                                        <td className="px-6 py-4">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.department?.toLowerCase().includes('cs') || user.department?.toLowerCase().includes('computer')
+                                                ? 'bg-blue-50 text-blue-600 border border-blue-100'
+                                                : 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                                                }`}>
+                                                {user.department || 'N/A'}
+                                            </span>
+                                        </td>
                                         <td className="px-6 py-4">
                                             {user.year ? (
                                                 <span className="text-sm font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded-md border border-slate-200">

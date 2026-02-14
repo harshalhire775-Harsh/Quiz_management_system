@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Users, UserCog, LogOut, PlusCircle, ShieldCheck, Briefcase, Home, BookOpen, Building2, ClipboardList, MessageSquare } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
+import API from '../api/axios';
 import logo from '../assets/logo.png';
 
 const AdminLayout = () => {
@@ -45,12 +46,7 @@ const AdminLayout = () => {
             icon: UserCog,
             roles: user?.role === 'Sir' ? (user?.isHead ? ['Sir'] : []) : ['Admin (HOD)']
         },
-        {
-            path: "/admin/assign-subject",
-            label: "Assign Subject",
-            icon: Briefcase,
-            roles: user?.role === 'Sir' ? (user?.isHead ? ['Sir'] : []) : ['Admin (HOD)']
-        },
+
         {
             path: "/admin/users",
             label: "Manage Students",
@@ -124,13 +120,14 @@ const AdminLayout = () => {
                                             const childActive = isActive(child.path);
                                             return (
                                                 <Link
-                                                    key={child.path}
+                                                    key={child.path + (child.label)}
                                                     to={child.path}
+                                                    state={child.state}
                                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-sm font-bold
                                                         ${childActive ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-400 hover:text-slate-800 hover:bg-slate-50'}`}
                                                 >
                                                     <child.icon size={18} />
-                                                    <span>{child.label}</span>
+                                                    <span className="truncate">{child.label}</span>
                                                 </Link>
                                             )
                                         })}

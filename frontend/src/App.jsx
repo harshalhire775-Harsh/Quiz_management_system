@@ -7,10 +7,16 @@ import StudentLayout from "./components/StudentLayout";
 import "./styles/global.css";
 
 // Pages
+// Pages
+// Pages
 import Home from "./pages/Home";
 import About from "./pages/About";
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
+// ... (other imports remain unchanged)
 import QuizList from "./pages/QuizList";
 import QuizStart from "./pages/QuizStart";
 import Result from "./pages/Result";
@@ -19,7 +25,7 @@ import Leaderboard from "./pages/Leaderboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreateQuiz from "./pages/CreateQuiz";
 import ManageUsers from "./pages/ManageUsers";
-import Profile from "./pages/Profile";
+
 import ReviewQuiz from "./pages/ReviewQuiz";
 import ManageQuiz from "./pages/ManageQuiz";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard";
@@ -62,6 +68,8 @@ function App() {
             <Route element={<UserLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -78,7 +86,7 @@ function App() {
                 <Route path="/myresults" element={<MyResults />} />
                 <Route path="/contact-teacher" element={<ContactTeacher />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/profile" element={<Profile />} />
+
                 <Route path="/review/:id" element={<ReviewQuiz />} />
               </Route>
             </Route>
