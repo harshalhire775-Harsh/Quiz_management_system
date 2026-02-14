@@ -78,12 +78,7 @@ const Home = () => {
         }
     };
 
-    const heroImages = [
-        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=2000",
-        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=2000",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=2000",
-        "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=2000"
-    ];
+
 
     useEffect(() => {
         const handleGlobalMouseMove = (e) => {
@@ -94,14 +89,7 @@ const Home = () => {
         return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
     }, []);
 
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, []);
 
     const fadeIn = {
         hidden: { opacity: 0, y: 20 },
@@ -121,32 +109,32 @@ const Home = () => {
     return (
         <div className="min-h-screen font-sans overflow-x-hidden bg-white text-slate-800 selection:bg-amber-500/30 selection:text-amber-800">
 
-            {/* Background Pattern - Immersive Dynamic Slider */}
+            {/* Background Image - Quiz/Education Theme */}
             <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute inset-0 bg-[#0a0c10]">
-                    <AnimatePresence mode="wait">
-                        <motion.img
-                            key={currentImageIndex}
-                            src={heroImages[currentImageIndex]}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 1.5 }}
-                            className="w-full h-full object-cover contrast-[1.15] saturate-[1.2] brightness-[0.85]"
-                            alt="Background"
-                        />
-                    </AnimatePresence>
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-[#0a0c10]/80"></div>
+                <div className="absolute inset-0 bg-white"></div>
+
+                {/* Main Background Image */}
+                <div className="absolute inset-0">
+                    <img
+                        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop"
+                        alt="Quiz Background"
+                        className="w-full h-full object-cover opacity-90"
+                    />
                 </div>
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+
+                {/* Soft Gradient Overlay for Readability */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/40 to-amber-50/20"></div>
+
+                {/* Subtle Technical Grid */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
             </div>
 
             {/* Hero Section */}
             <section id="home" className="relative min-h-screen flex items-center pt-16 pb-32 overflow-hidden">
                 {/* Enhanced Professional Light Accents */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
-                    <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-blue-400/5 rounded-full blur-[140px]"></div>
-                    <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-cyan-400/5 rounded-full blur-[140px]"></div>
+                    <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-blue-400/10 rounded-full blur-[140px]"></div>
+                    <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-amber-400/10 rounded-full blur-[140px]"></div>
                 </div>
 
                 <div className="container mx-auto px-6 lg:px-12 relative z-10 flex flex-col items-center justify-center">
@@ -160,29 +148,29 @@ const Home = () => {
                     >
                         <motion.div
                             variants={fadeIn}
-                            className="inline-flex items-center gap-3 mb-6 px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 text-amber-700 font-bold text-[11px] tracking-[0.3em] uppercase backdrop-blur-xl shadow-lg shadow-amber-500/10 relative overflow-hidden group"
+                            className="inline-flex items-center gap-3 mb-6 px-6 py-2.5 rounded-full bg-white border border-slate-200 text-slate-600 font-bold text-[11px] tracking-[0.3em] uppercase shadow-lg shadow-slate-200/50 hover:shadow-xl hover:scale-105 transition-all duration-300"
                         >
-                            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-600 shadow-[0_0_15px_rgba(245,158,11,0.6)] animate-pulse"></span>
+                            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] animate-pulse"></span>
                             The Next Gen Learning Platform
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                         </motion.div>
 
                         <motion.h1
                             variants={fadeIn}
-                            className="text-5xl md:text-7xl lg:text-[5.5rem] font-[1000] tracking-[-0.05em] leading-[1.1] mb-10"
+                            className="text-6xl md:text-8xl lg:text-[6rem] font-[1000] tracking-[-0.04em] leading-[1] mb-10 text-slate-900 drop-shadow-sm"
                         >
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400 inline-block drop-shadow-lg">
-                                Smart Quizzes for <br /> Smart Minds
+                            Smart Quizzes for <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 inline-block">
+                                Smart Minds
                             </span>
                         </motion.h1>
 
                         <motion.p
                             variants={fadeIn}
-                            className="text-2xl md:text-3xl text-slate-400 mb-12 max-w-4xl mx-auto leading-relaxed font-semibold tracking-tight"
+                            className="text-2xl md:text-3xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed font-medium tracking-tight"
                         >
-                            Join students who are improving their knowledge through <span className="text-amber-500 font-[1000] relative px-1">
+                            Join students who are improving their knowledge through <span className="text-amber-600 font-[1000] relative px-1">
                                 interactive online quizzes
-                                <span className="absolute bottom-1 left-0 w-full h-3 bg-amber-500/20 -z-10 rounded-lg"></span>
+                                <span className="absolute bottom-1 left-0 w-full h-3 bg-amber-200/40 -z-10 rounded-lg"></span>
                             </span> and instant results.
                         </motion.p>
 
@@ -197,8 +185,8 @@ const Home = () => {
                                     <motion.button
                                         onClick={() => navigate(idx === 0 ? '/quizzes' : '/register')}
                                         className={`${idx === 0
-                                            ? "bg-blue-600 text-white shadow-xl shadow-blue-500/20"
-                                            : "bg-white text-slate-900 shadow-xl shadow-white/10"
+                                            ? "bg-blue-600 text-white shadow-xl shadow-blue-500/30 hover:bg-blue-700"
+                                            : "bg-white text-slate-900 border border-slate-200 shadow-xl shadow-slate-200 hover:bg-slate-50"
                                             } px-10 py-5 rounded-2xl text-lg font-[1000] transition-all flex items-center justify-center gap-3 z-10 relative overflow-hidden group`}
                                     >
                                         {label}
@@ -641,7 +629,7 @@ const Home = () => {
                             },
                             {
                                 q: "How can I enhance my learning with QuizPro?",
-                                a: "QuizPro is designed to be your personal learning companion. By taking quizzes across various domains, you get instant feedback on your answers. Our adaptive system identifies your weak areas and suggests relevant topics to focus on, ensuring you improve step-by-step every single day."
+                                a: "QuizPro is designed to be your personal learning companion. By taking quizzes across various domains, you get instant feedback on your answers. Our adaptive system identifies your weak areas and suggests relevant topics to focus on, ensuring you improve step by step every single day."
                             },
                             {
                                 q: "Can teachers track individual student progress?",
