@@ -119,7 +119,7 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen font-sans overflow-x-hidden bg-[#0a0c10] text-slate-200 selection:bg-amber-500/30 selection:text-amber-200">
+        <div className="min-h-screen font-sans overflow-x-hidden bg-white text-slate-800 selection:bg-amber-500/30 selection:text-amber-800">
 
             {/* Background Pattern - Immersive Dynamic Slider */}
             <div className="fixed inset-0 z-0 pointer-events-none">
@@ -231,7 +231,8 @@ const Home = () => {
 
 
             {/* Infinite Tech Marquee */}
-            <section className="py-12 bg-white border-y border-slate-100 relative overflow-hidden">
+            {/* Infinite Tech Marquee */}
+            <section className="py-12 bg-white border-y border-slate-200 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-20 pointer-events-none"></div>
                 {/* Subtle Background Glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-20 bg-indigo-500/5 blur-[60px] pointer-events-none"></div>
@@ -246,18 +247,18 @@ const Home = () => {
                         {[...Array(2)].map((_, i) => (
                             <div key={i} className="flex gap-20 items-center">
                                 {[
-                                    { icon: <FaReact size={45} />, name: "React", color: "group-hover:text-cyan-500 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]" },
-                                    { icon: <FaNodeJs size={45} />, name: "Node.js", color: "group-hover:text-emerald-600 group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]" },
-                                    { icon: <FaDatabase size={45} />, name: "MongoDB", color: "group-hover:text-green-600 group-hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.4)]" },
-                                    { icon: <FaJs size={45} />, name: "JavaScript", color: "group-hover:text-yellow-500 group-hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.4)]" },
-                                    { icon: <FaHtml5 size={45} />, name: "HTML5", color: "group-hover:text-orange-600 group-hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]" },
-                                    { icon: <FaCss3 size={45} />, name: "CSS3", color: "group-hover:text-blue-600 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.4)]" },
-                                    { icon: <FaServer size={45} />, name: "Express", color: "group-hover:text-slate-800 group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.2)]" },
-                                    { icon: <FaReact size={45} />, name: "Vite", color: "group-hover:text-purple-600 group-hover:drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]" }
+                                    { icon: <FaReact size={45} />, name: "React", color: "text-cyan-400 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.6)]" },
+                                    { icon: <FaNodeJs size={45} />, name: "Node.js", color: "text-emerald-500 group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.6)]" },
+                                    { icon: <FaDatabase size={45} />, name: "MongoDB", color: "text-green-500 group-hover:drop-shadow-[0_0_15px_rgba(34,197,94,0.6)]" },
+                                    { icon: <FaJs size={45} />, name: "JavaScript", color: "text-yellow-400 group-hover:drop-shadow-[0_0_15px_rgba(250,204,21,0.6)]" },
+                                    { icon: <FaHtml5 size={45} />, name: "HTML5", color: "text-orange-500 group-hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" },
+                                    { icon: <FaCss3 size={45} />, name: "CSS3", color: "text-blue-500 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" },
+                                    { icon: <FaServer size={45} />, name: "Express", color: "text-slate-800 group-hover:text-black group-hover:drop-shadow-[0_0_15px_rgba(0,0,0,0.2)]" },
+                                    { icon: <FaReact size={45} />, name: "Vite", color: "text-purple-500 group-hover:drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]" }
                                 ].map((tech, idx) => (
                                     <div key={idx} className={`flex items-center gap-4 text-slate-400 font-black text-2xl uppercase tracking-widest transition-all duration-500 cursor-pointer group`}>
                                         <span className={`transform group-hover:scale-110 transition-all duration-300 ${tech.color}`}>{tech.icon}</span>
-                                        <span className="opacity-60 group-hover:opacity-100 group-hover:text-slate-900 transition-all duration-300">{tech.name}</span>
+                                        <span className="opacity-70 group-hover:opacity-100 group-hover:text-slate-900 transition-all duration-300">{tech.name}</span>
                                     </div>
                                 ))}
                             </div>
@@ -267,7 +268,7 @@ const Home = () => {
             </section>
 
             {/* Discovery Gallery Section */}
-            <section className="py-40 bg-[#06070a] relative overflow-hidden">
+            <section className="py-40 bg-slate-50 relative overflow-hidden">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
                         <motion.div
@@ -275,12 +276,12 @@ const Home = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
-                            <h3 className="text-6xl md:text-7xl font-[1000] text-white tracking-tighter leading-none">
-                                Learning <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">Universe</span>
+                            <h3 className="text-6xl md:text-7xl font-[1000] text-slate-900 tracking-tighter leading-none">
+                                Learning <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Universe</span>
                             </h3>
                         </motion.div>
                         <motion.p
-                            className="text-slate-300 max-w-sm font-bold text-lg leading-relaxed opacity-80"
+                            className="text-slate-600 max-w-sm font-bold text-lg leading-relaxed opacity-80"
                             initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
@@ -341,7 +342,7 @@ const Home = () => {
                                     onMouseMove={handleMouseMove}
                                     onMouseLeave={handleMouseLeave}
                                     viewport={{ once: false, margin: "-50px" }}
-                                    className="relative h-[380px] rounded-[2.5rem] overflow-hidden group cursor-pointer border border-white/5 bg-[#0a0c10] shadow-2xl transition-all duration-700 ease-out will-change-transform hover:shadow-[0_20px_50px_-12px_rgba(245,158,11,0.2)]"
+                                    className="relative h-[380px] rounded-[2.5rem] overflow-hidden group cursor-pointer border border-slate-200 bg-white shadow-xl transition-all duration-700 ease-out will-change-transform hover:shadow-[0_20px_50px_-12px_rgba(245,158,11,0.2)]"
                                     style={{ transformStyle: 'preserve-3d' }}
                                 >
                                     {/* Cinematic Image Layer */}
@@ -400,29 +401,29 @@ const Home = () => {
                                 title: "Adaptive Quiz System",
                                 desc: "Quizzes are designed to match the user’s knowledge level, helping students improve step by step without pressure.",
                                 color: "bg-amber-500",
-                                light: "bg-amber-500/10 text-amber-600"
+                                light: "bg-amber-500/10 text-amber-500"
                             },
                             {
                                 icon: <FaChartLine size={32} />,
                                 title: "Live Analytics",
                                 desc: "Get instant results and clear performance insights through real-time score calculation and progress tracking.",
                                 color: "bg-amber-500",
-                                light: "bg-amber-500/10 text-amber-600"
+                                light: "bg-amber-500/10 text-amber-500"
                             },
                             {
                                 icon: <FaUserShield size={32} />,
                                 title: "Secure & Fast",
                                 desc: "QuizPro provides secure authentication and fast system performance for a smooth and reliable quiz experience.",
                                 color: "bg-amber-500",
-                                light: "bg-amber-500/10 text-amber-600"
+                                light: "bg-amber-500/10 text-amber-500"
                             }
                         ].map((feature, i) => (
                             <motion.div
                                 key={i}
                                 whileHover={{ y: -15 }}
-                                className="group p-12 rounded-[3.5rem] bg-slate-50 border border-slate-200 hover:bg-white hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-500"
+                                className="group p-12 rounded-[3.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-500"
                             >
-                                <div className={`w-20 h-20 ${feature.light} group-hover:bg-amber-500 group-hover:text-white rounded-[2rem] flex items-center justify-center mb-10 shadow-sm transition-all duration-500 group-hover:rotate-6`}>
+                                <div className={`w-20 h-20 ${feature.light} group-hover:bg-amber-500 group-hover:text-black rounded-[2rem] flex items-center justify-center mb-10 shadow-sm transition-all duration-500 group-hover:rotate-6`}>
                                     {feature.icon}
                                 </div>
                                 <h4 className="text-3xl font-black text-slate-900 mb-6">{feature.title}</h4>
@@ -434,8 +435,8 @@ const Home = () => {
             </section>
 
             {/* How It Works */}
-            <section className="py-32 bg-slate-50 text-slate-900 overflow-hidden relative" >
-                <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-slate-50 to-transparent"></div>
+            <section className="py-32 bg-slate-50 text-slate-800 overflow-hidden relative" >
+                <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent"></div>
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col lg:flex-row items-center gap-20">
                         <div className="flex-1">
@@ -460,7 +461,7 @@ const Home = () => {
                                         step: "03",
                                         title: "Master & Track",
                                         desc: "Get real-time feedback and watch your skills climb the global leaderboard.",
-                                        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000"
+                                        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=100&w=1000"
                                     }
                                 ].map((step, i) => (
                                     <div
@@ -468,11 +469,11 @@ const Home = () => {
                                         onClick={() => setActiveStep(i)}
                                         className={`flex gap-5 group cursor-pointer p-6 rounded-3xl transition-all duration-500 ${activeStep === i ? 'bg-white border border-slate-200 shadow-xl scale-100' : 'hover:bg-white border border-transparent'}`}
                                     >
-                                        <span className={`text-5xl font-[1000] transition-colors uppercase italic ${activeStep === i ? 'text-amber-500' : 'text-slate-300 group-hover:text-amber-500/50'}`}>
+                                        <span className={`text-5xl font-[1000] transition-colors uppercase italic ${activeStep === i ? 'text-amber-500' : 'text-slate-200 group-hover:text-amber-500/20'}`}>
                                             {step.step}
                                         </span>
                                         <div>
-                                            <h4 className={`text-xl font-black mb-2 transition-colors ${activeStep === i ? 'text-slate-900' : 'text-slate-500 group-hover:text-slate-900'}`}>
+                                            <h4 className={`text-xl font-black mb-2 transition-colors ${activeStep === i ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-900'}`}>
                                                 {step.title}
                                             </h4>
                                             <p className={`text-sm max-w-md transition-colors ${activeStep === i ? 'text-slate-600' : 'text-slate-400 group-hover:text-slate-500'}`}>
@@ -485,7 +486,7 @@ const Home = () => {
                         </div>
                         <div className="flex-1 relative h-[450px] w-full">
                             <div className="w-full h-full absolute top-0 right-0 bg-amber-500/10 rounded-full blur-[120px] animate-pulse"></div>
-                            <div className="relative group w-full h-full overflow-hidden rounded-[3.5rem] border border-slate-200 shadow-2xl bg-white">
+                            <div className="relative group w-full h-full overflow-hidden rounded-[3.5rem] border border-slate-200 shadow-2xl">
                                 <AnimatePresence mode="wait">
                                     <motion.img
                                         key={activeStep}
@@ -507,14 +508,14 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* Testimonials */}
-            <section className="py-32 bg-[#06070a] relative overflow-hidden" >
+            <section className="py-32 bg-white relative overflow-hidden" >
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-24">
-                        <h2 className="text-amber-500 font-bold uppercase tracking-[0.4em] text-base mb-6">Praise</h2>
-                        <h3 className="text-5xl font-[1000] text-white tracking-tight">Voices of Success</h3>
+                        <h2 className="text-amber-600 font-bold uppercase tracking-[0.4em] text-base mb-6">Praise</h2>
+                        <h3 className="text-5xl font-[1000] text-slate-900 tracking-tight">Voices of Success</h3>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-10">
@@ -526,14 +527,14 @@ const Home = () => {
                             <motion.div
                                 key={i}
                                 whileHover={{ scale: 1.02 }}
-                                className="p-12 rounded-[3.5rem] bg-white/5 border border-white/10 flex flex-col justify-between"
+                                className="p-12 rounded-[3.5rem] bg-slate-50 border border-slate-100 shadow-xl flex flex-col justify-between"
                             >
-                                <p className="text-xl font-medium text-slate-300 italic mb-10 leading-relaxed">"{t.text}"</p>
+                                <p className="text-xl font-medium text-slate-600 italic mb-10 leading-relaxed">"{t.text}"</p>
                                 <div className="flex items-center gap-5">
-                                    <img src={t.img} className="w-24 h-24 object-cover object-top rounded-3xl border-4 border-white/5 shadow-2xl" alt={t.name} />
+                                    <img src={t.img} className="w-24 h-24 object-cover object-top rounded-3xl border-4 border-white shadow-2xl" alt={t.name} />
                                     <div>
-                                        <h4 className="font-black text-white text-lg">{t.name}</h4>
-                                        <p className="text-amber-500 text-xs font-bold uppercase tracking-widest">{t.role}</p>
+                                        <h4 className="font-black text-slate-900 text-lg">{t.name}</h4>
+                                        <p className="text-amber-600 text-xs font-bold uppercase tracking-widest">{t.role}</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -607,17 +608,17 @@ const Home = () => {
                                 {/* Image Layer */}
                                 <div className="absolute inset-0 z-0">
                                     <img src={member.img} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#06070a] via-[#06070a]/40 to-transparent"></div>
                                 </div>
 
                                 {/* Content Layer (Floating) */}
                                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20" style={{ transform: 'translateZ(50px)' }}>
-                                    <h4 className="text-2xl font-black text-white mb-2 group-hover:text-amber-400 transition-colors">{member.name}</h4>
-                                    <p className="text-slate-300 font-bold uppercase tracking-widest text-xs mb-6">{member.role}</p>
+                                    <h4 className="text-2xl font-black text-white mb-2 group-hover:text-amber-500 transition-colors">{member.name}</h4>
+                                    <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-6">{member.role}</p>
                                 </div>
 
                                 {/* Border Glow */}
-                                <div className="absolute inset-0 border border-white/20 rounded-[2.5rem] group-hover:border-amber-500/50 transition-colors duration-500 pointer-events-none z-40"></div>
+                                <div className="absolute inset-0 border border-white/10 rounded-[2.5rem] group-hover:border-amber-500/50 transition-colors duration-500 pointer-events-none z-40"></div>
                             </motion.div>
                         ))}
                     </div>
@@ -625,10 +626,10 @@ const Home = () => {
             </section>
 
             {/* Stylish FAQ Section - Popup Style */}
-            <section className="py-24 bg-[#0a0c10] relative text-white">
+            <section className="py-24 bg-white relative text-slate-800">
                 <div className="container mx-auto px-6 max-w-4xl">
                     <div className="text-center mb-16">
-                        <span className="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs mb-3 block">Got Questions?</span>
+                        <span className="text-amber-600 font-bold tracking-[0.3em] uppercase text-xs mb-3 block">Got Questions?</span>
                         <h3 className="text-4xl md:text-5xl font-[1000] tracking-tight">Frequently Asked Questions</h3>
                     </div>
 
@@ -656,12 +657,12 @@ const Home = () => {
                                 whileHover={{ scale: 1.02, y: -5 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setActiveFaq(faq)}
-                                className="p-8 rounded-[2rem] bg-white/5 border border-white/5 hover:border-amber-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-amber-500/10 cursor-pointer group transition-all duration-300 flex flex-col justify-between"
+                                className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:border-amber-500/30 hover:bg-white hover:shadow-2xl hover:shadow-amber-500/10 cursor-pointer group transition-all duration-300 flex flex-col justify-between"
                             >
-                                <h4 className="text-xl font-bold text-slate-200 group-hover:text-amber-500 transition-colors mb-4 leading-tight">
+                                <h4 className="text-xl font-bold text-slate-700 group-hover:text-amber-600 transition-colors mb-4 leading-tight">
                                     {faq.q}
                                 </h4>
-                                <div className="flex items-center gap-2 text-sm font-bold text-slate-500 group-hover:text-slate-300 uppercase tracking-wider mt-auto">
+                                <div className="flex items-center gap-2 text-sm font-bold text-slate-500 group-hover:text-slate-800 uppercase tracking-wider mt-auto">
                                     <span>Read Answer</span>
                                     <FaChevronDown className="group-hover:translate-x-1 transition-transform -rotate-90" />
                                 </div>
@@ -687,31 +688,31 @@ const Home = () => {
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                                className="relative bg-[#1a1c23] border border-white/10 text-white p-8 md:p-12 rounded-[2.5rem] max-w-2xl w-full shadow-2xl shadow-black/50 overflow-hidden"
+                                className="relative bg-white border border-slate-200 text-slate-800 p-8 md:p-12 rounded-[2.5rem] max-w-2xl w-full shadow-2xl shadow-black/20 overflow-hidden"
                             >
                                 {/* Decorative Glow */}
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
 
                                 <button
                                     onClick={() => setActiveFaq(null)}
-                                    className="absolute top-6 right-6 p-2 rounded-full bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                                    className="absolute top-6 right-6 p-2 rounded-full bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600 transition-colors"
                                 >
                                     <FaTimes size={20} />
                                 </button>
 
                                 <div className="relative z-10">
-                                    <span className="text-amber-500 font-bold tracking-widest uppercase text-xs mb-4 block">Answer</span>
-                                    <h3 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-white">
+                                    <span className="text-amber-600 font-bold tracking-widest uppercase text-xs mb-4 block">Answer</span>
+                                    <h3 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-slate-900">
                                         {activeFaq.q}
                                     </h3>
                                     <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-8"></div>
-                                    <p className="text-lg text-slate-300 leading-relaxed font-medium">
+                                    <p className="text-lg text-slate-600 leading-relaxed font-medium">
                                         {activeFaq.a}
                                     </p>
 
                                     <button
                                         onClick={() => setActiveFaq(null)}
-                                        className="mt-10 px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all w-full md:w-auto"
+                                        className="mt-10 px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold rounded-xl transition-all w-full md:w-auto"
                                     >
                                         Close
                                     </button>
@@ -762,7 +763,7 @@ const Home = () => {
 
                             <div className="space-y-4">
                                 {/* Email Card */}
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-md transition-all group cursor-default">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
                                     <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
                                         <FaEnvelope size={18} />
                                     </div>
@@ -773,7 +774,7 @@ const Home = () => {
                                 </div>
 
                                 {/* Phone Card */}
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-md transition-all group cursor-default">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
                                     <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
                                         <FaPhone size={18} />
                                     </div>
@@ -784,7 +785,7 @@ const Home = () => {
                                 </div>
 
                                 {/* Location Card */}
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-md transition-all group cursor-default">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
                                     <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
                                         <FaMapMarkerAlt size={18} />
                                     </div>
@@ -808,7 +809,7 @@ const Home = () => {
                                             href={item.link}
                                             target={item.link !== "#" ? "_blank" : "_self"}
                                             rel="noopener noreferrer"
-                                            className="w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
+                                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
                                         >
                                             {item.icon}
                                         </a>
@@ -836,7 +837,7 @@ const Home = () => {
                                             value={contactData.name}
                                             onChange={handleContactchange}
                                             required
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium"
                                             placeholder="Enter your name"
                                         />
                                     </div>
@@ -848,7 +849,7 @@ const Home = () => {
                                             value={contactData.email}
                                             onChange={handleContactchange}
                                             required
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium"
                                             placeholder="Enter your email"
                                         />
                                     </div>
@@ -862,7 +863,7 @@ const Home = () => {
                                         value={contactData.message}
                                         onChange={handleContactchange}
                                         required
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium resize-none"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium resize-none"
                                         placeholder="How can we help you today"
                                     ></textarea>
                                 </div>
@@ -888,6 +889,7 @@ const Home = () => {
                 </div >
             </section >
 
+            {/* Footer */}
             {/* Footer */}
             <footer className="py-12 bg-white relative border-t border-slate-100" >
                 <div className="container mx-auto px-6">

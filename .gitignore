@@ -6,3 +6,5 @@ build/
 coverage/
 .vscode/
 *.log
+node_modules
+node_modules
