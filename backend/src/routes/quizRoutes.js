@@ -19,10 +19,10 @@ router.get('/student-dashboard', protect, require('../controllers/quizController
 router.route('/pending').get(protect, admin, require('../controllers/quizController').getPendingQuizzes);
 router.route('/my-quizzes').get(protect, instructorOrAdmin, require('../controllers/quizController').getMyQuizzes);
 router.route('/bulk-upload').post(protect, instructorOrAdmin, upload.single('file'), bulkUploadQuizzes);
-router.route('/').get(getQuizzes).post(protect, instructorOrAdmin, createQuiz);
+router.route('/').get(protect, getQuizzes).post(protect, instructorOrAdmin, createQuiz);
 router
     .route('/:id')
-    .get(getQuizById)
+    .get(protect, getQuizById)
     .put(protect, instructorOrAdmin, updateQuiz)
     .delete(protect, instructorOrAdmin, deleteQuiz);
 

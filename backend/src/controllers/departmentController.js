@@ -1,6 +1,8 @@
 const Department = require('../models/departmentModel');
 const User = require('../models/userModel');
 const Quiz = require('../models/quizModel');
+const Question = require('../models/questionModel');
+const Result = require('../models/resultModel');
 const { sendMail } = require('../services/emailService');
 const asyncHandler = require('express-async-handler');
 
@@ -10,7 +12,9 @@ const asyncHandler = require('express-async-handler');
 const createDepartment = asyncHandler(async (req, res) => {
     // 1. SUPER ADMIN: Creates a new College (Department Document)
     if (req.user.role === 'Super Admin') {
-        const { name, hodName, hodEmail, hodPassword, collegeId } = req.body;
+        const { name, hodName, hodEmail, hodPassword, collegeId: providedId } = req.body;
+        const strongId = `CLG-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
+        const collegeId = providedId || strongId;
 
         const departmentExists = await Department.findOne({ name });
         if (departmentExists) {
@@ -26,7 +30,9 @@ const createDepartment = asyncHandler(async (req, res) => {
                 email: hodEmail,
                 password: hodPassword,
                 role: 'Admin (HOD)',
-                collegeName: name // The college name they represent
+                role: 'Admin (HOD)',
+                collegeName: name, // The college name they represent
+                collegeId: collegeId // Assign College ID
             });
         } else {
             // User exists: Update credentials to match what Admin just set
@@ -35,6 +41,7 @@ const createDepartment = asyncHandler(async (req, res) => {
                 user.role = 'Admin (HOD)';
             }
             user.collegeName = name;
+            user.collegeId = collegeId;
             await user.save();
         }
         // ... (Email sending logic omitted for brevity, assume present or safe to skip repeating here if unchanged) ...
@@ -236,20 +243,38 @@ const deleteDepartment = async (req, res) => {
         const department = await Department.findById(req.params.id);
 
         if (department) {
-            // 1. Delete All Users (HOD, Teachers, Students) associated with this college
-            await User.deleteMany({ department: { $regex: new RegExp(`^${department.name}$`, 'i') } });
+            // SAFE CLEANUP: Delete all related data first
+            // Find quizzes first (so we can delete questions/results linked to them)
+            // Fallback to name match for legacy quizzes
+            const quizzes = await Quiz.find({
+                $or: [
+                    { collegeId: department.collegeId },
+                    { collegeName: department.name }
+                ]
+            });
+            const quizIds = quizzes.map(q => q._id);
 
-            // 2. Delete Quizzes created by users of this department
-            // (Find users first, then delete. Since we just deleted users, we can't search them.
-            // Better to find first.)
-            // Actually, we can assume manual clean up of quirks if needed, but let's do it right.
-            // But since I already wrote deleteMany above, I can't search them now unless I search before.
-            // Let's rely on standard cascading deletes or just know that orphan quizzes are less critical than login.
-            // BUT, login prevention is the goal. User deletion achieves that.
+            if (quizIds.length > 0) {
+                // Delete Questions
+                await Question.deleteMany({ quiz: { $in: quizIds } });
+                // Delete Results
+                await Result.deleteMany({ quiz: { $in: quizIds } });
+                // Delete Quizzes
+                await Quiz.deleteMany({ _id: { $in: quizIds } });
+            }
+
+            // Smart User Deletion (Handles legacy and new)
+            await User.deleteMany({
+                $or: [
+                    { collegeId: department.collegeId },
+                    { collegeName: department.name },
+                    { department: { $regex: new RegExp(`^${department.name}$`, 'i') } }
+                ]
+            });
 
             // 3. Delete Department
             await department.deleteOne();
-            res.json({ message: 'College and all associated data including Users removed.' });
+            res.json({ message: 'College and all associated data (Users, Quizzes, Results) permanently removed.' });
         } else {
             res.status(404).json({ message: 'College not found' });
         }

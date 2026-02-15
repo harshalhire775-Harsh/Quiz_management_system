@@ -50,6 +50,10 @@ const userSchema = mongoose.Schema(
             type: String,
             default: ''
         },
+        collegeId: {
+            type: String,
+            default: ''
+        },
         year: {
             type: String,
             enum: ['FY', 'SY', 'TY', ''],

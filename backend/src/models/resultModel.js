@@ -16,6 +16,14 @@ const resultSchema = mongoose.Schema(
             type: String,
             default: ''
         },
+        collegeId: {
+            type: String,
+            default: ''
+        },
+        department: {
+            type: String,
+            default: ''
+        },
 
         quizTitle: {
             type: String,

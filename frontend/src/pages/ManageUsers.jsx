@@ -42,7 +42,7 @@ const ManageUsers = () => {
 
     // ... existing modal state ...
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newStudent, setNewStudent] = useState({ name: '', email: '', phoneNumber: '', year: '', semester: '', subject: '', password: '' });
+    const [newStudent, setNewStudent] = useState({ name: '', email: '', phoneNumber: '', department: '', year: '', semester: '', subject: '', password: '' });
 
     useEffect(() => {
         fetchUsers();
@@ -95,7 +95,7 @@ const ManageUsers = () => {
             const studentPayload = {
                 ...newStudent,
                 year: inferredYear,
-                department: filterDept || newStudent.subject || ''
+                department: newStudent.department || filterDept || newStudent.subject || ''
             };
             const res = await API.post('/auth/bulk-register', [studentPayload]);
             if (res.data.results.success > 0) {
@@ -440,6 +440,17 @@ const ManageUsers = () => {
                                     onChange={e => setNewStudent({ ...newStudent, phoneNumber: e.target.value })}
                                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     placeholder="Mobile number"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-bold text-slate-700 mb-1">Department (Branch)</label>
+                                <input
+                                    type="text"
+                                    value={newStudent.department || ''}
+                                    onChange={e => setNewStudent({ ...newStudent, department: e.target.value })}
+                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                    placeholder="e.g. Computer Science (CS)"
                                 />
                             </div>
 

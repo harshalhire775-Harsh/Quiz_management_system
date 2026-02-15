@@ -15,7 +15,7 @@ const getSystemStats = async (req, res) => {
 
         if (isCollegeAdmin || isDeptAdmin) {
             // College Admin / Dept Admin View
-            if (!req.user.collegeName) {
+            if (!req.user.collegeName && !req.user.collegeId) {
                 return res.json({
                     totalUsers: 0,
                     totalAdmins: 0,
@@ -26,15 +26,22 @@ const getSystemStats = async (req, res) => {
                     totalHODs: 0
                 });
             }
+
+            const collegeFilter = req.user.collegeId ? { collegeId: req.user.collegeId } : { collegeName: req.user.collegeName };
+
             // 1. Total Students in their college
             totalStudents = await User.countDocuments({
                 role: 'Student',
-                collegeName: req.user.collegeName,
+                ...collegeFilter,
                 department: isDeptAdmin ? { $regex: new RegExp(`^${req.user.department}$`, 'i') } : { $exists: true }
             });
 
             // 2. Fetch College to get Sub-departments (Subjects) info
-            const college = await Department.findOne({ hod: req.user._id });
+            let collegeQuery = { hod: req.user._id };
+            if (req.user.collegeId) collegeQuery.collegeId = req.user.collegeId;
+            // Note: Department model usually uses HOD as identifier for college creation, but if we have collegeId we should use it to be safe if HOD changed? 
+            // Actually, Department model has 'hod' field.
+            const college = await Department.findOne(collegeQuery);
 
             if (college) {
                 // Total Departments = Total Subjects
@@ -49,7 +56,7 @@ const getSystemStats = async (req, res) => {
 
                 totalSirs = await User.countDocuments({
                     role: 'Sir',
-                    collegeName: req.user.collegeName,
+                    ...collegeFilter,
                     department: isDeptAdmin ? { $regex: new RegExp(`^${req.user.department}$`, 'i') } : { $exists: true },
                     _id: { $nin: headUserIds }
                 });
@@ -59,7 +66,7 @@ const getSystemStats = async (req, res) => {
 
             // Total Quizzes (Created by users in this college)
             const deptUserIds = await User.find({
-                collegeName: req.user.collegeName,
+                ...collegeFilter,
                 department: isDeptAdmin ? { $regex: new RegExp(`^${req.user.department}$`, 'i') } : { $exists: true }
             }).distinct('_id');
             totalQuizzes = await Quiz.countDocuments({ createdBy: { $in: deptUserIds } });
@@ -269,7 +276,8 @@ const createSir = async (req, res) => {
         firstName: name,
         subject: Array.isArray(subject) ? subject : (subject ? subject.split(',').map(s => s.trim()) : []),
         department: departmentStr,
-        collegeName: req.user.collegeName // Inherit from creator
+        collegeName: req.user.collegeName, // Inherit from creator
+        collegeId: req.user.collegeId // Inherit from creator
     });
 
     if (user) {
@@ -337,10 +345,15 @@ const getSirs = async (req, res) => {
 
     // Filter by HOD's college - MANDATORY for isolation
     if (req.user.role === 'Admin (HOD)' || req.user.role === 'Sir') {
-        if (!req.user.collegeName) {
+        if (!req.user.collegeName && !req.user.collegeId) {
             return res.json([]);
         }
-        query.collegeName = req.user.collegeName;
+        if (req.user.collegeId) {
+            query.collegeId = req.user.collegeId;
+        } else {
+            query.collegeName = req.user.collegeName;
+        }
+
         // If they are a Branch Head, also filter by department
         if (req.user.role === 'Sir') {
             query.department = { $regex: new RegExp(`^${req.user.department}$`, 'i') };
@@ -350,9 +363,13 @@ const getSirs = async (req, res) => {
     // If Admin (HOD) or Dept Admin (Sir with isHead), exclude users who are already HODs of a subject
     if (req.user.role === 'Admin (HOD)' || (req.user.role === 'Sir' && req.user.isHead)) {
         // Need to find the college/department document to get headUserIds
+        let collegeQuery = {};
+        if (req.user.collegeId) collegeQuery.collegeId = req.user.collegeId;
+        else collegeQuery.hod = req.user._id;
+
         const college = await Department.findOne({
             $or: [
-                { hod: req.user._id },
+                collegeQuery,
                 { "departments.headUserId": req.user._id }
             ]
         });
@@ -607,19 +624,22 @@ const bulkRegister = async (req, res) => {
 
         // SMART COLLEGE RESOLUTION for Legacy HODs
         let resolvedCollegeName = req.user.collegeName;
+        let resolvedCollegeId = req.user.collegeId;
 
         if (!resolvedCollegeName && req.user.role === 'Admin (HOD)') {
             // Find which College/Department this HOD belongs to
             const departmentDoc = await Department.findOne({ "departments.headUserId": req.user._id });
             if (departmentDoc) {
                 resolvedCollegeName = departmentDoc.name; // This is the College Name (e.g. GSCV)
-                console.log(`[BulkRegister] Resolved College Name for Legacy HOD: ${resolvedCollegeName}`);
+                resolvedCollegeId = departmentDoc.collegeId;
+                console.log(`[BulkRegister] Resolved College Name for Legacy HOD: ${resolvedCollegeName}, ID: ${resolvedCollegeId}`);
             } else {
                 // If not found in departments list, check if they are the main College Admin
                 const collegeDoc = await Department.findOne({ hod: req.user._id });
                 if (collegeDoc) {
                     resolvedCollegeName = collegeDoc.name;
-                    console.log(`[BulkRegister] Resolved College Name for College Admin: ${resolvedCollegeName}`);
+                    resolvedCollegeId = collegeDoc.collegeId;
+                    console.log(`[BulkRegister] Resolved College Name for College Admin: ${resolvedCollegeName}, ID: ${resolvedCollegeId}`);
                 }
             }
         }
@@ -687,6 +707,7 @@ const bulkRegister = async (req, res) => {
                     isApproved: true,
                     department: department, // Use our resolved variable
                     collegeName: resolvedCollegeName || req.user.collegeName || department, // Use Resolved Name -> Existing -> or Fallback
+                    collegeId: resolvedCollegeId || req.user.collegeId || '', // CRITICAL: Assign College ID for isolation
                     phoneNumber: phoneNumber ? String(phoneNumber) : undefined,
                     year: year ? String(year).toUpperCase() : undefined,
                     semester: semester ? String(semester) : undefined,
@@ -778,7 +799,9 @@ const getDepartmentStats = async (req, res) => {
 
         let college = null;
         if (req.user.role === 'Admin (HOD)' && req.user.department === req.user.collegeName) {
-            college = await Department.findOne({ name: { $regex: new RegExp(`^${department}$`, 'i') } });
+            let collegeQuery = { name: { $regex: new RegExp(`^${department}$`, 'i') } };
+            if (req.user.collegeId) collegeQuery = { collegeId: req.user.collegeId };
+            college = await Department.findOne(collegeQuery);
         }
 
         let headUserIds = [];
@@ -794,7 +817,8 @@ const getDepartmentStats = async (req, res) => {
                 role: 'Sir',
                 isHead: { $ne: true } // Exclude HODs
             };
-            if (collegeName) query.collegeName = collegeName;
+            if (req.user.collegeId) query.collegeId = req.user.collegeId;
+            else if (collegeName) query.collegeName = collegeName;
 
             const teachers = await User.find(query).select('subject');
             const subjectsSet = new Set();
@@ -815,7 +839,8 @@ const getDepartmentStats = async (req, res) => {
             isHead: { $ne: true }, // Explicitly exclude HODs
             _id: { $nin: headUserIds }
         };
-        if (collegeName) teacherQuery.collegeName = collegeName;
+        if (req.user.collegeId) teacherQuery.collegeId = req.user.collegeId;
+        else if (collegeName) teacherQuery.collegeName = collegeName;
 
         const totalTeachers = await User.countDocuments(teacherQuery);
 
@@ -824,7 +849,8 @@ const getDepartmentStats = async (req, res) => {
             department: { $regex: new RegExp(`^${department}$`, 'i') },
             role: 'Student'
         };
-        if (collegeName) studentQuery.collegeName = collegeName;
+        if (req.user.collegeId) studentQuery.collegeId = req.user.collegeId;
+        else if (collegeName) studentQuery.collegeName = collegeName;
 
         const totalStudents = await User.countDocuments(studentQuery);
 
@@ -832,7 +858,8 @@ const getDepartmentStats = async (req, res) => {
         const userQuery = {
             department: { $regex: new RegExp(`^${department}$`, 'i') }
         };
-        if (collegeName) userQuery.collegeName = collegeName;
+        if (req.user.collegeId) userQuery.collegeId = req.user.collegeId;
+        else if (collegeName) userQuery.collegeName = collegeName;
 
         const deptUsers = await User.find(userQuery).select('_id');
         const deptUserIds = deptUsers.map(u => u._id);
@@ -863,6 +890,10 @@ const getStudentYearStats = async (req, res) => {
             match.department = { $regex: new RegExp(department, 'i') };
         }
 
+        // Add Strict College Filter
+        if (req.user.collegeId) match.collegeId = req.user.collegeId;
+        else if (req.user.collegeName) match.collegeName = req.user.collegeName;
+
         const [fy, sy, ty] = await Promise.all([
             User.countDocuments({ ...match, year: 'FY' }),
             User.countDocuments({ ...match, year: 'SY' }),
@@ -891,6 +922,10 @@ const getUsersByYear = async (req, res) => {
         if (req.user.department) {
             query.department = { $regex: new RegExp(`^${req.user.department}$`, 'i') };
         }
+
+        // Add Strict College Filter
+        if (req.user.collegeId) query.collegeId = req.user.collegeId;
+        else if (req.user.collegeName) query.collegeName = req.user.collegeName;
 
         const students = await User.find(query).select('name email _id rollNumber');
         res.json(students);

@@ -17,6 +17,18 @@ const submitResult = async (req, res) => {
         return;
     }
 
+    // STRICT ISOLATION CHECK
+    const userCollegeId = req.user.collegeId;
+    const quizCollegeId = quizDetails.collegeId;
+
+    if (userCollegeId && quizCollegeId && userCollegeId !== quizCollegeId) {
+        return res.status(403).json({ message: 'Forbidden: Access denied to this college quiz.' });
+    }
+    // Fallback for legacy data without collegeId (using collegeName)
+    if (!userCollegeId && quizDetails.collegeName !== req.user.collegeName) {
+        return res.status(403).json({ message: 'Forbidden: Access denied to this college quiz.' });
+    }
+
     const questions = await Question.find({ quiz: quizId });
     let score = 0;
     const processedAnswers = [];
@@ -39,6 +51,8 @@ const submitResult = async (req, res) => {
         user: req.user._id,
         quiz: quizId,
         collegeName: req.user.collegeName,
+        collegeId: req.user.collegeId,
+        department: req.user.department,
         quizTitle: quizDetails.title,
         quizCategory: quizDetails.category,
         score,
@@ -148,9 +162,15 @@ const getAllResults = async (req, res) => {
     let query = {};
 
     if (req.user.role !== 'Super Admin') {
-        if (req.user.collegeName) {
+        if (!req.user.collegeName && !req.user.collegeId) {
+            return res.json([]);
+        }
+        if (req.user.collegeId) {
+            query.collegeId = req.user.collegeId;
+        } else {
             query.collegeName = req.user.collegeName;
         }
+
         if (req.user.role === 'Sir') {
             query.department = req.user.department;
         }
@@ -167,7 +187,13 @@ const getAllResults = async (req, res) => {
 // @route   GET /api/results/quiz/:quizId
 // @access  Private/Admin+Sir
 const getQuizResults = async (req, res) => {
-    const results = await Result.find({ quiz: req.params.quizId })
+    let query = { quiz: req.params.quizId };
+    if (req.user.role !== 'Super Admin') {
+        if (req.user.collegeId) query.collegeId = req.user.collegeId;
+        else if (req.user.collegeName) query.collegeName = req.user.collegeName;
+    }
+
+    const results = await Result.find(query)
         .populate('user', 'name email')
         .sort('-createdAt');
     res.json(results);

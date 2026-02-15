@@ -11,37 +11,60 @@ const findValue = (row, key) => {
 };
 
 // @desc    Get all quizzes (Approved only for public, all for Admin/HOD)
+// @desc    Get all quizzes (Approved only for public, all for Admin/HOD)
 const getQuizzes = async (req, res) => {
-    let query = { isActive: true, isPublished: true };
+    try {
+        let query = { isActive: true, isPublished: true };
 
-    if (req.user && req.user.role !== 'Super Admin') {
-        if (req.user.collegeName) {
-            query.collegeName = req.user.collegeName;
+        if (req.user && req.user.role !== 'Super Admin') {
+            if (!req.user.collegeName && !req.user.collegeId) {
+                return res.json([]);
+            }
+            if (req.user.collegeId) {
+                query.collegeId = req.user.collegeId;
+            } else {
+                query.collegeName = req.user.collegeName;
+            }
+
+            if (req.user.role === 'Sir') {
+                query.department = req.user.department;
+            }
         }
-        if (req.user.role === 'Sir') {
-            query.department = req.user.department;
-        }
+
+        const quizzes = await Quiz.find(query);
+        res.json(quizzes);
+    } catch (error) {
+        console.error("Error in getQuizzes:", error);
+        res.status(500).json({ message: 'Server Error', error: error.message });
     }
-
-    const quizzes = await Quiz.find(query);
-    res.json(quizzes);
 };
 
 // @desc    Get pending quizzes for HOD
 const getPendingQuizzes = async (req, res) => {
-    let query = { isApproved: false };
+    try {
+        let query = { isApproved: false };
 
-    if (req.user.role !== 'Super Admin') {
-        if (req.user.collegeName) {
-            query.collegeName = req.user.collegeName;
+        if (req.user && req.user.role !== 'Super Admin') {
+            if (!req.user.collegeName && !req.user.collegeId) {
+                return res.json([]);
+            }
+            if (req.user.collegeId) {
+                query.collegeId = req.user.collegeId;
+            } else {
+                query.collegeName = req.user.collegeName;
+            }
+
+            if (req.user.role === 'Sir') {
+                query.department = req.user.department;
+            }
         }
-        if (req.user.role === 'Sir') {
-            query.department = req.user.department;
-        }
+
+        const quizzes = await Quiz.find(query).populate('createdBy', 'name email');
+        res.json(quizzes);
+    } catch (error) {
+        console.error("Error in getPendingQuizzes:", error);
+        res.status(500).json({ message: 'Server Error', error: error.message });
     }
-
-    const quizzes = await Quiz.find(query).populate('createdBy', 'name email');
-    res.json(quizzes);
 };
 
 // @desc    Approve a quiz
@@ -58,11 +81,27 @@ const approveQuiz = async (req, res) => {
 };
 
 const getQuizById = async (req, res) => {
-    const quiz = await Quiz.findById(req.params.id);
-    if (quiz) {
-        res.json(quiz);
-    } else {
-        res.status(404).json({ message: 'Quiz not found' });
+    try {
+        const quiz = await Quiz.findById(req.params.id);
+        if (quiz) {
+            if (req.user && req.user.role !== 'Super Admin') {
+                const userCollegeId = req.user.collegeId;
+                const quizCollegeId = quiz.collegeId;
+
+                if (userCollegeId && quizCollegeId && userCollegeId !== quizCollegeId) {
+                    return res.status(403).json({ message: 'Forbidden: Access denied to this college quiz.' });
+                }
+                if (!userCollegeId && quiz.collegeName !== req.user.collegeName) {
+                    return res.status(403).json({ message: 'Forbidden: Access denied to this college quiz.' });
+                }
+            }
+            res.json(quiz);
+        } else {
+            res.status(404).json({ message: 'Quiz not found' });
+        }
+    } catch (error) {
+        console.error("Error in getQuizById:", error);
+        res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
 
@@ -84,6 +123,8 @@ const createQuiz = async (req, res) => {
         allowedAttempts: allowedAttempts || 0, negativeMarks: negativeMarks || 0,
         createdBy: req.user._id,
         collegeName: req.user.collegeName,
+        collegeId: req.user.collegeId,
+        department: req.user.department,
         isApproved: false,
         isPublished: false,
     });
@@ -95,9 +136,14 @@ const updateQuiz = async (req, res) => {
     const { title, description, category, targetYear, duration, scheduledDate, isActive, isPublished, totalMarks, passingMarks, allowedAttempts, negativeMarks } = req.body;
     const quiz = await Quiz.findById(req.params.id);
     if (quiz) {
-        if (quiz.createdBy.toString() !== req.user._id.toString() && req.user.role !== 'Admin (HOD)' && req.user.role !== 'Super Admin') {
-            res.status(401).json({ message: 'Not authorized' });
-            return;
+        // 1. Ownership Check: Only Creator, HOD of THAT College, or Super Admin
+        if (req.user.role !== 'Super Admin') {
+            if (quiz.collegeId !== req.user.collegeId) {
+                return res.status(403).json({ message: 'Forbidden: Access denied to this college quiz.' });
+            }
+            if (req.user.role === 'Sir' && quiz.createdBy.toString() !== req.user._id.toString()) {
+                return res.status(401).json({ message: 'Not authorized' });
+            }
         }
         quiz.title = title || quiz.title;
         quiz.description = description || quiz.description;
@@ -121,6 +167,15 @@ const updateQuiz = async (req, res) => {
 const deleteQuiz = async (req, res) => {
     const quiz = await Quiz.findById(req.params.id);
     if (quiz) {
+        // Strict Deletion Policy
+        if (req.user.role !== 'Super Admin') {
+            if (quiz.collegeId !== req.user.collegeId) {
+                return res.status(403).json({ message: 'Forbidden' });
+            }
+            if (req.user.role === 'Sir' && quiz.createdBy.toString() !== req.user._id.toString()) {
+                return res.status(403).json({ message: 'Not authorized to delete this quiz' });
+            }
+        }
         await Question.deleteMany({ quiz: req.params.id });
         await quiz.deleteOne();
         res.json({ message: 'Quiz removed' });
@@ -158,6 +213,9 @@ const bulkUploadQuizzes = async (req, res) => {
             allowedAttempts: parseInt(findValue(row, 'AllowedAttempts')) || 0,
             negativeMarks: parseFloat(findValue(row, 'NegativeMarks')) || 0,
             createdBy: req.user._id,
+            collegeName: req.user.collegeName,
+            collegeId: req.user.collegeId,
+            department: req.user.department,
             isApproved: false,
             isPublished: false,
         })).filter(q => q.title);
@@ -180,7 +238,21 @@ const bulkUploadQuizzes = async (req, res) => {
 const getStudentDashboardStats = async (req, res) => {
     try {
         const userId = req.user._id;
-        const totalQuizzes = await Quiz.countDocuments({ isActive: true });
+
+        if (!req.user.collegeName && !req.user.collegeId) {
+            return res.json({
+                quizzesTaken: 0,
+                averageScore: 0,
+                completionRate: 0,
+                recentActivity: []
+            });
+        }
+
+        const query = { isActive: true };
+        if (req.user.collegeId) query.collegeId = req.user.collegeId;
+        else query.collegeName = req.user.collegeName;
+
+        const totalQuizzes = await Quiz.countDocuments(query);
 
         // This requires 'Result' model which we haven't imported in this file yet if it's separate
         // Let's assume we need to fetch results. 

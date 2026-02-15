@@ -109,6 +109,7 @@ const registerUser = async (req, res) => {
         isApproved: userIsApproved,
         department: department || '',
         collegeName: collegeName || (role === 'Admin (HOD)' ? department : ''), // Mapping for HODs
+        collegeId: '', // Will be set on approval for HODs, or needs lookup for Students
         bio: bio || '',
         subject: subject || [],
         firstName: name,
@@ -214,11 +215,20 @@ const approveUser = async (req, res) => {
             // Check if department with this name already exists
             const existingDept = await Department.findOne({ name: user.department });
 
+            // Generate or use provided College ID
+            // Generate or use provided College ID
+            // Strong ID: CLG-TIMESTAMP-RANDOM (e.g. CLG-L4X5Y-A1B2)
+            const strongId = `CLG-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
+            const finalCollegeId = collegeId || (existingDept ? existingDept.collegeId : strongId);
+
+            // Assign College ID to User
+            user.collegeId = finalCollegeId;
+
             if (!existingDept) {
                 await Department.create({
                     name: user.department, // This comes from the registration form 'collegeName' mapped to 'department'
                     hod: user._id,
-                    collegeId: collegeId || `CLG-${Math.floor(1000 + Math.random() * 9000)}`,
+                    collegeId: finalCollegeId,
                     adminPassword: newPassword, // Storing for 'Manage Colleges' view reference
                     description: user.bio || '' // Using bio as address/description
                 });
@@ -226,9 +236,14 @@ const approveUser = async (req, res) => {
                 // If it exists (maybe re-registering?), update the HOD
                 existingDept.hod = user._id;
                 existingDept.adminPassword = newPassword;
-                if (collegeId) existingDept.collegeId = collegeId;
+                existingDept.collegeId = finalCollegeId;
                 await existingDept.save();
             }
+        }
+
+        if (req.user.role === 'Admin (HOD)') {
+            user.collegeId = req.user.collegeId;
+            user.collegeName = req.user.collegeName;
         }
 
         if (newPassword) {
@@ -361,9 +376,14 @@ const getUsers = async (req, res) => {
     // Role-based filtering
     if (req.user.role === 'Sir' || req.user.role === 'Admin (HOD)') {
 
-        // Only use collegeName filter IF IT EXISTS. 
-        // This allows legacy users (without collegeName) to still see their department students.
-        if (req.user.collegeName) {
+        // STRICT ISOLATION: If user has no college context, they see NOTHING.
+        if (!req.user.collegeName && !req.user.collegeId) {
+            return res.json([]);
+        }
+
+        if (req.user.collegeId) {
+            query.collegeId = req.user.collegeId;
+        } else {
             query.collegeName = req.user.collegeName;
         }
 
@@ -383,7 +403,7 @@ const getUsers = async (req, res) => {
     }
 
     const users = await User.find(query).select('-password').sort('-createdAt');
-    console.log(`[getUsers] User: ${req.user.name}, Role: ${req.user.role}, Dept: ${req.user.department}, Query:`, JSON.stringify(query));
+    // console.log(`[getUsers] User: ${req.user.name}, Role: ${req.user.role}, Dept: ${req.user.department}, Query:`, JSON.stringify(query));
     res.json(users);
 };
 
@@ -546,7 +566,7 @@ const bulkRegister = async (req, res) => {
             // Basic validation
             if (!user.email || !user.name) {
                 results.failed++;
-                results.errors.push({ email: user.email || 'Unknown', error: 'Missing name or email' });
+                results.errors.push({ email: user.email || 'Unknown', message: 'Missing name or email' });
                 continue;
             }
 
@@ -554,7 +574,7 @@ const bulkRegister = async (req, res) => {
             const userExists = await User.findOne({ email: user.email });
             if (userExists) {
                 results.failed++;
-                results.errors.push({ email: user.email, error: 'User already exists' });
+                results.errors.push({ email: user.email, message: 'User already exists' });
                 continue;
             }
 
@@ -570,17 +590,20 @@ const bulkRegister = async (req, res) => {
                     role: 'Student', // Default to Student
                     isApproved: true,
                     isAdmin: false,
-                    department: req.user.department || '', // Link to creator's department
+                    department: user.department || req.user.department || '', // Allow override or default to creator's dept
+                    collegeName: req.user.collegeName || '', // Inherit College Name
+                    collegeId: req.user.collegeId || '', // Inherit College ID
                     year: user.year || '',
                     semester: user.semester || '',
                     subject: user.subject ? [user.subject] : []
                 });
 
                 // Send Email
-                await sendMail({
-                    to: newUser.email,
-                    subject: 'You have been registered on QuizPro! 🎓',
-                    html: `
+                try {
+                    await sendMail({
+                        to: newUser.email,
+                        subject: 'You have been registered on QuizPro! 🎓',
+                        html: `
                         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
                             <div style="background-color: #4f46e5; padding: 24px; text-align: center;">
                                 <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Welcome to QuizPro</h1>
@@ -608,12 +631,16 @@ const bulkRegister = async (req, res) => {
                             </div>
                         </div>
                     `
-                });
+                    });
+                } catch (emailErr) {
+                    console.error("Failed to send welcome email to " + newUser.email, emailErr);
+                    // Continue to success
+                }
 
                 results.success++;
             } catch (err) {
                 results.failed++;
-                results.errors.push({ email: user.email, error: err.message });
+                results.errors.push({ email: user.email, message: err.message });
             }
         }
 

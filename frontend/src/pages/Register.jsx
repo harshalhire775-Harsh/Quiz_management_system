@@ -4,6 +4,7 @@ import { Building2, Mail, User, Phone, MapPin, Check, ArrowRight, ArrowLeft, X }
 import { motion } from 'framer-motion';
 import API from '../api/axios';
 import logo from '../assets/logo.png';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -19,8 +20,6 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const [showTerms, setShowTerms] = useState(false);
 
-
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
@@ -32,9 +31,12 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.agreed) {
-            alert('Please accept the terms and conditions');
+            showErrorAlert('Terms Not Accepted', 'Please accept the terms and conditions to proceed.');
             return;
         }
+
+        const isConfirmed = await showConfirmAlert('Submit Application?', 'Are you sure you want to send the form for verification?');
+        if (!isConfirmed) return;
 
         setLoading(true);
         try {
@@ -52,12 +54,12 @@ const Register = () => {
             const { data } = await API.post('/auth/register', payload);
 
             if (data.success) {
-                alert('Registration request sent successfully! The Super Admin will verify your details and email you once approved.');
+                await showSuccessAlert('Application Sent Successfully!', 'Your application has been sent. The Super Admin will verify your details and email you once approved.');
                 navigate('/login');
             }
         } catch (error) {
             console.error(error);
-            alert(error.response?.data?.message || 'Registration failed. Please try again.');
+            showErrorAlert('Registration Failed', error.response?.data?.message || 'Registration failed. Please try again.');
         } finally {
             setLoading(false);
         }

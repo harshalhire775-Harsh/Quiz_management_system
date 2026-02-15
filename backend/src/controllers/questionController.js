@@ -14,6 +14,16 @@ const findValue = (row, aliases) => {
 
 // @desc    Get questions by quiz ID
 const getQuestionsByQuiz = async (req, res) => {
+    // Security Check
+    const quiz = await Quiz.findById(req.params.quizId);
+    if (!quiz) return res.status(404).json({ message: 'Quiz not found' });
+
+    if (req.user.role !== 'Super Admin') {
+        if (req.user.collegeId && quiz.collegeId !== req.user.collegeId) {
+            return res.status(403).json({ message: 'Forbidden' });
+        }
+    }
+
     const questions = await Question.find({ quiz: req.params.quizId });
     res.json(questions);
 };
@@ -23,6 +33,15 @@ const addQuestion = async (req, res) => {
     const { quizId, questionText, options, correctAnswer, correctAnswers, type, explanation } = req.body;
     const quiz = await Quiz.findById(quizId);
     if (quiz) {
+        // Ownership Check
+        if (req.user.role !== 'Super Admin') {
+            if (quiz.collegeId !== req.user.collegeId) {
+                return res.status(403).json({ message: 'Forbidden' });
+            }
+            if (req.user.role === 'Sir' && quiz.createdBy.toString() !== req.user._id.toString()) {
+                return res.status(403).json({ message: 'Not authorized' });
+            }
+        }
         const question = new Question({
             quiz: quizId, questionText, options, correctAnswer, correctAnswers,
             type: type || 'MCQ', explanation
@@ -41,6 +60,12 @@ const updateQuestion = async (req, res) => {
     const { questionText, options, correctAnswer, explanation } = req.body;
     const question = await Question.findById(req.params.id);
     if (question) {
+        // Security Check
+        const quiz = await Quiz.findById(question.quiz);
+        if (req.user.role !== 'Super Admin') {
+            if (quiz.collegeId !== req.user.collegeId) return res.status(403).json({ message: 'Forbidden' });
+            if (req.user.role === 'Sir' && quiz.createdBy.toString() !== req.user._id.toString()) return res.status(403).json({ message: 'Not authorized' });
+        }
         question.questionText = questionText || question.questionText;
         question.options = options || question.options;
         question.correctAnswer = correctAnswer || question.correctAnswer;
@@ -57,12 +82,19 @@ const deleteQuestion = async (req, res) => {
     const question = await Question.findById(req.params.id);
     if (question) {
         const quizId = question.quiz;
-        await question.deleteOne();
+        // Security Check
         const quiz = await Quiz.findById(quizId);
-        if (quiz) {
-            quiz.numQuestions = await Question.countDocuments({ quiz: quizId });
-            await quiz.save();
+        if (!quiz) return res.status(404).json({ message: 'Quiz not found' });
+
+        if (req.user.role !== 'Super Admin') {
+            if (quiz.collegeId !== req.user.collegeId) return res.status(403).json({ message: 'Forbidden' });
+            if (req.user.role === 'Sir' && quiz.createdBy.toString() !== req.user._id.toString()) return res.status(403).json({ message: 'Not authorized' });
         }
+        await question.deleteOne();
+
+        // Update stats
+        quiz.numQuestions = await Question.countDocuments({ quiz: quizId });
+        await quiz.save();
         res.json({ message: 'Question removed' });
     } else {
         res.status(404).json({ message: 'Question not found' });
@@ -79,6 +111,16 @@ const bulkUploadQuestions = async (req, res) => {
         const quizId = req.params.quizId;
         const quiz = await Quiz.findById(quizId);
         if (!quiz) return res.status(404).json({ message: 'Quiz not found' });
+
+        // Ownership Check
+        if (req.user.role !== 'Super Admin') {
+            if (quiz.collegeId !== req.user.collegeId) {
+                return res.status(403).json({ message: 'Forbidden' });
+            }
+            if (req.user.role === 'Sir' && quiz.createdBy.toString() !== req.user._id.toString()) {
+                return res.status(403).json({ message: 'Not authorized' });
+            }
+        }
 
         const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
         const sheetName = workbook.SheetNames[0];
