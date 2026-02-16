@@ -4,9 +4,18 @@ const { sendMail } = require('../services/emailService');
 // @desc    Submit a new contact message
 // @route   POST /api/contact
 // @access  Public
+// @desc    Submit a new contact message
+// @route   POST /api/contact
+// @access  Public
+const User = require('../models/userModel');
+
+// @desc    Submit a new contact message
+// @route   POST /api/contact
+// @access  Public
 const submitContact = async (req, res) => {
+    console.log("📥 Received Contact Submission:", req.body);
     try {
-        const { name, email, message, subject, priority, recipientEmail, senderRole, year } = req.body;
+        const { name, email, message, subject, priority, recipientEmail, senderRole, year, targetSubject } = req.body;
 
         if (!name || !email || !message) {
             return res.status(400).json({ message: 'Please fill in all fields' });
@@ -14,6 +23,29 @@ const submitContact = async (req, res) => {
 
         // Clean recipient email
         const cleanRecipientEmail = recipientEmail ? recipientEmail.trim().toLowerCase() : undefined;
+        let collegeId = req.user?.collegeId; // Inherit from sender
+
+        // STRICT ISOLATION CHECK
+        // If sender is logged in, use their collegeId
+        if (req.user) {
+            collegeId = req.user.collegeId;
+
+            // If sending to a specific person (Teacher -> Student or Vice Versa), verify they are in same college
+            if (cleanRecipientEmail) {
+                // User model is now imported at the top
+                const recipient = await User.findOne({ email: cleanRecipientEmail });
+
+                if (!recipient) {
+                    console.log("❌ Recipient not found:", cleanRecipientEmail);
+                    return res.status(404).json({ message: 'Recipient not found' });
+                }
+
+                if (recipient.collegeId !== req.user.collegeId && req.user.role !== 'Super Admin') {
+                    console.log("❌ Cross-college message attempt blocked.");
+                    return res.status(403).json({ message: 'Forbidden: You cannot message users from other colleges.' });
+                }
+            }
+        }
 
         const contact = await Contact.create({
             user: req.user?._id, // Save the logged-in user ID if available
@@ -22,9 +54,11 @@ const submitContact = async (req, res) => {
             message,
             subject,
             priority,
+            targetSubject: targetSubject || 'General',
             recipientEmail: cleanRecipientEmail, // New: Target Recipient
             senderRole: String(senderRole || req.user?.role || 'Guest'), // Setup role
-            year: year || req.user?.year || ''
+            year: year || req.user?.year || '',
+            collegeId: collegeId // Crucial for Isolation
         });
 
         // Determine Email Recipient
@@ -47,6 +81,7 @@ const submitContact = async (req, res) => {
                         <p style="margin: 0 0 10px 0; font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Message Details</p>
                         <p style="margin: 4px 0; font-size: 16px; color: #111827;"><strong>From:</strong> ${name} (${email}) ${year ? `[${year}]` : ''}</p>
                         <p style="margin: 4px 0; font-size: 16px; color: #111827;"><strong>Subject:</strong> ${subject || 'N/A'} (${priority || 'Normal'})</p>
+                        <p style="margin: 4px 0; font-size: 16px; color: #111827;"><strong>Target Subject:</strong> ${targetSubject || 'General'}</p>
                         <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
                             <p style="margin: 0; font-size: 16px; color: #374151; white-space: pre-wrap;">${message}</p>
                         </div>
@@ -69,7 +104,6 @@ const submitContact = async (req, res) => {
 
         const io = req.app.get('socketio');
         if (io) {
-            // Populate user info for real-time update
             const populatedContact = await Contact.findById(contact._id).populate('user', 'name email year');
 
             if (cleanRecipientEmail) {
@@ -77,7 +111,10 @@ const submitContact = async (req, res) => {
                 console.log(`📤 Emitting real-time message to student room: ${targetRoom}`);
                 io.to(targetRoom).emit('new_message', populatedContact);
             } else {
-                console.log(`📤 Emitting real-time message to admin_room`);
+                if (collegeId) {
+                    console.log(`📤 Emitting to college room: college_${collegeId}`);
+                    io.to(`college_${collegeId}`).emit('new_message', populatedContact);
+                }
                 io.to('admin_room').emit('new_message', populatedContact);
             }
         } else {
@@ -98,43 +135,64 @@ const getMessages = async (req, res) => {
     try {
         let query = {};
         const userEmail = req.user.email ? req.user.email.trim() : '';
+        const { collegeId, role, subject } = req.user;
 
-        if (req.user.role === 'Student') {
-            // Students see messages sent TO them (Inbox)
-            // Use strict case-insensitive match on normalized email
-            query.recipientEmail = { $regex: new RegExp(`^${userEmail}$`, 'i') };
-        } else if (req.user.role === 'Super Admin') {
-            // Super Admin ONLY sees general inquiries/support queries (No specific recipient)
-            // AND we can filter out messages where sender is a Teacher if we want to isolate 'User Queries'
+        // SUPER ADMIN: Sees everything (or can filter)
+        if (role === 'Super Admin') {
             query.recipientEmail = { $in: [null, undefined, ''] };
-            // Ensure they don't see Teacher->Student messages that accidentally hit this
-        } else {
-            // Teachers/Admins see messages sent TO Admin/System (Inquiries from Students)
-            // But we should probably filter by department if they are not Super Admin
-            query.recipientEmail = { $in: [null, undefined, ''] };
+        }
+        // COLLEGE LEVEL USERS (Student, Sir, Admin)
+        else {
+            // 1. STRICT ISOLATION: Must belong to user's college
+            // Allow empty string if user has empty collegeId (matches legacy/unassigned users)
+            if (collegeId === undefined) {
+                query.collegeId = "NO_COLLEGE_ASSIGNED";
+            } else {
+                query.collegeId = collegeId; // Matches exact string, including ""
+            }
 
-            if (req.user.role === 'Sir' || req.user.role === 'Admin (HOD)') {
-                // If they are a teacher/HOD, they should probably only see inquiries from their department
-                // This requires populate or an aggregation. 
-                // For now, let's keep it simple or filter after populate if needed, 
-                // but let's try to add department to the query if we can.
+            if (role === 'Student') {
+                // Student sees messages sent specifically TO them OR sent BY them
+                query.$or = [
+                    { recipientEmail: { $regex: new RegExp(`^${userEmail}$`, 'i') } },
+                    { user: req.user._id }
+                ];
+            }
+            else if (role === 'Sir') {
+                // TEACHER STRICT FILTER: 
+                // OR logic: Direct Message OR (General Message AND Subject Match)
+
+                const directMessageFilter = { recipientEmail: { $regex: new RegExp(`^${userEmail}$`, 'i') } };
+
+                const generalMessageFilter = {
+                    recipientEmail: { $in: [null, undefined, ''] }
+                };
+
+                // Only add subject filter if subjects exist
+                if (subject && subject.length > 0) {
+                    generalMessageFilter.targetSubject = { $in: subject };
+                } else {
+                    generalMessageFilter.targetSubject = "General";
+                }
+
+                query.$or = [
+                    { ...directMessageFilter },
+                    { ...generalMessageFilter }
+                ];
+            }
+            else {
+                // Admin (HOD) - Sees all general messages for the college OR Direct Messages
+                query.$or = [
+                    { recipientEmail: { $regex: new RegExp(`^${userEmail}$`, 'i') } },
+                    { recipientEmail: { $in: [null, undefined, ''] } }
+                ];
             }
         }
 
+        console.log(`[getMessages] Role: ${role}, Query:`, JSON.stringify(query));
         const messages = await Contact.find(query)
             .populate('user', 'name email department year rollNumber')
             .sort({ createdAt: -1 });
-
-        // Extra filter for Teachers to only see students in their department
-        if (req.user.role === 'Sir' || req.user.role === 'Admin (HOD)') {
-            const filtered = messages.filter(msg => {
-                const studentDept = msg.user?.department;
-                const teacherDept = req.user.department;
-                // Only show if department matches OR it was a guest message (no department)
-                return studentDept === teacherDept || !studentDept;
-            });
-            return res.json(filtered);
-        }
 
         res.json(messages);
     } catch (error) {

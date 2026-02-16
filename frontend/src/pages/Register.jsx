@@ -14,7 +14,7 @@ const Register = () => {
         adminName: '',
         phone: '',
         address: '',
-        password: '',
+
         agreed: false
     });
     const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ const Register = () => {
                 role: 'Admin (HOD)',
                 department: formData.collegeName, // Using department field to store college name
                 bio: formData.address, // Using bio field to store address
-                password: formData.password
+
             };
 
             const { data } = await API.post('/auth/register', payload);
@@ -157,23 +157,7 @@ const Register = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide ml-1">Password</label>
-                                    <div className="relative">
-                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                                        </div>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                            className="w-full pl-12 pr-4 py-3.5 bg-slate-50 rounded-xl border border-transparent focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
-                                            placeholder="Create a strong password"
-                                            required
-                                        />
-                                    </div>
-                                </div>
+
                                 <div className="col-span-1 md:col-span-2 space-y-2">
                                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wide ml-1">Campus Address</label>
                                     <div className="relative">

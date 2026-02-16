@@ -12,12 +12,26 @@ const ContactTeacher = () => {
     const [formData, setFormData] = useState({
         subject: '',
         message: '',
-        priority: 'Normal'
+        recipientEmail: '',
+        targetSubject: ''
     });
+    const [teachers, setTeachers] = useState([]);
     const [submitted, setSubmitted] = useState(false);
     const [sending, setSending] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchTeachers = async () => {
+            try {
+                const { data } = await API.get('/users/teachers');
+                setTeachers(data);
+            } catch (error) {
+                console.error("Failed to fetch teachers", error);
+            }
+        };
+        fetchTeachers();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,15 +41,16 @@ const ContactTeacher = () => {
                 name: user?.name,
                 email: user?.email,
                 subject: formData.subject || "Student Inquiry",
-                priority: formData.priority,
+                priority: 'Normal', // Default priority
                 message: formData.message,
                 senderRole: 'Student',
-                year: user?.year
-                // No recipientEmail implies it goes to 'Admin' or default teacher pool
+                year: user?.year,
+                recipientEmail: formData.recipientEmail,
+                targetSubject: formData.targetSubject || 'General'
             });
             setSubmitted(true);
             setTimeout(() => setSubmitted(false), 3000);
-            setFormData({ subject: '', message: '', priority: 'Normal' });
+            setFormData({ subject: '', message: '', recipientEmail: '', targetSubject: '' });
         } catch (error) {
             console.error("Failed to send message", error);
             alert("Failed to send message. Please try again.");
@@ -77,11 +92,42 @@ const ContactTeacher = () => {
                 <form onSubmit={(e) => { e.preventDefault(); setShowModal(true); }} className="space-y-6">
 
 
+                    <div className="grid grid-cols-1 gap-6">
+                        <div>
+                            <label className="block text-slate-700 font-bold mb-2 ml-1">Select Teacher Email</label>
+                            <div className="relative">
+                                <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                <select
+                                    required
+                                    value={formData.recipientEmail}
+                                    onChange={(e) => {
+                                        const email = e.target.value;
+                                        const teacher = teachers.find(t => t.email === email);
+                                        const subject = teacher?.subject?.length ? teacher.subject[0] : 'General';
+                                        setFormData({ ...formData, recipientEmail: email, targetSubject: subject });
+                                    }}
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border-none font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all appearance-none cursor-pointer"
+                                >
+                                    <option value="">Select Teacher</option>
+                                    {teachers.length > 0 ? (
+                                        teachers.map((t) => (
+                                            <option key={t._id} value={t.email}>
+                                                {t.name} ({t.email}) {t.subject?.length > 0 ? `- [${t.subject.join(', ')}]` : ''}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option value="" disabled>No Teachers Found in College</option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div>
                         <label className="block text-slate-700 font-bold mb-2 ml-1">Message</label>
                         <textarea
                             required
-                            rows="8"
+                            rows="6"
                             placeholder="Describe your issue or question in detail..."
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -97,7 +143,7 @@ const ContactTeacher = () => {
 
                         <button
                             type="submit"
-                            disabled={!formData.message.trim()}
+                            disabled={!formData.message.trim() || !formData.recipientEmail}
                             className="py-4 px-8 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center justify-center gap-2"
                         >
                             <Send size={20} />
@@ -133,7 +179,7 @@ const ContactTeacher = () => {
                                         onClick={() => {
                                             setSubmitted(false);
                                             setShowModal(false);
-                                            setFormData({ subject: '', message: '', priority: 'Normal' });
+                                            setFormData({ subject: '', message: '', recipientEmail: '', targetSubject: '' });
                                         }}
                                         className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all"
                                     >

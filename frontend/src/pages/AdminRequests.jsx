@@ -45,14 +45,17 @@ const AdminRequests = () => {
         let id = 'CLG-';
         for (let i = 0; i < 4; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
 
-        return { id };
+        // Generate Random Password
+        const password = Math.random().toString(36).slice(-8).toUpperCase();
+
+        return { id, password };
     };
 
     const handleOpenOption = (req) => {
-        const { id } = generateCredentials();
+        const { id, password } = generateCredentials();
         setApprovalData({
             collegeId: id,
-            password: '', // Default to empty (keep user password)
+            password: password, // Pre-fill with auto-generated password
             collegeName: req.department || ''
         });
         setSelectedRequest(req);
@@ -234,10 +237,10 @@ const AdminRequests = () => {
                                             value={approvalData.password}
                                             onChange={(e) => setApprovalData({ ...approvalData, password: e.target.value })}
                                             className="w-full pl-12 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-blue-500 outline-none font-mono font-bold text-slate-700"
-                                            placeholder="Leave empty to keep user password"
+                                            placeholder="Set admin password"
                                         />
                                     </div>
-                                    <p className="text-[10px] text-slate-400 mt-1 ml-1">If set, new password will be emailed. If empty, user uses their registration password.</p>
+                                    <p className="text-[10px] text-slate-400 mt-1 ml-1">Auto-generated. You can change it, but do not leave it empty.</p>
                                 </div>
                             </div>
 

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../src/models/userModel');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const checkStatus = async () => {
     try {
@@ -10,7 +11,7 @@ const checkStatus = async () => {
 
         console.log('\n--- USERS IN SARVJANIK ---');
         users.forEach(u => {
-            console.log(`User: [${u.name}] Role: [${u.role}] Blocked: [${u.isBlocked}] Dept: [${u.department}]`);
+            console.log(`User: [${u.name}] Role: [${u.role}] Blocked: [${u.isBlocked}] Dept: [${u.department}] CollegeId: [${u.collegeId}] Subject: [${u.subject}] Email: [${u.email}]`);
         });
 
         process.exit();

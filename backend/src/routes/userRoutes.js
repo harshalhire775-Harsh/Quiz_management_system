@@ -34,6 +34,7 @@ router.get('/dashboard-stats', admin, require('../controllers/userController').g
 router.get('/student-years', admin, require('../controllers/userController').getStudentYearStats);
 router.get('/students-by-year', admin, require('../controllers/userController').getUsersByYear); // New route
 
+router.get('/teachers', protect, require('../controllers/userController').getCollegeTeachers); // New: For Contact
 router.get('/sirs', admin, require('../controllers/userController').getSirs);
 router.post('/sirs', admin, require('../controllers/userController').createSir);
 

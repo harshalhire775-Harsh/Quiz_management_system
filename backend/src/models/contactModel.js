@@ -17,6 +17,10 @@ const contactSchema = mongoose.Schema(
         subject: {
             type: String,
         },
+        targetSubject: {
+            type: String,
+            required: true
+        },
         priority: {
             type: String,
             default: 'Normal',
@@ -39,6 +43,10 @@ const contactSchema = mongoose.Schema(
         isRead: {
             type: Boolean,
             default: false
+        },
+        collegeId: {
+            type: String,
+            default: ''
         }
     },
     {

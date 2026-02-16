@@ -619,6 +619,8 @@ const bulkRegister = async (req, res) => {
         let failCount = 0;
         let errors = [];
 
+
+
         // Helper to capitalize first letter
         const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
@@ -934,6 +936,57 @@ const getUsersByYear = async (req, res) => {
     }
 };
 
+// @desc    Get all teachers for the logged-in user's college (For Students/Teachers to contact)
+// @route   GET /api/users/teachers
+// @access  Private (Student/Sir/Admin)
+const getCollegeTeachers = async (req, res) => {
+    try {
+        let collegeId = req.user.collegeId;
+
+        // Find College Document to get structure
+        let collegeDoc = null;
+        if (collegeId) {
+            collegeDoc = await Department.findOne({ collegeId });
+        } else if (req.user.collegeName) {
+            collegeDoc = await Department.findOne({ name: req.user.collegeName });
+            if (collegeDoc) collegeId = collegeDoc.collegeId;
+        }
+
+        const query = {
+            role: 'Sir',
+            isHead: { $ne: true },
+            isAdmin: false
+        };
+
+        // EXCLUDE Department Heads (who are also marked as 'Sir' for technical reasons)
+        if (collegeDoc && collegeDoc.departments && collegeDoc.departments.length > 0) {
+            const headUserIds = collegeDoc.departments
+                .map(d => d.headUserId)
+                .filter(id => id); // Filter out null/undefined
+
+            if (headUserIds.length > 0) {
+                query._id = { $nin: headUserIds };
+            }
+        }
+
+        // Essential: Filter by College
+        if (collegeId) {
+            query.collegeId = collegeId;
+        } else if (req.user.collegeName) {
+            query.collegeName = req.user.collegeName;
+        } else {
+            // No college found
+            return res.json([]);
+        }
+
+        const teachers = await User.find(query).select('name email subject department');
+        res.json(teachers);
+    } catch (error) {
+        console.error("Error fetching teachers:", error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
 module.exports = {
     getSystemStats,
     blockUser,
@@ -947,5 +1000,6 @@ module.exports = {
     bulkRegister,
     getDepartmentStats,
     getStudentYearStats,
-    getUsersByYear
+    getUsersByYear,
+    getCollegeTeachers
 };
