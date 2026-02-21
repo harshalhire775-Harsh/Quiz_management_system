@@ -99,6 +99,13 @@ const registerUser = async (req, res) => {
     // Simplest fix:
     const effectivePassword = password || Math.random().toString(36).slice(-8);
 
+    // Lookup College ID if collegeName is provided (mostly for Students)
+    let resolvedCollegeId = '';
+    if (collegeName) {
+        const collegeDoc = await Department.findOne({ name: collegeName });
+        if (collegeDoc) resolvedCollegeId = collegeDoc.collegeId;
+    }
+
     const user = await User.create({
         name,
         email,
@@ -109,7 +116,7 @@ const registerUser = async (req, res) => {
         isApproved: userIsApproved,
         department: department || '',
         collegeName: collegeName || (role === 'Admin (HOD)' ? department : ''), // Mapping for HODs
-        collegeId: '', // Will be set on approval for HODs, or needs lookup for Students
+        collegeId: resolvedCollegeId, // Set the resolved ID
         bio: bio || '',
         subject: subject || [],
         firstName: name,

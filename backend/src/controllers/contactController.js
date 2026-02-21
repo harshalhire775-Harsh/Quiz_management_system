@@ -26,13 +26,20 @@ const submitContact = async (req, res) => {
         let collegeId = req.user?.collegeId; // Inherit from sender
 
         // STRICT ISOLATION CHECK
-        // If sender is logged in, use their collegeId
+        // If sender is logged in, use their collegeId. 
+        // If missing from token (stale session), fetch from DB once.
         if (req.user) {
             collegeId = req.user.collegeId;
+            if (!collegeId) {
+                const refreshedUser = await User.findById(req.user._id);
+                if (refreshedUser) {
+                    collegeId = refreshedUser.collegeId;
+                    console.log(`[submitContact] Refreshed CollegeId for user ${refreshedUser.email}: ${collegeId}`);
+                }
+            }
 
             // If sending to a specific person (Teacher -> Student or Vice Versa), verify they are in same college
             if (cleanRecipientEmail) {
-                // User model is now imported at the top
                 const recipient = await User.findOne({ email: cleanRecipientEmail });
 
                 if (!recipient) {
@@ -40,7 +47,7 @@ const submitContact = async (req, res) => {
                     return res.status(404).json({ message: 'Recipient not found' });
                 }
 
-                if (recipient.collegeId !== req.user.collegeId && req.user.role !== 'Super Admin') {
+                if (recipient.collegeId !== collegeId && req.user.role !== 'Super Admin') {
                     console.log("❌ Cross-college message attempt blocked.");
                     return res.status(403).json({ message: 'Forbidden: You cannot message users from other colleges.' });
                 }

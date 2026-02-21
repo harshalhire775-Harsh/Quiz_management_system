@@ -35,19 +35,37 @@ const TeacherNotifications = () => {
 
         if (user?.email) {
             console.log('🔗 Connecting to Socket.io for Teacher Notifications...');
-            const socket = io('http://127.0.0.1:5000', {
+            const socket = io(`http://${window.location.hostname}:5000`, {
                 transports: ['websocket', 'polling']
             });
 
             socket.on('connect', () => {
                 console.log('✅ Connected to socket server:', socket.id);
+                // Join basic rooms
                 socket.emit('join_room', 'admin_room');
+
+                // Join personal email room for direct messages
+                if (user.email) {
+                    socket.emit('join_room', user.email.trim().toLowerCase());
+                }
+
+                // Join college room for general inquiries
+                if (user.collegeId) {
+                    socket.emit('join_room', `college_${user.collegeId}`);
+                }
             });
 
             socket.on('new_message', (newMessage) => {
                 console.log('📩 New inquiry received:', newMessage);
-                // Teacher receives generic inquiries (recipientEmail is null/empty)
-                if (!newMessage.recipientEmail) {
+
+                const myEmail = user.email.trim().toLowerCase();
+                const msgRecipient = newMessage.recipientEmail ? newMessage.recipientEmail.trim().toLowerCase() : null;
+
+                // Condition to show: Direct Message to ME OR General Message (no recipient)
+                const isDirectMessageForMe = msgRecipient === myEmail;
+                const isGeneralMessage = !msgRecipient;
+
+                if (isDirectMessageForMe || isGeneralMessage) {
                     setNotifications(prev => [newMessage, ...prev]);
                 }
             });

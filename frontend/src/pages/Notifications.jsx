@@ -35,7 +35,7 @@ const Notifications = () => {
 
         if (user?.email) {
             console.log('🔗 Connecting to Socket.io for Notifications...');
-            const socket = io('http://127.0.0.1:5000', {
+            const socket = io(`http://${window.location.hostname}:5000`, {
                 transports: ['websocket', 'polling']
             });
 

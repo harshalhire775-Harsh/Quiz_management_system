@@ -53,7 +53,7 @@ const ContactTeacher = () => {
             setFormData({ subject: '', message: '', recipientEmail: '', targetSubject: '' });
         } catch (error) {
             console.error("Failed to send message", error);
-            alert("Failed to send message. Please try again.");
+            showErrorAlert("Failed!", "Failed to send message. Please try again.");
         } finally {
             setSending(false);
         }

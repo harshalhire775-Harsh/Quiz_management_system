@@ -970,7 +970,13 @@ const getCollegeTeachers = async (req, res) => {
         }
 
         // Essential: Filter by College
-        if (collegeId) {
+        if (collegeId && (req.user.collegeName || (collegeDoc && collegeDoc.name))) {
+            const name = req.user.collegeName || collegeDoc.name;
+            query.$or = [
+                { collegeId: collegeId },
+                { collegeName: name }
+            ];
+        } else if (collegeId) {
             query.collegeId = collegeId;
         } else if (req.user.collegeName) {
             query.collegeName = req.user.collegeName;
