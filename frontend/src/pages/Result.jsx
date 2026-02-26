@@ -72,7 +72,7 @@ const Result = () => {
                 className="w-full max-w-2xl bg-white rounded-3xl shadow-xl shadow-slate-200/60 p-10 md:p-16 border border-slate-100"
             >
                 <div className="text-center mb-12">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full mb-6">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-50 text-blue-600 rounded-full mb-6">
                         <CheckCircle2 size={40} />
                     </div>
                     <h1 className="text-4xl font-black text-slate-900 mb-2">Quiz Completed</h1>
@@ -82,7 +82,7 @@ const Result = () => {
                 {/* Simplified Score Card */}
                 <div className="bg-slate-50 rounded-2xl p-8 mb-10 flex flex-col items-center">
                     <div className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Your Final Score</div>
-                    <div className={`text-6xl font-black mb-1 ${percentage >= 50 ? 'text-indigo-600' : 'text-rose-600'}`}>
+                    <div className={`text-6xl font-black mb-1 ${percentage >= 50 ? 'text-blue-600' : 'text-rose-600'}`}>
                         {result.score} <span className="text-slate-300 text-3xl">/ {result.totalQuestions}</span>
                     </div>
                     <div className="text-lg font-bold text-slate-600">
@@ -107,7 +107,7 @@ const Result = () => {
                 </div>
 
                 <div className="mt-12 text-center">
-                    <Link to="/student-dashboard" className="text-slate-400 hover:text-indigo-600 font-bold text-sm transition-all flex items-center justify-center gap-2">
+                    <Link to="/student-dashboard" className="text-slate-400 hover:text-blue-600 font-bold text-sm transition-all flex items-center justify-center gap-2">
                         <ArrowLeft size={16} /> Back to Dashboard
                     </Link>
                 </div>

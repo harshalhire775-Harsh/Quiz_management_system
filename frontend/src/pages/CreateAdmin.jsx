@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Phone, Lock, User, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import API from '../api/axios';
+import { showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 
 const CreateAdmin = () => {
     const navigate = useNavigate();
@@ -19,10 +20,10 @@ const CreateAdmin = () => {
         setLoading(true);
         try {
             await API.post('/users/admins', formData);
-            alert('Admin (HOD) created successfully!');
+            showSuccessAlert('Success!', 'Admin (HOD) created successfully!');
             navigate('/super-admin/manage-admins');
         } catch (error) {
-            alert(error.response?.data?.message || 'Failed to create admin');
+            showErrorAlert('Error!', error.response?.data?.message || 'Failed to create admin');
         } finally {
             setLoading(false);
         }
@@ -45,7 +46,7 @@ const CreateAdmin = () => {
                     </button>
 
                     <div className="text-center mb-8">
-                        <div className="mx-auto w-16 h-16 bg-violet-100 text-violet-600 rounded-2xl flex items-center justify-center mb-4">
+                        <div className="mx-auto w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4">
                             <ShieldCheck size={32} />
                         </div>
                         <h1 className="text-2xl font-black text-slate-800">New Department Head</h1>
@@ -62,7 +63,7 @@ const CreateAdmin = () => {
                                     required
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none font-medium"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-medium"
                                     placeholder="Enter full name"
                                 />
                             </div>
@@ -77,7 +78,7 @@ const CreateAdmin = () => {
                                     required
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none font-medium"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-medium"
                                     placeholder="name@example.com"
                                 />
                             </div>
@@ -92,7 +93,7 @@ const CreateAdmin = () => {
                                     required
                                     value={formData.phoneNumber}
                                     onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none font-medium"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-medium"
                                     placeholder="Contact number"
                                 />
                             </div>
@@ -107,7 +108,7 @@ const CreateAdmin = () => {
                                     required
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none font-medium"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-medium"
                                     placeholder="Strong password"
                                 />
                             </div>

@@ -45,8 +45,8 @@ const ReviewQuiz = () => {
     if (loading) return (
         <div className="flex items-center justify-center min-h-[80vh]">
             <div className="relative">
-                <div className="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
-                <div className="mt-4 text-indigo-600 font-bold text-center">Loading Review...</div>
+                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+                <div className="mt-4 text-blue-600 font-bold text-center">Loading Review...</div>
             </div>
         </div>
     );
@@ -85,7 +85,7 @@ const ReviewQuiz = () => {
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white rounded-[2rem] p-8 shadow-lg shadow-indigo-100 border border-slate-100 overflow-hidden relative"
+                    className="bg-white rounded-[2rem] p-8 shadow-lg shadow-blue-100 border border-slate-100 overflow-hidden relative"
                 >
                     <div className="relative z-10">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
@@ -133,9 +133,9 @@ const ReviewQuiz = () => {
                                 <span className="text-xs font-bold text-rose-600 uppercase">Incorrect</span>
                                 <div className="text-xl font-black text-rose-700">{result.totalQuestions - result.correctAnswers}</div>
                             </div>
-                            <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100">
-                                <span className="text-xs font-bold text-indigo-600 uppercase">Total Qs</span>
-                                <div className="text-xl font-black text-indigo-700">{result.totalQuestions}</div>
+                            <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100">
+                                <span className="text-xs font-bold text-blue-600 uppercase">Total Qs</span>
+                                <div className="text-xl font-black text-blue-700">{result.totalQuestions}</div>
                             </div>
                         </div>
                     </div>
@@ -212,7 +212,7 @@ const ReviewQuiz = () => {
                                 </div>
 
                                 {q.explanation && (
-                                    <div className="mt-6 ml-0 md:ml-14 p-4 bg-indigo-50 rounded-xl border border-indigo-100 text-sm text-indigo-800">
+                                    <div className="mt-6 ml-0 md:ml-14 p-4 bg-blue-50 rounded-xl border border-blue-100 text-sm text-blue-800">
                                         <span className="font-bold block mb-1">Explanation:</span>
                                         {q.explanation}
                                     </div>

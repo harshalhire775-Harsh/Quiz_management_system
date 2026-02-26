@@ -76,7 +76,7 @@ const BulkRegister = () => {
                     </button>
                     <div>
                         <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                            Bulk <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">User Import</span>
+                            Bulk <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">User Import</span>
                         </h1>
                         <p className="text-slate-500 mt-1 font-medium">Upload Excel/CSV to register multiple users at once</p>
                     </div>

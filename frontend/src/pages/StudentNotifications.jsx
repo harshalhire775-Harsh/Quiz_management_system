@@ -84,7 +84,7 @@ const StudentNotifications = () => {
     return (
         <div className="space-y-6 max-w-5xl mx-auto p-4 md:p-8">
             <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-4">
-                <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl">
+                <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
                     <Bell size={32} />
                 </div>
                 <div>
@@ -115,13 +115,13 @@ const StudentNotifications = () => {
                                 className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group relative"
                             >
                                 <div className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-2xl ${note.priority === 'High' ? 'bg-rose-500' :
-                                    note.priority === 'Low' ? 'bg-emerald-500' : 'bg-indigo-500'
+                                    note.priority === 'Low' ? 'bg-emerald-500' : 'bg-blue-500'
                                     }`}></div>
 
                                 <div className="flex flex-col md:flex-row gap-4 justify-between items-start pl-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-50 text-indigo-600">
+                                            <span className="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600">
                                                 Teacher Check-in
                                             </span>
                                             <span className="text-xs font-bold text-slate-400">
@@ -131,8 +131,8 @@ const StudentNotifications = () => {
                                         <h3 className="text-lg font-bold text-slate-800 mb-1">{note.subject}</h3>
                                         <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">{note.message}</p>
 
-                                        <div className="mt-3 flex items-center gap-2 text-xs font-bold text-indigo-600">
-                                            <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px]">
+                                        <div className="mt-3 flex items-center gap-2 text-xs font-bold text-blue-600">
+                                            <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px]">
                                                 {note.name ? note.name.charAt(0) : 'T'}
                                             </div>
                                             <span>From Teacher: {note.name || 'Admin'}</span>
@@ -142,7 +142,7 @@ const StudentNotifications = () => {
                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity self-start md:self-center">
                                         <button
                                             onClick={handleReply}
-                                            className="p-2 text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-all"
+                                            className="p-2 text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all"
                                             title="Reply"
                                         >
                                             <Reply size={18} />

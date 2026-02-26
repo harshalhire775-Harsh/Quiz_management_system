@@ -62,7 +62,7 @@ const ApproveQuizzes = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                        Quiz <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">Approvals</span>
+                        Quiz <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Approvals</span>
                     </h1>
                     <p className="text-slate-500 mt-1 font-medium">Review and approve quizzes created by instructors</p>
                 </div>
@@ -79,7 +79,7 @@ const ApproveQuizzes = () => {
                             className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-all group"
                         >
                             <div className="flex justify-between items-start mb-4">
-                                <span className="px-3 py-1 bg-violet-50 text-violet-700 rounded-lg text-xs font-bold uppercase tracking-wider">
+                                <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-bold uppercase tracking-wider">
                                     {quiz.category}
                                 </span>
                                 <span className="text-slate-400 text-xs font-bold flex items-center gap-1">
@@ -88,7 +88,7 @@ const ApproveQuizzes = () => {
                                 </span>
                             </div>
 
-                            <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-violet-600 transition-colors">
+                            <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
                                 {quiz.title}
                             </h3>
                             <p className="text-slate-500 text-sm mb-6 line-clamp-2">

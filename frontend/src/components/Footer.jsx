@@ -6,8 +6,8 @@ const Footer = () => {
         <footer className="bg-slate-900 text-slate-300 pt-20 pb-10 relative overflow-hidden">
             {/* Background Gradients */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-                <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-indigo-900/20 rounded-full blur-[100px]"></div>
-                <div className="absolute bottom-[-10%] left-[-5%] w-72 h-72 bg-fuchsia-900/20 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-900/20 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-[-10%] left-[-5%] w-72 h-72 bg-blue-900/20 rounded-full blur-[100px]"></div>
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
@@ -15,7 +15,7 @@ const Footer = () => {
                     {/* Brand */}
                     <div>
                         <Link to="/" className="flex items-center gap-2 mb-6">
-                            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-indigo-900/50">Q</div>
+                            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-900/50">Q</div>
                             <span className="text-2xl font-black text-white tracking-tight">QuizPro</span>
                         </Link>
                         <p className="text-slate-400 leading-relaxed mb-6">
@@ -23,7 +23,7 @@ const Footer = () => {
                         </p>
                         <div className="flex gap-4">
                             {[FaFacebook, FaTwitter, FaInstagram, FaLinkedin].map((Icon, index) => (
-                                <a key={index} href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-indigo-600 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 text-white">
+                                <a key={index} href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-blue-600 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 text-white">
                                     <Icon size={18} />
                                 </a>
                             ))}
@@ -42,8 +42,7 @@ const Footer = () => {
                                 { name: 'Register', path: '/register' }
                             ].map((item) => (
                                 <li key={item.name}>
-                                    <Link to={item.path} className="hover:text-indigo-400 transition-colors flex items-center gap-2 group">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 group-hover:bg-indigo-400 transition-colors"></span>
+                                    <Link to={item.path} className="hover:text-blue-400 transition-colors flex items-center gap-2 group">
                                         {item.name}
                                     </Link>
                                 </li>
@@ -60,8 +59,7 @@ const Footer = () => {
                                 { name: 'Privacy Policy', path: '/privacy-policy' }
                             ].map((item) => (
                                 <li key={item.name}>
-                                    <Link to={item.path} className="hover:text-indigo-400 transition-colors flex items-center gap-2 group">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 group-hover:bg-indigo-400 transition-colors"></span>
+                                    <Link to={item.path} className="hover:text-blue-400 transition-colors flex items-center gap-2 group">
                                         {item.name}
                                     </Link>
                                 </li>
@@ -74,19 +72,19 @@ const Footer = () => {
                         <h4 className="text-white font-bold text-lg mb-6">Contact Us</h4>
                         <div className="space-y-4">
                             <div className="flex items-start gap-4">
-                                <div className="mt-1 bg-white/10 p-2 rounded-lg text-indigo-400">
+                                <div className="mt-1 bg-white/10 p-2 rounded-lg text-blue-400">
                                     <FaMapMarkerAlt />
                                 </div>
                                 <span>342, Jay Gaytri Nagar, Navagam, Surat, Gujarat - 394210</span>
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className="bg-white/10 p-2 rounded-lg text-indigo-400">
+                                <div className="bg-white/10 p-2 rounded-lg text-blue-400">
                                     <FaEnvelope />
                                 </div>
-                                <span>contact@quizpro.com</span>
+                                <span>harshalhire775@gmail.com</span>
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className="bg-white/10 p-2 rounded-lg text-indigo-400">
+                                <div className="bg-white/10 p-2 rounded-lg text-blue-400">
                                     <FaPhone />
                                 </div>
                                 <span>+91 9106737867</span>

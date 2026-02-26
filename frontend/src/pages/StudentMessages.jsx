@@ -92,7 +92,7 @@ const StudentMessages = () => {
             setSubmitted(true);
         } catch (error) {
             console.error("Failed to send", error);
-            alert("Failed to send message.");
+            showErrorAlert('Failed!', "Failed to send message.");
             setShowModal(false);
         } finally {
             setComposeLoading(false);
@@ -117,13 +117,16 @@ const StudentMessages = () => {
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="max-w-2xl mx-auto bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-indigo-500/5 mt-8"
+                className="max-w-2xl mx-auto bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-blue-500/5 mt-8"
             >
                 <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
-                    <Send className="text-indigo-600" /> Send Message
+                    <Send className="text-blue-600" /> Send Message
                 </h2>
 
-                <form onSubmit={(e) => { e.preventDefault(); setShowModal(true); }} className="space-y-6">
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    if (selectedStudent && studentMessage.trim()) setShowModal(true);
+                }} className="space-y-6">
                     {/* Year Selection */}
                     <div className="grid grid-cols-3 gap-3">
                         {years.map(year => (
@@ -132,8 +135,8 @@ const StudentMessages = () => {
                                 type="button"
                                 onClick={() => { setSelectedYear(year); setSelectedStudent(''); }}
                                 className={`py-3 rounded-xl font-bold border-2 transition-all ${selectedYear === year
-                                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
-                                    : 'border-slate-100 bg-white text-slate-400 hover:border-indigo-200'
+                                    ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                    : 'border-slate-100 bg-white text-slate-400 hover:border-blue-200'
                                     }`}
                             >
                                 {year}
@@ -157,7 +160,7 @@ const StudentMessages = () => {
                                             required
                                             value={selectedStudent}
                                             onChange={(e) => setSelectedStudent(e.target.value)}
-                                            className="w-full p-4 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-indigo-500/20 font-medium outline-none text-slate-700 appearance-none"
+                                            className="w-full p-4 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500/20 font-medium outline-none text-slate-700 appearance-none"
                                         >
                                             <option value="">Choose a student...</option>
                                             {students.map(s => (
@@ -186,14 +189,14 @@ const StudentMessages = () => {
                             onChange={(e) => setStudentMessage(e.target.value)}
                             placeholder="Write your message here..."
                             rows={5}
-                            className="w-full p-4 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-indigo-500/20 font-medium outline-none text-slate-700 resize-none"
+                            className="w-full p-4 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500/20 font-medium outline-none text-slate-700 resize-none"
                         ></textarea>
                     </div>
 
                     <button
                         type="submit"
                         disabled={composeLoading || !selectedStudent || !studentMessage}
-                        className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center justify-center gap-2"
+                        className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2"
                     >
                         <Send size={20} /> Send Message
                     </button>
@@ -238,7 +241,7 @@ const StudentMessages = () => {
                             ) : (
                                 <div>
                                     <div className="text-center mb-8">
-                                        <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <Send size={32} />
                                         </div>
                                         <h3 className="text-2xl font-black text-slate-800 mb-2">Send Message?</h3>
@@ -254,7 +257,7 @@ const StudentMessages = () => {
                                         <button
                                             onClick={handleSendMessage}
                                             disabled={composeLoading}
-                                            className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center justify-center gap-2"
+                                            className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2"
                                         >
                                             {composeLoading ? (
                                                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

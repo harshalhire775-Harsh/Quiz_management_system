@@ -85,7 +85,7 @@ const ManageDepartmentHODs = () => {
                             <ArrowLeft size={16} /> Back to Dashboard
                         </Link>
                         <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-                            Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Department Heads</span>
+                            Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Department Heads</span>
                         </h1>
                         <p className="text-slate-500 mt-2 text-lg font-medium">Oversee subject heads, manage credentials, and configure access.</p>
                     </div>
@@ -134,7 +134,7 @@ const ManageDepartmentHODs = () => {
                                     >
                                         <td className="px-8 py-5">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-600 text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-500/20">
+                                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-500/20">
                                                     {(dept.hod?.name || "U").charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>
@@ -148,7 +148,7 @@ const ManageDepartmentHODs = () => {
                                         </td>
                                         <td className="px-8 py-5">
                                             <div className="flex flex-col gap-1">
-                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-violet-50 text-violet-700 text-xs font-black uppercase tracking-wider rounded-lg w-fit border border-violet-100">
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-black uppercase tracking-wider rounded-lg w-fit border border-blue-100">
                                                     <Hash size={12} />
                                                     {dept.name}
                                                 </span>

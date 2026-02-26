@@ -70,7 +70,7 @@ const RegisterSir = () => {
                 className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md"
             >
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-violet-100 text-violet-600 mb-4">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-100 text-blue-600 mb-4">
                         <UserPlus size={24} />
                     </div>
                     <h1 className="text-2xl font-bold text-slate-900">Add New Teacher</h1>
@@ -89,7 +89,7 @@ const RegisterSir = () => {
                                 required
                                 value={formData.name}
                                 onChange={handleChange}
-                                className="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none font-medium"
+                                className="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-medium"
                                 placeholder="Enter full name"
                             />
                         </div>
@@ -106,7 +106,7 @@ const RegisterSir = () => {
                                 required
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none font-medium"
+                                className="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-medium"
                                 placeholder="name@college.edu"
                             />
                         </div>
@@ -116,11 +116,11 @@ const RegisterSir = () => {
                     <div className="space-y-1">
                         <label className="text-xs font-bold text-slate-500 uppercase ml-1">Subject Specialization</label>
 
-                        <div className="border border-slate-200 rounded-xl p-3 bg-slate-50 focus-within:border-violet-500 focus-within:ring-4 focus-within:ring-violet-500/10 transition-all bg-white relative">
+                        <div className="border border-slate-200 rounded-xl p-3 bg-slate-50 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all bg-white relative">
                             {subjectsList.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mb-2">
                                     {subjectsList.map((sub, idx) => (
-                                        <span key={idx} className="flex items-center gap-1 px-2 py-1 bg-violet-50 text-violet-700 border border-violet-100 rounded-lg text-xs font-bold">
+                                        <span key={idx} className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-lg text-xs font-bold">
                                             {sub}
                                             <button
                                                 type="button"
@@ -173,7 +173,7 @@ const RegisterSir = () => {
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none font-medium"
+                                className="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-medium"
                                 placeholder="Create a strong password"
                             />
                         </div>

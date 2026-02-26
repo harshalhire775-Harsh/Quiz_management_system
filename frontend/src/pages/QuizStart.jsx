@@ -79,11 +79,11 @@ const QuizStart = () => {
     const selectedAnswer = answers.find((a) => a.questionId === currentQuestion._id)?.selectedAnswer;
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] font-sans selection:bg-indigo-500/30 selection:text-indigo-900 pb-20 pt-10 px-4">
+        <div className="min-h-screen bg-[#F8FAFC] font-sans selection:bg-blue-500/30 selection:text-blue-900 pb-20 pt-10 px-4">
             {/* Background elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-100/50 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-violet-100/50 rounded-full blur-[120px]" />
+                <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-[120px]" />
             </div>
 
             <div className="max-w-4xl mx-auto relative z-10">
@@ -95,12 +95,12 @@ const QuizStart = () => {
                 >
                     <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                            <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-[10px] font-black uppercase tracking-[0.2em]">
+                            <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em]">
                                 QUESTION {currentQuestionIndex + 1} OF {questions.length}
                             </span>
                             <button
                                 onClick={() => setSoundEnabled(!soundEnabled)}
-                                className={`p-2 rounded-xl transition-all ${soundEnabled ? 'text-indigo-600 bg-indigo-50' : 'text-slate-400 bg-slate-100'}`}
+                                className={`p-2 rounded-xl transition-all ${soundEnabled ? 'text-blue-600 bg-blue-50' : 'text-slate-400 bg-slate-100'}`}
                                 title={soundEnabled ? "Disable Sound" : "Enable Sound"}
                             >
                                 {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
@@ -123,7 +123,7 @@ const QuizStart = () => {
                         <motion.div
                             initial={{ height: 0 }}
                             animate={{ height: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
-                            className="w-full bg-gradient-to-b from-indigo-500 to-violet-600 rounded-full"
+                            className="w-full bg-gradient-to-b from-blue-500 to-blue-600 rounded-full"
                         />
                     </div>
 
@@ -149,11 +149,11 @@ const QuizStart = () => {
                                             whileTap={{ scale: 0.99 }}
                                             onClick={() => handleAnswerSelect(option)}
                                             className={`relative flex items-center gap-5 p-6 rounded-2xl text-left transition-all duration-300 group ${isSelected
-                                                    ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-500/20 ring-4 ring-indigo-500/10'
-                                                    : 'bg-slate-50 text-slate-700 hover:bg-white border-2 border-transparent hover:border-indigo-100'
+                                                    ? 'bg-blue-600 text-white shadow-xl shadow-blue-500/20 ring-4 ring-blue-500/10'
+                                                    : 'bg-slate-50 text-slate-700 hover:bg-white border-2 border-transparent hover:border-blue-100'
                                                 }`}
                                         >
-                                            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-black transition-all ${isSelected ? 'bg-white/20 text-white' : 'bg-white text-slate-400 border border-slate-200 group-hover:border-indigo-200'
+                                            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-black transition-all ${isSelected ? 'bg-white/20 text-white' : 'bg-white text-slate-400 border border-slate-200 group-hover:border-blue-200'
                                                 }`}>
                                                 {String.fromCharCode(65 + index)}
                                             </div>
@@ -164,7 +164,7 @@ const QuizStart = () => {
                                                 <motion.div
                                                     initial={{ scale: 0 }}
                                                     animate={{ scale: 1 }}
-                                                    className="w-6 h-6 rounded-full bg-white text-indigo-600 flex items-center justify-center"
+                                                    className="w-6 h-6 rounded-full bg-white text-blue-600 flex items-center justify-center"
                                                 >
                                                     <CheckCircle size={16} weight="fill" />
                                                 </motion.div>
@@ -188,10 +188,10 @@ const QuizStart = () => {
                         disabled={currentQuestionIndex === 0}
                         className="flex items-center gap-2 px-8 py-4 rounded-2xl font-bold transition-all disabled:opacity-0 group"
                     >
-                        <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 flex items-center justify-center group-hover:border-indigo-500 group-hover:text-indigo-600 transition-all">
+                        <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 flex items-center justify-center group-hover:border-blue-500 group-hover:text-blue-600 transition-all">
                             <ChevronLeft size={20} />
                         </div>
-                        <span className="text-slate-500 group-hover:text-indigo-600">Previous</span>
+                        <span className="text-slate-500 group-hover:text-blue-600">Previous</span>
                     </button>
 
                     {currentQuestionIndex === questions.length - 1 ? (

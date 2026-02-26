@@ -38,7 +38,7 @@ const QuizResults = () => {
     if (loading) return <div className="p-8 text-center">Loading Data...</div>;
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] font-sans selection:bg-indigo-500/30 selection:text-indigo-900 pb-20 pt-10 px-4">
+        <div className="min-h-screen bg-[#F8FAFC] font-sans selection:bg-blue-500/30 selection:text-blue-900 pb-20 pt-10 px-4">
             <div className="max-w-6xl mx-auto space-y-8">
                 {/* Back Button & Title */}
                 <motion.div
@@ -49,13 +49,13 @@ const QuizResults = () => {
                     <div>
                         <button
                             onClick={() => navigate('/admin/quizzes')}
-                            className="group flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-bold transition-all mb-4 px-4 py-2 bg-white rounded-xl shadow-sm border border-slate-100 w-fit"
+                            className="group flex items-center gap-2 text-slate-400 hover:text-blue-600 font-bold transition-all mb-4 px-4 py-2 bg-white rounded-xl shadow-sm border border-slate-100 w-fit"
                         >
                             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                             Back to My Quizzes
                         </button>
                         <h1 className="text-4xl font-black tracking-tight text-slate-900">
-                            {quiz?.title} <span className="text-indigo-600">Results</span>
+                            {quiz?.title} <span className="text-blue-600">Results</span>
                         </h1>
                     </div>
 
@@ -68,8 +68,8 @@ const QuizResults = () => {
                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Marks</span>
                             <span className="text-xl font-black text-slate-800">{quiz?.totalMarks}</span>
                         </div>
-                        <div className="bg-indigo-600 px-6 py-4 rounded-2xl shadow-xl shadow-indigo-500/20 flex flex-col items-center min-w-[120px]">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-100 mb-1">Attempts</span>
+                        <div className="bg-blue-600 px-6 py-4 rounded-2xl shadow-xl shadow-blue-500/20 flex flex-col items-center min-w-[120px]">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-blue-100 mb-1">Attempts</span>
                             <span className="text-xl font-black text-white">{results.length}</span>
                         </div>
                     </div>
@@ -83,13 +83,13 @@ const QuizResults = () => {
                     className="flex flex-col md:flex-row gap-4 items-center"
                 >
                     <div className="relative flex-1 group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={20} />
                         <input
                             type="text"
                             placeholder="Find student by name or email..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 focus:border-indigo-600 outline-none bg-white text-slate-700 font-medium transition-all shadow-sm"
+                            className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-100 focus:border-blue-600 outline-none bg-white text-slate-700 font-medium transition-all shadow-sm"
                         />
                     </div>
                 </motion.div>
@@ -137,7 +137,7 @@ const QuizResults = () => {
                                             >
                                                 <td className="px-8 py-6">
                                                     <div className="flex items-center gap-4">
-                                                        <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 font-black text-xl border border-slate-200 shadow-sm group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-600 transition-all duration-300">
+                                                        <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 font-black text-xl border border-slate-200 shadow-sm group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300">
                                                             {result.user.name.charAt(0)}
                                                         </div>
                                                         <div>

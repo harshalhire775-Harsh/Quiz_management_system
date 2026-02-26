@@ -43,12 +43,12 @@ const MyQuizzes = () => {
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-slate-50 p-6 md:p-10 font-sans selection:bg-indigo-500/30 selection:text-indigo-900">
+        <div className="min-h-screen bg-slate-50 p-6 md:p-10 font-sans selection:bg-blue-500/30 selection:text-blue-900">
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Header */}
                 <motion.div
@@ -57,7 +57,7 @@ const MyQuizzes = () => {
                     className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4"
                 >
                     <div>
-                        <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-900 to-violet-900 mb-2">
+                        <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-900 to-blue-900 mb-2">
                             My Quizzes
                         </h1>
                         <p className="text-slate-500 font-medium text-lg">
@@ -75,7 +75,7 @@ const MyQuizzes = () => {
                             animate={{ opacity: 1, scale: 1 }}
                             className="col-span-full flex flex-col items-center justify-center p-16 text-center bg-white rounded-[2.5rem] border border-slate-100 shadow-sm min-h-[400px]"
                         >
-                            <div className="w-24 h-24 bg-indigo-50 text-indigo-500 rounded-3xl flex items-center justify-center mb-6 shadow-inner">
+                            <div className="w-24 h-24 bg-blue-50 text-blue-500 rounded-3xl flex items-center justify-center mb-6 shadow-inner">
                                 <BookOpen size={48} strokeWidth={1.5} />
                             </div>
                             <h3 className="text-3xl font-black text-slate-800 mb-3">No Quizzes Yet</h3>
@@ -102,22 +102,22 @@ const MyQuizzes = () => {
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="flex flex-wrap gap-2">
                                         <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${quiz.isPublished
-                                                ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                                : 'bg-amber-50 text-amber-600 border-amber-100'
+                                            ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                            : 'bg-amber-50 text-amber-600 border-amber-100'
                                             }`}>
                                             <div className={`w-1.5 h-1.5 rounded-full ${quiz.isPublished ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
                                             {quiz.isPublished ? 'Live' : 'Draft'}
                                         </div>
                                         <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${quiz.isApproved
-                                                ? 'bg-indigo-50 text-indigo-600 border-indigo-100'
-                                                : 'bg-slate-50 text-slate-400 border-slate-100'
+                                            ? 'bg-blue-50 text-blue-600 border-blue-100'
+                                            : 'bg-slate-50 text-slate-400 border-slate-100'
                                             }`}>
                                             {quiz.isApproved ? 'Verified' : 'Pending'}
                                         </div>
                                     </div>
                                     <Link
                                         to={`/admin/quiz-results/${quiz._id}`}
-                                        className="p-2.5 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
+                                        className="p-2.5 bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
                                         title="Analytics"
                                     >
                                         <FileText size={18} />
@@ -125,7 +125,7 @@ const MyQuizzes = () => {
                                 </div>
 
                                 <div className="mb-6">
-                                    <h3 className="text-2xl font-black text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors leading-tight">
+                                    <h3 className="text-2xl font-black text-slate-800 mb-2 group-hover:text-blue-600 transition-colors leading-tight">
                                         {quiz.title}
                                     </h3>
                                     <p className="text-slate-400 text-sm font-medium line-clamp-2 leading-relaxed h-10">
@@ -135,16 +135,16 @@ const MyQuizzes = () => {
 
                                 {/* Stats Grid - Clean & Minimal */}
                                 <div className="flex items-center gap-3 mb-8">
-                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-indigo-100 group-hover:bg-white transition-all duration-300">
-                                        <Clock size={16} className="text-slate-400 mb-1.5 group-hover:text-indigo-500" />
+                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-blue-100 group-hover:bg-white transition-all duration-300">
+                                        <Clock size={16} className="text-slate-400 mb-1.5 group-hover:text-blue-500" />
                                         <span className="text-xs font-black text-slate-700">{quiz.duration}m</span>
                                     </div>
-                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-indigo-100 group-hover:bg-white transition-all duration-300">
-                                        <AlertCircle size={16} className="text-slate-400 mb-1.5 group-hover:text-indigo-500" />
+                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-blue-100 group-hover:bg-white transition-all duration-300">
+                                        <AlertCircle size={16} className="text-slate-400 mb-1.5 group-hover:text-blue-500" />
                                         <span className="text-xs font-black text-slate-700">{quiz.numQuestions} Qs</span>
                                     </div>
-                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-indigo-100 group-hover:bg-white transition-all duration-300">
-                                        <CheckCircle size={16} className="text-slate-400 mb-1.5 group-hover:text-indigo-500" />
+                                    <div className="flex-1 flex flex-col items-center justify-center py-4 bg-slate-50/50 rounded-2xl border border-transparent group-hover:border-blue-100 group-hover:bg-white transition-all duration-300">
+                                        <CheckCircle size={16} className="text-slate-400 mb-1.5 group-hover:text-blue-500" />
                                         <span className="text-xs font-black text-slate-700">{quiz.totalMarks} Pt</span>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@ const MyQuizzes = () => {
                                 <div className="flex gap-3">
                                     <Link
                                         to={`/admin/manage-quiz/${quiz._id}`}
-                                        className="flex-[4] py-4 bg-slate-900 text-white hover:bg-indigo-600 font-black rounded-2xl transition-all flex items-center justify-center gap-2 group/btn shadow-lg shadow-slate-900/10 hover:shadow-indigo-500/20"
+                                        className="flex-[4] py-4 bg-slate-900 text-white hover:bg-blue-600 font-black rounded-2xl transition-all flex items-center justify-center gap-2 group/btn shadow-lg shadow-slate-900/10 hover:shadow-blue-500/20"
                                     >
                                         <Edit size={16} className="group-hover/btn:rotate-12 transition-transform" />
                                         Manage Quiz

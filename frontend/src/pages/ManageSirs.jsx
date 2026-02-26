@@ -183,7 +183,7 @@ const ManageSirs = () => {
                     </button>
                     <div>
                         <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                            Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">Teachers</span>
+                            Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Teachers</span>
                         </h1>
 
                     </div>
@@ -205,7 +205,7 @@ const ManageSirs = () => {
             >
                 {/* Visual Header in Card */}
                 <div className="p-8 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex flex-col md:flex-row items-center gap-6">
-                    <div className="p-4 rounded-2xl bg-violet-100 text-violet-600">
+                    <div className="p-4 rounded-2xl bg-blue-100 text-blue-600">
                         <Briefcase size={32} />
                     </div>
                     <div className="flex-1 text-center md:text-left">
@@ -223,7 +223,7 @@ const ManageSirs = () => {
                             placeholder="Search by name, email or subject..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none transition-all font-medium text-slate-700"
+                            className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
                         />
                     </div>
                 </div>
@@ -248,7 +248,7 @@ const ManageSirs = () => {
                                 >
                                     <td className="px-8 py-5 whitespace-nowrap">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 shadow-violet-500/20 text-white flex items-center justify-center font-bold text-lg shadow-lg">
+                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-blue-500/20 text-white flex items-center justify-center font-bold text-lg shadow-lg">
                                                 {sir.name.charAt(0)}
                                             </div>
                                             <div>
@@ -274,7 +274,7 @@ const ManageSirs = () => {
                                             </div>
                                             <button
                                                 onClick={() => openEditModal(sir)}
-                                                className="flex items-center gap-1.5 px-2 py-1 text-xs font-bold text-violet-600 bg-violet-50 hover:bg-violet-100 rounded-lg transition-all"
+                                                className="flex items-center gap-1.5 px-2 py-1 text-xs font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all"
                                                 title="Edit Subjects"
                                             >
                                                 <Edit size={14} />
@@ -358,14 +358,14 @@ const ManageSirs = () => {
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 mb-3">Subject Specialization</label>
 
-                                    <div className="border border-slate-200 rounded-xl p-4 bg-slate-50 focus-within:border-violet-500 focus-within:ring-4 focus-within:ring-violet-500/10 transition-all">
+                                    <div className="border border-slate-200 rounded-xl p-4 bg-slate-50 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
                                         {editSubject.length > 0 && (
                                             <div className="flex flex-wrap gap-2 mb-3">
                                                 {editSubject.map((sub, idx) => (
-                                                    <div key={idx} className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-violet-700 border border-violet-200 rounded-lg text-sm font-bold shadow-sm group/chip">
+                                                    <div key={idx} className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-blue-700 border border-blue-200 rounded-lg text-sm font-bold shadow-sm group/chip">
                                                         <span
                                                             onClick={() => startEditingSubject(sub)}
-                                                            className="cursor-pointer hover:underline decoration-violet-400 underline-offset-2"
+                                                            className="cursor-pointer hover:underline decoration-blue-400 underline-offset-2"
                                                             title="Click to edit"
                                                         >
                                                             {sub}
@@ -373,7 +373,7 @@ const ManageSirs = () => {
                                                         <button
                                                             type="button"
                                                             onClick={() => removeSubject(sub)}
-                                                            className="text-violet-400 hover:text-red-500 transition-colors bg-violet-50 hover:bg-red-50 rounded p-0.5"
+                                                            className="text-blue-400 hover:text-red-500 transition-colors bg-blue-50 hover:bg-red-50 rounded p-0.5"
                                                         >
                                                             <X size={14} />
                                                         </button>
@@ -448,7 +448,7 @@ const ManageSirs = () => {
                                             value={passwordToChange}
                                             onChange={(e) => setPasswordToChange(e.target.value)}
                                             placeholder="Enter new password"
-                                            className="w-full pl-12 pr-4 py-3.5 bg-slate-50 rounded-xl border border-slate-200 focus:border-violet-500 outline-none font-medium text-slate-700"
+                                            className="w-full pl-12 pr-4 py-3.5 bg-slate-50 rounded-xl border border-slate-200 focus:border-blue-500 outline-none font-medium text-slate-700"
                                             required
                                         />
                                     </div>
@@ -457,7 +457,7 @@ const ManageSirs = () => {
 
                                 <button
                                     type="submit"
-                                    className="w-full py-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl shadow-lg shadow-violet-500/20 transition-all active:scale-95"
+                                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95"
                                 >
                                     Update Password
                                 </button>

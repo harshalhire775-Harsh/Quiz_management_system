@@ -10,7 +10,7 @@ const HelpCenter = () => {
                     <div className="relative max-w-xl mx-auto">
                         <input
                             type="text"
-                            className="w-full px-6 py-4 rounded-full border border-slate-200 shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 pl-14"
+                            className="w-full px-6 py-4 rounded-full border border-slate-200 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pl-14"
                             placeholder="Search for answers..."
                         />
                         <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-lg" />
@@ -23,8 +23,8 @@ const HelpCenter = () => {
                         { icon: <FaQuestionCircle />, title: "Quiz Help", desc: "How to create or take quizzes." },
                         { icon: <FaBook />, title: "Billing & Plans", desc: "Manage your subscription." }
                     ].map((item, i) => (
-                        <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-indigo-200 transition-colors cursor-pointer text-center">
-                            <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                        <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-blue-200 transition-colors cursor-pointer text-center">
+                            <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
                                 {item.icon}
                             </div>
                             <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -39,7 +39,7 @@ const HelpCenter = () => {
                         {['How to reset my password?', 'Can I retry a quiz?', 'Is my data secure?'].map((q, i) => (
                             <li key={i} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
                                 <a href="#" className="flex justify-between items-center group">
-                                    <span className="text-slate-700 font-medium group-hover:text-indigo-600">{q}</span>
+                                    <span className="text-slate-700 font-medium group-hover:text-blue-600">{q}</span>
                                     <span className="text-slate-400 group-hover:translate-x-1 transition-transform">→</span>
                                 </a>
                             </li>

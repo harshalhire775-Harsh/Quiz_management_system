@@ -12,8 +12,23 @@ const User = require('../models/userModel');
 // @desc    Submit a new contact message
 // @route   POST /api/contact
 // @access  Public
+const jwt = require('jsonwebtoken');
+
 const submitContact = async (req, res) => {
     console.log("📥 Received Contact Submission:", req.body);
+
+    // Optional Authentication: Populate req.user if a valid token is provided
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = await User.findById(decoded.id).select('-password');
+            console.log("Optional Auth Success - User:", req.user?.email);
+        } catch (error) {
+            console.log("Optional Auth Failed:", error.message);
+        }
+    }
+
     try {
         const { name, email, message, subject, priority, recipientEmail, senderRole, year, targetSubject } = req.body;
 
@@ -184,14 +199,16 @@ const getMessages = async (req, res) => {
 
                 query.$or = [
                     { ...directMessageFilter },
-                    { ...generalMessageFilter }
+                    { ...generalMessageFilter },
+                    { user: req.user._id } // <--- Added this so Teacher can see their sent messages
                 ];
             }
             else {
                 // Admin (HOD) - Sees all general messages for the college OR Direct Messages
                 query.$or = [
                     { recipientEmail: { $regex: new RegExp(`^${userEmail}$`, 'i') } },
-                    { recipientEmail: { $in: [null, undefined, ''] } }
+                    { recipientEmail: { $in: [null, undefined, ''] } },
+                    { user: req.user._id }
                 ];
             }
         }

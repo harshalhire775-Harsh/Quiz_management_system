@@ -153,7 +153,7 @@ const TeacherNotifications = () => {
     return (
         <div className="space-y-6 max-w-6xl mx-auto p-4 md:p-8">
             <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-4">
-                <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl">
+                <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
                     <Bell size={32} />
                 </div>
                 <div>
@@ -186,7 +186,7 @@ const TeacherNotifications = () => {
                                 <div className="flex flex-col md:flex-row gap-6 justify-between items-start">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <div className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-50 text-indigo-600 flex items-center gap-1">
+                                            <div className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-600 flex items-center gap-1">
                                                 <User size={12} /> Student Inquiry
                                             </div>
                                             <span className="text-xs font-bold text-slate-400">
@@ -197,7 +197,7 @@ const TeacherNotifications = () => {
                                         <div className="flex flex-col gap-1 mb-3">
                                             <h3 className="text-xl font-bold text-slate-800 leading-tight">{note.subject || 'Student Inquiry'}</h3>
                                             <div className="flex flex-wrap gap-3 mt-1">
-                                                <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1.5 rounded-xl border border-indigo-100">
+                                                <div className="flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-xl border border-blue-100">
                                                     <User size={14} />
                                                     <span className="opacity-70 mr-1">Student Name:</span> {note.name || note.user?.name}
                                                 </div>
@@ -210,7 +210,7 @@ const TeacherNotifications = () => {
                                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity self-start md:self-center">
                                         <button
                                             onClick={() => handleReply(note)}
-                                            className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all font-bold text-sm flex items-center gap-2 shadow-sm"
+                                            className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-bold text-sm flex items-center gap-2 shadow-sm"
                                         >
                                             <Reply size={16} /> Reply
                                         </button>

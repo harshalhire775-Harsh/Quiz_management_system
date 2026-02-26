@@ -144,6 +144,7 @@ const Register = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
+                                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide ml-1">Phone Number</label>
                                     <div className="relative">
                                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                                         <input

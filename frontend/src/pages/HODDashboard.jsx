@@ -30,7 +30,7 @@ const HODDashboard = () => {
         { title: 'Total Users', value: '0', icon: Users, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
         { title: 'Pending Quizzes', value: '0', icon: ShieldCheck, color: 'from-amber-500 to-amber-600', shadow: 'shadow-amber-500/20' },
         { title: 'Colleges', value: '0', icon: ShieldCheck, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
-        { title: 'Teachers', value: '0', icon: Briefcase, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+        { title: 'Teachers', value: '0', icon: Briefcase, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
     ]);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const HODDashboard = () => {
                 setStats([
                     { title: 'Total HODs', value: sysStats.totalHODs || 0, icon: ShieldCheck, color: 'from-amber-500 to-amber-600', shadow: 'shadow-amber-500/20' },
                     { title: 'Total Departments', value: sysStats.totalDepartments || 0, icon: Building2, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
-                    { title: 'Total Teachers', value: sysStats.totalSirs || 0, icon: Briefcase, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+                    { title: 'Total Teachers', value: sysStats.totalSirs || 0, icon: Briefcase, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
                     { title: 'Total Students', value: sysStats.totalStudents || 0, icon: GraduationCap, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
                 ]);
 
@@ -78,8 +78,8 @@ const HODDashboard = () => {
         <div className="p-8 space-y-8 bg-slate-50 min-h-screen">
             {/* Header */}
             <div className="relative overflow-hidden bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-violet-50 to-purple-50 rounded-full blur-3xl -ml-16 -mb-16 opacity-60 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-blue-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-50 to-blue-50 rounded-full blur-3xl -ml-16 -mb-16 opacity-60 pointer-events-none"></div>
 
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
@@ -139,25 +139,25 @@ const HODDashboard = () => {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                        <button onClick={() => navigate('/admin/manage-hods')} className="p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-violet-200 hover:bg-violet-50/50 transition-all group">
-                            <div className="p-3 rounded-xl bg-violet-100 text-violet-600 group-hover:scale-110 transition-transform">
+                        <button onClick={() => navigate('/admin/manage-hods')} className="p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all group">
+                            <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:scale-110 transition-transform">
                                 <ShieldCheck size={20} />
                             </div>
                             <div className="text-left">
                                 <span className="block font-bold text-slate-700">Manage HODs</span>
                                 <span className="text-xs text-slate-500">Department Heads</span>
                             </div>
-                            <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-violet-500" size={18} />
+                            <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-blue-500" size={18} />
                         </button>
-                        <button onClick={() => navigate('/admin/manage-sirs')} className="p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-violet-200 hover:bg-violet-50/50 transition-all group">
-                            <div className="p-3 rounded-xl bg-violet-100 text-violet-600 group-hover:scale-110 transition-transform">
+                        <button onClick={() => navigate('/admin/manage-sirs')} className="p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all group">
+                            <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:scale-110 transition-transform">
                                 <Users size={20} />
                             </div>
                             <div className="text-left">
                                 <span className="block font-bold text-slate-700">Manage Teachers</span>
                                 <span className="text-xs text-slate-500">Add or edit faculty</span>
                             </div>
-                            <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-violet-500" size={18} />
+                            <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-blue-500" size={18} />
                         </button>
 
 

@@ -65,7 +65,7 @@ const ContactTeacher = () => {
             {/* Header */}
             <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
                 <div className="flex items-center gap-4">
-                    <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl">
+                    <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
                         <MessageSquare size={32} />
                     </div>
                     <div>
@@ -89,7 +89,10 @@ const ContactTeacher = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100"
             >
-                <form onSubmit={(e) => { e.preventDefault(); setShowModal(true); }} className="space-y-6">
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    if (formData.message.trim() && formData.recipientEmail) setShowModal(true);
+                }} className="space-y-6">
 
 
                     <div className="grid grid-cols-1 gap-6">
@@ -106,7 +109,7 @@ const ContactTeacher = () => {
                                         const subject = teacher?.subject?.length ? teacher.subject[0] : 'General';
                                         setFormData({ ...formData, recipientEmail: email, targetSubject: subject });
                                     }}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border-none font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all appearance-none cursor-pointer"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border-none font-medium text-slate-800 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all appearance-none cursor-pointer"
                                 >
                                     <option value="">Select Teacher</option>
                                     {teachers.length > 0 ? (
@@ -131,7 +134,7 @@ const ContactTeacher = () => {
                             placeholder="Describe your issue or question in detail..."
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                            className="w-full px-4 py-3 rounded-xl bg-slate-50 border-none font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all resize-none"
+                            className="w-full px-4 py-3 rounded-xl bg-slate-50 border-none font-medium text-slate-800 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none"
                         ></textarea>
                     </div>
 
@@ -144,7 +147,7 @@ const ContactTeacher = () => {
                         <button
                             type="submit"
                             disabled={!formData.message.trim() || !formData.recipientEmail}
-                            className="py-4 px-8 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center justify-center gap-2"
+                            className="py-4 px-8 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2"
                         >
                             <Send size={20} />
                             Send Message
@@ -189,7 +192,7 @@ const ContactTeacher = () => {
                             ) : (
                                 <div>
                                     <div className="text-center mb-8">
-                                        <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <Send size={32} />
                                         </div>
                                         <h3 className="text-2xl font-black text-slate-800 mb-2">Send Message?</h3>
@@ -205,7 +208,7 @@ const ContactTeacher = () => {
                                         <button
                                             onClick={handleSubmit}
                                             disabled={sending}
-                                            className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center justify-center gap-2"
+                                            className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2"
                                         >
                                             {sending ? (
                                                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

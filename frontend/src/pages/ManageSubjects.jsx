@@ -289,7 +289,7 @@ const ManageSubjects = () => {
 
                                             <div className="space-y-2">
                                                 <div className="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-100">
-                                                    <div className="p-1.5 bg-indigo-50 text-indigo-500 rounded-lg"><Mail size={14} /></div>
+                                                    <div className="p-1.5 bg-blue-50 text-blue-500 rounded-lg"><Mail size={14} /></div>
                                                     <div className="flex-1 overflow-hidden">
                                                         <p className="text-[10px] text-slate-400 font-bold uppercase">Login Email</p>
                                                         <p className="text-xs font-semibold text-slate-700 truncate" title={dept.hod?.email || dept.email}>

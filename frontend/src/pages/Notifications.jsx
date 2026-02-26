@@ -105,7 +105,7 @@ const Notifications = () => {
     return (
         <div className="space-y-6 max-w-5xl mx-auto p-4 md:p-8">
             <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-4">
-                <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl">
+                <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
                     <Bell size={32} />
                 </div>
                 <div>
@@ -136,13 +136,13 @@ const Notifications = () => {
                                 className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group relative"
                             >
                                 <div className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-2xl ${note.priority === 'High' ? 'bg-rose-500' :
-                                    note.priority === 'Low' ? 'bg-emerald-500' : 'bg-indigo-500'
+                                    note.priority === 'Low' ? 'bg-emerald-500' : 'bg-blue-500'
                                     }`}></div>
 
                                 <div className="flex flex-col md:flex-row gap-4 justify-between items-start pl-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${note.senderRole === 'Sir' ? 'bg-indigo-50 text-indigo-600' :
+                                            <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${note.senderRole === 'Sir' ? 'bg-blue-50 text-blue-600' :
                                                 'bg-slate-100 text-slate-600'
                                                 }`}>
                                                 {note.senderRole === 'Sir' ? 'Teacher' : 'Student'}
@@ -157,23 +157,23 @@ const Notifications = () => {
                                         {note.senderRole === 'Student' ? (
                                             <div className="mt-3 space-y-1">
                                                 <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                                    <User size={14} className="text-indigo-500" />
+                                                    <User size={14} className="text-blue-500" />
                                                     <span>Name: {note.name}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                                    <Mail size={14} className="text-indigo-500" />
+                                                    <Mail size={14} className="text-blue-500" />
                                                     <span>Email: {note.email}</span>
                                                 </div>
                                                 {note.year && (
                                                     <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                                                        <GraduationCap size={14} className="text-indigo-500" />
+                                                        <GraduationCap size={14} className="text-blue-500" />
                                                         <span>Category: {note.year}</span>
                                                     </div>
                                                 )}
                                             </div>
                                         ) : (
-                                            <div className="mt-3 flex items-center gap-2 text-xs font-bold text-indigo-600">
-                                                <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px]">
+                                            <div className="mt-3 flex items-center gap-2 text-xs font-bold text-blue-600">
+                                                <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px]">
                                                     {note.name?.charAt(0)}
                                                 </div>
                                                 <span>Teacher: {note.name}</span>
@@ -185,7 +185,7 @@ const Notifications = () => {
                                         {/* Only show Reply for Teachers regarding Student Inquiries, or Students replying to Teachers */}
                                         <button
                                             onClick={() => handleReply(note)}
-                                            className="p-2 text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-all"
+                                            className="p-2 text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all"
                                             title="Reply"
                                         >
                                             <Reply size={18} />

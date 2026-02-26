@@ -342,7 +342,7 @@ const ManageDepartments = () => {
 
                                             <div className="space-y-2">
                                                 <div className="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-100">
-                                                    <div className="p-1.5 bg-indigo-50 text-indigo-500 rounded-lg"><Mail size={14} /></div>
+                                                    <div className="p-1.5 bg-blue-50 text-blue-500 rounded-lg"><Mail size={14} /></div>
                                                     <div className="flex-1 overflow-hidden">
                                                         <p className="text-[10px] text-slate-400 font-bold uppercase">Login Email</p>
                                                         <p className="text-xs font-semibold text-slate-700 truncate" title={dept.hod?.email || dept.email}>
@@ -394,7 +394,7 @@ const ManageDepartments = () => {
                                     </button>
                                     <button
                                         onClick={() => navigate('/admin/manage-sirs', { state: { filterDept: dept.name } })}
-                                        className="flex items-center justify-center gap-2 px-3 py-2 bg-violet-50 text-violet-600 rounded-xl text-xs font-bold hover:bg-violet-100 transition-all border border-violet-100"
+                                        className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold hover:bg-blue-100 transition-all border border-blue-100"
                                     >
                                         <Briefcase size={14} />
                                         Teachers
@@ -426,11 +426,11 @@ const ManageDepartments = () => {
                 {isSuperAdmin && (
                     <div className="mt-16">
                         <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-2">
-                            <UserCog size={28} className="text-violet-600" /> College Admins Directory
+                            <UserCog size={28} className="text-blue-600" /> College Admins Directory
                         </h2>
                         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                             <div className="p-8 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex flex-col md:flex-row items-center gap-6">
-                                <div className="p-4 rounded-2xl bg-violet-100 text-violet-600">
+                                <div className="p-4 rounded-2xl bg-blue-100 text-blue-600">
                                     <ShieldCheck size={32} />
                                 </div>
                                 <div className="flex-1 text-center md:text-left">
@@ -444,7 +444,7 @@ const ManageDepartments = () => {
                                         placeholder="Search HODs..."
                                         value={hodSearch}
                                         onChange={(e) => setHodSearch(e.target.value)}
-                                        className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none transition-all font-medium text-slate-700"
+                                        className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
                                     />
                                 </div>
                             </div>
@@ -468,7 +468,7 @@ const ManageDepartments = () => {
                                             >
                                                 <td className="px-8 py-5">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-10 h-10 rounded-full bg-violet-500 text-white flex items-center justify-center font-bold shadow-md shadow-violet-500/20">
+                                                        <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold shadow-md shadow-blue-500/20">
                                                             {hod.name.charAt(0)}
                                                         </div>
                                                         <span className="font-bold text-slate-700">{hod.name}</span>

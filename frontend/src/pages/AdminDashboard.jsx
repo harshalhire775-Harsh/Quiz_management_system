@@ -58,7 +58,7 @@ const AdminDashboard = () => {
     const [stats, setStats] = useState([
         { title: 'Total Quizzes', value: '0', icon: BookOpen, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
         { title: 'Total Students', value: '0', icon: GraduationCap, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
-        { title: 'Active Teachers', value: '0', icon: Briefcase, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+        { title: 'Active Teachers', value: '0', icon: Briefcase, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
         { title: 'Pass Rate', value: '0%', icon: Activity, color: 'from-amber-500 to-amber-600', shadow: 'shadow-amber-500/20' },
     ]);
 
@@ -88,7 +88,7 @@ const AdminDashboard = () => {
                             { title: 'Total Users', value: '0', icon: Users, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
                             { title: 'Pending Quizzes', value: pendingQuizzes.length, icon: ShieldCheck, color: 'from-amber-500 to-amber-600', shadow: 'shadow-amber-500/20' },
                             { title: 'Colleges', value: sysStats.totalAdmins, icon: ShieldCheck, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
-                            { title: 'Teachers', value: sysStats.totalSirs, icon: Briefcase, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+                            { title: 'Teachers', value: sysStats.totalSirs, icon: Briefcase, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
                         ]);
                     }
 
@@ -120,7 +120,7 @@ const AdminDashboard = () => {
                         { title: 'Pending Approval', value: pendingCount, icon: ShieldCheck, color: 'from-amber-500 to-amber-600', shadow: 'shadow-amber-500/20' },
                         { title: 'Live Quizzes', value: liveCount, icon: Activity, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
                         { title: 'Total Students', value: totalStudents, icon: GraduationCap, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
-                        { title: 'Avg. Pass Rate', value: `${passRate}%`, icon: BarChartIcon, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+                        { title: 'Avg. Pass Rate', value: `${passRate}%`, icon: BarChartIcon, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
                     ]);
                 }
 
@@ -193,8 +193,8 @@ const AdminDashboard = () => {
             {/* Premium Header Banner */}
             <div className="relative overflow-hidden bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100">
                 {/* Decorative Background Elements */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-violet-50 to-purple-50 rounded-full blur-3xl -ml-16 -mb-16 opacity-60 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-blue-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-60 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-50 to-blue-50 rounded-full blur-3xl -ml-16 -mb-16 opacity-60 pointer-events-none"></div>
 
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
@@ -211,7 +211,7 @@ const AdminDashboard = () => {
 
                         <h1 className="text-3xl md:text-3xl font-black text-slate-800 tracking-tight leading-tight">
                             {isSuperAdmin ? (
-                                <span>Super Admin <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Dashboard</span></span>
+                                <span>Super Admin <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Dashboard</span></span>
                             ) : (
                                 <span className={user?.department ? "text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-700 to-slate-800" : "text-slate-800"}>
                                     {(!isDeptHead && user?.subject?.length > 0) ? user.subject[0] : (user?.department || (user?.name ? `${user.name}'s Dashboard` : 'Dashboard'))}
@@ -286,14 +286,14 @@ const AdminDashboard = () => {
                 >
                     {/* Assigned Subjects Widget for Teachers */}
                     {!isDeptHead && (
-                        <div className="mb-8 p-5 bg-gradient-to-br from-violet-50 to-indigo-50 border border-violet-100 rounded-2xl">
-                            <h3 className="text-sm font-bold text-violet-800 uppercase mb-3 flex items-center gap-2">
+                        <div className="mb-8 p-5 bg-gradient-to-br from-blue-50 to-blue-50 border border-blue-100 rounded-2xl">
+                            <h3 className="text-sm font-bold text-blue-800 uppercase mb-3 flex items-center gap-2">
                                 <Briefcase size={16} /> Assigned Subjects
                             </h3>
                             <div className="flex flex-wrap gap-2">
                                 {user?.subject && user.subject.length > 0 ? (
                                     user.subject.map((sub, idx) => (
-                                        <span key={idx} className="px-3 py-1.5 bg-white text-violet-700 rounded-lg text-xs font-bold border border-violet-200 shadow-sm">
+                                        <span key={idx} className="px-3 py-1.5 bg-white text-blue-700 rounded-lg text-xs font-bold border border-blue-200 shadow-sm">
                                             {sub}
                                         </span>
                                     ))
@@ -313,29 +313,29 @@ const AdminDashboard = () => {
 
 
                         {isDeptHead && !isSuperAdmin && (
-                            <button onClick={() => navigate('/admin/manage-sirs')} className="w-full p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-violet-200 hover:bg-violet-50/50 transition-all group">
-                                <div className="p-3 rounded-xl bg-violet-100 text-violet-600 group-hover:scale-110 transition-transform">
+                            <button onClick={() => navigate('/admin/manage-sirs')} className="w-full p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all group">
+                                <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:scale-110 transition-transform">
                                     <Users size={20} />
                                 </div>
                                 <div className="text-left">
                                     <span className="block font-bold text-slate-700">Manage Teachers</span>
                                     <span className="text-xs text-slate-500">{isSuperAdmin ? 'View All Staff' : 'Manage Department Teachers'}</span>
                                 </div>
-                                <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-violet-500" size={18} />
+                                <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-blue-500" size={18} />
                             </button>
                         )}
 
 
                         {isDeptHead && !isSuperAdmin && (
-                            <button onClick={() => navigate('/admin/users')} className="w-full p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-sky-200 hover:bg-sky-50/50 transition-all group">
-                                <div className="p-3 rounded-xl bg-sky-100 text-sky-600 group-hover:scale-110 transition-transform">
+                            <button onClick={() => navigate('/admin/users')} className="w-full p-4 flex items-center gap-4 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all group">
+                                <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:scale-110 transition-transform">
                                     <GraduationCap size={20} />
                                 </div>
                                 <div className="text-left">
                                     <span className="block font-bold text-slate-700">Manage Students</span>
                                     <span className="text-xs text-slate-500">View enrolled students</span>
                                 </div>
-                                <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-sky-500" size={18} />
+                                <ArrowUpRight className="ml-auto text-slate-300 group-hover:text-blue-500" size={18} />
                             </button>
                         )}
 

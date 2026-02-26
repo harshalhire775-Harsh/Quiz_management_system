@@ -90,7 +90,7 @@ const ManageAdmins = () => {
                     </button>
                     <div>
                         <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                            Super <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">Admin</span>
+                            Super <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Admin</span>
                         </h1>
                         <p className="text-slate-500 mt-1 font-medium">View and manage college administrators</p>
                     </div>
@@ -106,7 +106,7 @@ const ManageAdmins = () => {
             >
                 {/* Visual Header in Card */}
                 <div className="p-8 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex flex-col md:flex-row items-center gap-6">
-                    <div className="p-4 rounded-2xl bg-violet-100 text-violet-600">
+                    <div className="p-4 rounded-2xl bg-blue-100 text-blue-600">
                         <ShieldCheck size={32} />
                     </div>
                     <div className="flex-1 text-center md:text-left">
@@ -120,7 +120,7 @@ const ManageAdmins = () => {
                             placeholder="Search by name or email..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none transition-all font-medium text-slate-700"
+                            className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
                         />
                     </div>
                 </div>
@@ -146,7 +146,7 @@ const ManageAdmins = () => {
                                 >
                                     <td className="px-8 py-5 whitespace-nowrap">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-blue-500/20 shadow-lg">
+                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-blue-500/20 shadow-lg">
                                                 {admin.name.charAt(0)}
                                             </div>
                                             <div className="font-bold text-slate-700 text-lg">{admin.name}</div>
@@ -154,7 +154,7 @@ const ManageAdmins = () => {
                                     </td>
                                     <td className="px-8 py-5 whitespace-nowrap text-slate-500 font-medium">{admin.email}</td>
                                     <td className="px-8 py-5 whitespace-nowrap">
-                                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-50 text-violet-700 text-xs font-bold w-fit border border-violet-100">
+                                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold w-fit border border-blue-100">
                                             <ShieldCheck size={14} />
                                             {admin.role}
                                         </span>

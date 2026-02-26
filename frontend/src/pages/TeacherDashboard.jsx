@@ -56,7 +56,7 @@ const TeacherDashboard = () => {
 
                 setStats([
                     { title: 'My Quizzes', value: totalQuizzes, icon: ClipboardList, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
-                    { title: 'Subjects', value: user?.subject?.length || 0, icon: BookOpen, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+                    { title: 'Subjects', value: user?.subject?.length || 0, icon: BookOpen, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
                 ]);
 
             } catch (error) {
@@ -96,7 +96,7 @@ const TeacherDashboard = () => {
             await API.put(`/quizzes/${quiz._id}`, updatedQuiz);
         } catch (error) {
             console.error(error);
-            alert('Failed to update status');
+            showErrorAlert('Failed!', 'Failed to update status');
             // Revert on failure
             setRecentQuizzes(prev => prev.map(q => q._id === quiz._id ? quiz : q));
         }
@@ -126,7 +126,7 @@ const TeacherDashboard = () => {
             {/* Header */}
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-violet-50 text-violet-600 text-xs font-bold uppercase tracking-wider mb-2 border border-violet-100">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider mb-2 border border-blue-100">
                         <GraduationCap size={12} /> Teacher Dashboard
                     </span>
                     <h1 className="text-2xl font-black text-slate-800 tracking-tight">
@@ -167,7 +167,7 @@ const TeacherDashboard = () => {
             {/* Student Distribution Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                    { title: 'FY Students', value: studentStats.fy, color: 'from-indigo-500 to-indigo-600', shadow: 'shadow-indigo-500/20', label: 'First Year' },
+                    { title: 'FY Students', value: studentStats.fy, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20', label: 'First Year' },
                     { title: 'SY Students', value: studentStats.sy, color: 'from-pink-500 to-pink-600', shadow: 'shadow-pink-500/20', label: 'Second Year' },
                     { title: 'TY Students', value: studentStats.ty, color: 'from-orange-500 to-orange-600', shadow: 'shadow-orange-500/20', label: 'Third Year' }
                 ].map((stat, index) => (
@@ -251,11 +251,11 @@ const TeacherDashboard = () => {
                     className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group"
                 >
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                             <Users size={24} />
                         </div>
                         <div>
-                            <h3 className="font-bold text-lg text-slate-800 group-hover:text-indigo-600 transition-colors">Contact Student</h3>
+                            <h3 className="font-bold text-lg text-slate-800 group-hover:text-blue-600 transition-colors">Contact Student</h3>
                             <p className="text-sm text-slate-500">Message students directly</p>
                         </div>
                     </div>

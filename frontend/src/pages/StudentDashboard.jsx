@@ -82,7 +82,7 @@ const StudentDashboard = () => {
             >
                 <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div>
-                        <span className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-2">
+                        <span className="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider mb-2">
                             Student Dashboard
                         </span>
                         <h1 className="text-3xl md:text-4xl font-black text-slate-800 mb-2">
@@ -92,13 +92,13 @@ const StudentDashboard = () => {
                     </div>
                     <button
                         onClick={() => navigate('/quizzes')}
-                        className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition-all transform hover:-translate-y-1"
+                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-1"
                     >
                         Start New Quiz
                     </button>
                 </div>
                 {/* Background Decoration */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-blue-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50 pointer-events-none"></div>
             </motion.div>
 
             {/* Stats Grid */}
@@ -162,11 +162,11 @@ const StudentDashboard = () => {
                     onClick={() => navigate('/contact-teacher')}
                     className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:scale-[1.02] transition-all cursor-pointer group flex items-center gap-4"
                 >
-                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                         <MessageSquare size={24} />
                     </div>
                     <div>
-                        <h3 className="font-bold text-lg text-slate-800 group-hover:text-indigo-600 transition-colors">Contact Teacher</h3>
+                        <h3 className="font-bold text-lg text-slate-800 group-hover:text-blue-600 transition-colors">Contact Teacher</h3>
                         <p className="text-sm text-slate-500">Ask questions or report issues</p>
                     </div>
                 </motion.div>
@@ -177,10 +177,10 @@ const StudentDashboard = () => {
                 <motion.div variants={item} className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
-                            <Activity className="text-indigo-500" size={20} />
+                            <Activity className="text-blue-500" size={20} />
                             Recent Activity
                         </h2>
-                        <Link to="/myresults" className="text-sm font-bold text-indigo-600 hover:bg-indigo-50 px-3 py-1 rounded-lg transition-colors">
+                        <Link to="/myresults" className="text-sm font-bold text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-lg transition-colors">
                             View All
                         </Link>
                     </div>
@@ -192,7 +192,7 @@ const StudentDashboard = () => {
                             recentActivities.map((activity, index) => (
                                 <div key={index} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-white shadow-md">
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-md">
                                             <Activity size={20} />
                                         </div>
                                         <div>

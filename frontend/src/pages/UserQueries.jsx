@@ -107,7 +107,7 @@ const UserQueries = () => {
                     </button>
                     <div>
                         <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                            User <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">Complaints</span>
+                            User <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Complaints</span>
                         </h1>
                         <p className="text-slate-500 mt-1 font-medium">Manage incoming complaints and support requests</p>
                     </div>
@@ -122,7 +122,7 @@ const UserQueries = () => {
             >
                 {/* Visual Header in Card */}
                 <div className="p-8 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex flex-col md:flex-row items-center gap-6">
-                    <div className="p-4 rounded-2xl bg-violet-100 text-violet-600">
+                    <div className="p-4 rounded-2xl bg-blue-100 text-blue-600">
                         <Users size={32} />
                     </div>
                     <div className="flex-1 text-center md:text-left">
@@ -136,7 +136,7 @@ const UserQueries = () => {
                             placeholder="Search by name, email or message..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 outline-none transition-all font-medium text-slate-700"
+                            className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all font-medium text-slate-700"
                         />
                     </div>
                 </div>
@@ -173,7 +173,7 @@ const UserQueries = () => {
                                         </td>
                                         <td className="px-8 py-5 whitespace-nowrap">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-blue-500/20 shadow-lg">
+                                                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-blue-500/20 shadow-lg">
                                                     {msg.name.charAt(0)}
                                                 </div>
                                                 <div className="font-bold text-slate-700 text-md">{msg.name}</div>

@@ -88,7 +88,7 @@ const DepartmentDetail = () => {
                             <span className="px-2 py-0.5 rounded-md bg-slate-900/5 text-slate-500 text-[10px] font-black uppercase tracking-widest">{deptName} Panel</span>
                         </div>
                         <h1 className="text-3xl font-black text-slate-800 tracking-tight flex items-center gap-3">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Departments</span> Control Hub
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Departments</span> Control Hub
                         </h1>
                     </div>
                 </div>

@@ -113,18 +113,18 @@ const ManageQuiz = () => {
     if (!quiz) return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
             <div className="flex flex-col items-center gap-4">
-                <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
                 <p className="text-slate-500 font-medium animate-pulse">Loading Quiz Data...</p>
             </div>
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-slate-50 relative overflow-hidden font-sans selection:bg-indigo-500/30 selection:text-indigo-900 pb-20">
+        <div className="min-h-screen bg-slate-50 relative overflow-hidden font-sans selection:bg-blue-500/30 selection:text-blue-900 pb-20">
             {/* Ambient Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-400/20 rounded-full blur-[120px] animate-pulse-slow"></div>
-                <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] bg-purple-400/20 rounded-full blur-[100px] animate-pulse-slow delay-1000"></div>
+                <div className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] bg-blue-400/20 rounded-full blur-[100px] animate-pulse-slow delay-1000"></div>
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[300px] bg-gradient-to-t from-white via-white to-transparent dark:from-slate-900 z-10"></div>
             </div>
 
@@ -136,7 +136,7 @@ const ManageQuiz = () => {
                 >
                     <button
                         onClick={() => navigate('/admin')}
-                        className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 mb-6 transition-all font-bold group px-4 py-2 rounded-full hover:bg-white/80 w-max"
+                        className="flex items-center gap-2 text-slate-500 hover:text-blue-600 mb-6 transition-all font-bold group px-4 py-2 rounded-full hover:bg-white/80 w-max"
                     >
                         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                         <span>Back to Dashboard</span>
@@ -145,7 +145,7 @@ const ManageQuiz = () => {
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
-                                <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-wider">
+                                <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-black uppercase tracking-wider">
                                     {quiz.category || 'General'}
                                 </span>
                                 <span className="text-slate-400 font-medium text-sm flex items-center gap-1">
@@ -188,7 +188,7 @@ const ManageQuiz = () => {
                                     }}
                                     className={`px-4 py-2 rounded-lg font-bold text-sm transition-all shadow-sm ${quiz.isPublished
                                         ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                                        : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-500/30'
+                                        : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-500/30'
                                         }`}
                                 >
                                     {quiz.isPublished ? 'Unpublish' : 'Go Live ->'}
@@ -202,7 +202,7 @@ const ManageQuiz = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 bg-white/60 backdrop-blur-md p-2 rounded-2xl border border-white/60 shadow-sm">
                     <div className="flex items-center gap-6 px-4">
                         <div className="flex items-center gap-2">
-                            <LayoutList size={18} className="text-indigo-500" />
+                            <LayoutList size={18} className="text-blue-500" />
                             <span className="font-bold text-slate-700">{questions.length} <span className="text-slate-500 font-medium text-sm">Questions</span></span>
                         </div>
                         <div className="w-px h-6 bg-slate-200"></div>
@@ -229,7 +229,7 @@ const ManageQuiz = () => {
                             }}
                             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-lg ${showAddForm
                                 ? 'bg-rose-50 text-rose-600 hover:bg-rose-100'
-                                : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:shadow-indigo-500/30 hover:-translate-y-0.5'
+                                : 'bg-gradient-to-r from-blue-600 to-blue-600 text-white hover:shadow-blue-500/30 hover:-translate-y-0.5'
                                 }`}
                         >
                             {showAddForm ? <><X size={18} /> Cancel</> : <><Plus size={18} /> Add Question</>}
@@ -246,14 +246,14 @@ const ManageQuiz = () => {
                             exit={{ opacity: 0, height: 0, y: -20 }}
                             className="overflow-hidden mb-8"
                         >
-                            <div className="bg-white rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-indigo-50 p-6 md:p-8 relative">
+                            <div className="bg-white rounded-[2rem] shadow-2xl shadow-slate-200/50 border border-blue-50 p-6 md:p-8 relative">
                                 <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
                                     <HelpCircle size={150} />
                                 </div>
 
                                 <div className="flex justify-between items-center mb-8 relative z-10">
                                     <h3 className="text-2xl font-black text-slate-800 flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
                                             {editingQuestionId ? <Edit size={20} /> : <Plus size={20} />}
                                         </div>
                                         {editingQuestionId ? 'Edit Question' : 'Create Question'}
@@ -267,8 +267,8 @@ const ManageQuiz = () => {
                                                     type="button"
                                                     onClick={() => setNewQuestion({ ...newQuestion, type: t, options: t === 'TF' ? ['True', 'False'] : ['', '', '', ''], correctAnswers: [], correctAnswer: '' })}
                                                     className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${newQuestion.type === t
-                                                        ? 'bg-white text-indigo-600 shadow-sm'
-                                                        : 'text-slate-500 hover:text-indigo-600'
+                                                        ? 'bg-white text-blue-600 shadow-sm'
+                                                        : 'text-slate-500 hover:text-blue-600'
                                                         }`}
                                                 >
                                                     {t === 'TF' ? 'True/False' : t === 'MSQ' ? 'Multiple Choice' : 'Single Choice'}
@@ -285,7 +285,7 @@ const ManageQuiz = () => {
                                             rows="3"
                                             value={newQuestion.questionText}
                                             onChange={(e) => setNewQuestion({ ...newQuestion, questionText: e.target.value })}
-                                            className="w-full p-4 rounded-xl bg-slate-50 border-2 border-slate-100 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none font-bold text-lg text-slate-800 placeholder-slate-400 transition-all resize-none"
+                                            className="w-full p-4 rounded-xl bg-slate-50 border-2 border-slate-100 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none font-bold text-lg text-slate-800 placeholder-slate-400 transition-all resize-none"
                                             placeholder="Type your question here..."
                                             required
                                         />
@@ -297,7 +297,7 @@ const ManageQuiz = () => {
                                                 <div key={idx} className="space-y-1">
                                                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Option {idx + 1}</label>
                                                     <div className="relative group">
-                                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-indigo-500">{String.fromCharCode(65 + idx)}</span>
+                                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-blue-500">{String.fromCharCode(65 + idx)}</span>
                                                         <input
                                                             type="text"
                                                             value={option}
@@ -306,7 +306,7 @@ const ManageQuiz = () => {
                                                                 newOptions[idx] = e.target.value;
                                                                 setNewQuestion({ ...newQuestion, options: newOptions });
                                                             }}
-                                                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 outline-none font-medium text-slate-700 transition-all"
+                                                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 outline-none font-medium text-slate-700 transition-all"
                                                             placeholder={`Option text...`}
                                                             required
                                                         />
@@ -408,7 +408,7 @@ const ManageQuiz = () => {
 
                                     <button
                                         type="submit"
-                                        className="w-full py-4 rounded-xl bg-indigo-600 text-white font-black text-lg hover:bg-indigo-700 shadow-xl shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 group"
+                                        className="w-full py-4 rounded-xl bg-blue-600 text-white font-black text-lg hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all flex items-center justify-center gap-2 group"
                                     >
                                         {editingQuestionId ? <Save size={20} /> : <Plus size={20} />}
                                         {editingQuestionId ? 'Update Question' : 'Save & Add Question'}
@@ -430,7 +430,7 @@ const ManageQuiz = () => {
                             <p className="text-slate-500">Start building your quiz by adding the first question.</p>
                             <button
                                 onClick={() => setShowAddForm(true)}
-                                className="mt-6 text-indigo-600 font-bold hover:underline"
+                                className="mt-6 text-blue-600 font-bold hover:underline"
                             >
                                 Open Question Editor
                             </button>
@@ -442,16 +442,16 @@ const ManageQuiz = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                                 key={q._id}
-                                className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 md:p-8 hover:shadow-xl hover:shadow-indigo-500/5 transition-all group"
+                                className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 md:p-8 hover:shadow-xl hover:shadow-blue-500/5 transition-all group"
                             >
                                 <div className="flex justify-between items-start gap-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <span className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 font-black flex items-center justify-center text-sm">
+                                            <span className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 font-black flex items-center justify-center text-sm">
                                                 {index + 1}
                                             </span>
                                             <span className={`text-xs font-bold px-2 py-1 rounded uppercase tracking-wider ${q.type === 'MCQ' ? 'bg-blue-100 text-blue-700' :
-                                                q.type === 'MSQ' ? 'bg-purple-100 text-purple-700' :
+                                                q.type === 'MSQ' ? 'bg-blue-100 text-blue-700' :
                                                     'bg-emerald-100 text-emerald-700'
                                                 }`}>
                                                 {q.type === 'TF' ? 'True / False' : q.type}
@@ -503,7 +503,7 @@ const ManageQuiz = () => {
                                                 setShowAddForm(true);
                                                 window.scrollTo({ top: 0, behavior: 'smooth' });
                                             }}
-                                            className="p-2.5 rounded-xl bg-slate-100 text-slate-500 hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                                            className="p-2.5 rounded-xl bg-slate-100 text-slate-500 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
                                             title="Edit Question"
                                         >
                                             <Edit size={18} />
@@ -572,7 +572,7 @@ const ManageQuiz = () => {
                                                 className="hidden"
                                                 onChange={(e) => setSelectedFile(e.target.files[0])}
                                             />
-                                            <div className={`w-full py-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col items-center gap-1 ${selectedFile ? 'bg-emerald-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 hover:border-indigo-400 text-slate-500'}`}>
+                                            <div className={`w-full py-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col items-center gap-1 ${selectedFile ? 'bg-emerald-50 border-emerald-500 text-emerald-700' : 'bg-white border-slate-200 hover:border-blue-400 text-slate-500'}`}>
                                                 <span className="font-bold">{selectedFile ? selectedFile.name : 'Click to Browse'}</span>
                                                 <span className="text-xs">{selectedFile ? `${(selectedFile.size / 1024).toFixed(1)} KB` : 'XLSX, XLS or CSV only'}</span>
                                             </div>

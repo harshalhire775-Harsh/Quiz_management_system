@@ -35,7 +35,7 @@ const Home = () => {
             text: "Do you want to send this message?",
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#f59e0b', // Amber-500
+            confirmButtonColor: '#3b82f6', // Amber-500
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, send it!',
             background: '#1a1c23', // Dark background
@@ -68,7 +68,7 @@ const Home = () => {
                     title: 'Sent!',
                     text: 'Your message has been sent successfully.',
                     icon: 'success',
-                    confirmButtonColor: '#f59e0b',
+                    confirmButtonColor: '#3b82f6',
                     background: '#1a1c23',
                     color: '#fff',
                     timer: 3000,
@@ -83,7 +83,7 @@ const Home = () => {
                     title: 'Error!',
                     text: 'Failed to send message. Please try again later.',
                     icon: 'error',
-                    confirmButtonColor: '#f59e0b',
+                    confirmButtonColor: '#3b82f6',
                     background: '#1a1c23',
                     color: '#fff'
                 });
@@ -120,7 +120,7 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen font-sans overflow-x-hidden bg-white text-slate-800 selection:bg-amber-500/30 selection:text-amber-800">
+        <div className="min-h-screen font-sans overflow-x-hidden bg-white text-slate-800 selection:bg-blue-500/30 selection:text-blue-800">
 
             {/* Background Image - Quiz/Education Theme */}
             <div className="fixed inset-0 z-0 pointer-events-none">
@@ -136,7 +136,7 @@ const Home = () => {
                 </div>
 
                 {/* Soft Gradient Overlay for Readability */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/40 to-amber-50/20"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/40 to-blue-50/20"></div>
 
                 {/* Subtle Technical Grid */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -147,7 +147,7 @@ const Home = () => {
                 {/* Enhanced Professional Light Accents */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
                     <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-blue-400/10 rounded-full blur-[140px]"></div>
-                    <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-amber-400/10 rounded-full blur-[140px]"></div>
+                    <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-blue-400/10 rounded-full blur-[140px]"></div>
                 </div>
 
                 <div className="container mx-auto px-6 lg:px-12 relative z-10 flex flex-col items-center justify-center">
@@ -163,7 +163,7 @@ const Home = () => {
                             variants={fadeIn}
                             className="inline-flex items-center gap-3 mb-6 px-6 py-2.5 rounded-full bg-white border border-slate-200 text-slate-600 font-bold text-[11px] tracking-[0.3em] uppercase shadow-lg shadow-slate-200/50 hover:shadow-xl hover:scale-105 transition-all duration-300"
                         >
-                            <span className="flex h-2.5 w-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)] animate-pulse"></span>
+                            <span className="flex h-2.5 w-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)] animate-pulse"></span>
                             The Next Gen Learning Platform
                         </motion.div>
 
@@ -172,7 +172,7 @@ const Home = () => {
                             className="text-6xl md:text-8xl lg:text-[6rem] font-[1000] tracking-[-0.04em] leading-[1] mb-10 text-slate-900 drop-shadow-sm"
                         >
                             Smart Quizzes for <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 inline-block">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600 inline-block">
                                 Smart Minds
                             </span>
                         </motion.h1>
@@ -181,9 +181,9 @@ const Home = () => {
                             variants={fadeIn}
                             className="text-2xl md:text-3xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed font-medium tracking-tight"
                         >
-                            Join students who are improving their knowledge through <span className="text-amber-600 font-[1000] relative px-1">
+                            Join students who are improving their knowledge through <span className="text-slate-900 font-[1000] relative px-2 inline-block z-10">
                                 interactive online quizzes
-                                <span className="absolute bottom-1 left-0 w-full h-3 bg-amber-200/40 -z-10 rounded-lg"></span>
+                                <span className="absolute bottom-1 left-0 w-full h-4 bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 -z-10 rounded-md -rotate-1 opacity-90 shadow-lg shadow-orange-500/20 mix-blend-multiply"></span>
                             </span> and instant results.
                         </motion.p>
 
@@ -219,7 +219,7 @@ const Home = () => {
                         className="fixed inset-0 pointer-events-none z-10 overflow-hidden"
                     >
                         <div
-                            className="absolute w-[800px] h-[800px] bg-amber-500/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out"
+                            className="absolute w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out"
                             style={{
                                 left: 'var(--mouse-x, 50%)',
                                 top: 'var(--mouse-y, 50%)',
@@ -245,7 +245,7 @@ const Home = () => {
                             viewport={{ once: true }}
                         >
                             <h3 className="text-6xl md:text-7xl font-[1000] text-slate-900 tracking-tighter leading-none">
-                                Learning <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Universe</span>
+                                Learning <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Universe</span>
                             </h3>
                         </motion.div>
                         <motion.p
@@ -310,7 +310,7 @@ const Home = () => {
                                     onMouseMove={handleMouseMove}
                                     onMouseLeave={handleMouseLeave}
                                     viewport={{ once: false, margin: "-50px" }}
-                                    className="relative h-[380px] rounded-[2.5rem] overflow-hidden group cursor-pointer border border-slate-200 bg-white shadow-xl transition-all duration-700 ease-out will-change-transform hover:shadow-[0_20px_50px_-12px_rgba(245,158,11,0.2)]"
+                                    className="relative h-[380px] rounded-[2.5rem] overflow-hidden group cursor-pointer border border-slate-200 bg-white shadow-xl transition-all duration-700 ease-out will-change-transform hover:shadow-[0_20px_50px_-12px_rgba(59,130,246,0.2)]"
                                     style={{ transformStyle: 'preserve-3d' }}
                                 >
                                     {/* Cinematic Image Layer */}
@@ -332,11 +332,11 @@ const Home = () => {
 
                                     {/* Floating Text Content with slide-up effect */}
                                     <div className="absolute bottom-10 left-8 z-30 transform transition-transform duration-500 group-hover:-translate-y-2" style={{ transform: 'translateZ(40px)' }}>
-                                        <h4 className="text-3xl font-[1000] text-white tracking-tighter drop-shadow-2xl mb-2 group-hover:text-amber-400 transition-colors duration-300">
+                                        <h4 className="text-3xl font-[1000] text-white tracking-tighter drop-shadow-2xl mb-2 group-hover:text-blue-400 transition-colors duration-300">
                                             {item.title}
                                         </h4>
                                         <div className="flex items-center gap-3 overflow-hidden">
-                                            <span className="h-1 w-8 bg-amber-500 rounded-full shadow-[0_0_10px_rgba(245,158,11,0.8)]"></span>
+                                            <span className="h-1 w-8 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]"></span>
                                             <p className="text-slate-300 text-[11px] font-black uppercase tracking-[0.3em] group-hover:text-white transition-colors">
                                                 {item.count}
                                             </p>
@@ -344,7 +344,7 @@ const Home = () => {
                                     </div>
 
                                     {/* Active Border Glow */}
-                                    <div className="absolute inset-0 border border-white/10 group-hover:border-amber-500/50 rounded-[2.5rem] transition-colors duration-500 pointer-events-none z-40"></div>
+                                    <div className="absolute inset-0 border border-white/10 group-hover:border-blue-500/50 rounded-[2.5rem] transition-colors duration-500 pointer-events-none z-40"></div>
                                 </motion.div>
                             );
                         })}
@@ -358,7 +358,7 @@ const Home = () => {
             <section id="features" className="py-32 bg-white relative overflow-hidden" >
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-24">
-                        <motion.h2 variants={fadeIn} className="text-amber-600 font-extrabold uppercase tracking-[0.4em] text-sm mb-6">Why QuizPro?</motion.h2>
+                        <motion.h2 variants={fadeIn} className="text-blue-600 font-extrabold uppercase tracking-[0.4em] text-sm mb-6">Why QuizPro?</motion.h2>
                         <motion.h3 variants={fadeIn} className="text-5xl md:text-6xl font-[1000] text-slate-900 tracking-tight">The Future of Learning</motion.h3>
                     </div>
 
@@ -368,22 +368,22 @@ const Home = () => {
                                 icon: <FaBrain size={32} />,
                                 title: "Adaptive Quiz System",
                                 desc: "Quizzes are designed to match the user’s knowledge level, helping students improve step by step without pressure.",
-                                color: "bg-amber-500",
-                                light: "bg-amber-500/10 text-amber-500"
+                                color: "bg-blue-500",
+                                light: "bg-blue-500/10 text-blue-500"
                             },
                             {
                                 icon: <FaChartLine size={32} />,
                                 title: "Live Analytics",
                                 desc: "Get instant results and clear performance insights through real-time score calculation and progress tracking.",
-                                color: "bg-amber-500",
-                                light: "bg-amber-500/10 text-amber-500"
+                                color: "bg-blue-500",
+                                light: "bg-blue-500/10 text-blue-500"
                             },
                             {
                                 icon: <FaUserShield size={32} />,
                                 title: "Secure & Fast",
                                 desc: "QuizPro provides secure authentication and fast system performance for a smooth and reliable quiz experience.",
-                                color: "bg-amber-500",
-                                light: "bg-amber-500/10 text-amber-500"
+                                color: "bg-blue-500",
+                                light: "bg-blue-500/10 text-blue-500"
                             }
                         ].map((feature, i) => (
                             <motion.div
@@ -391,7 +391,7 @@ const Home = () => {
                                 whileHover={{ y: -15 }}
                                 className="group p-12 rounded-[3.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-500"
                             >
-                                <div className={`w-20 h-20 ${feature.light} group-hover:bg-amber-500 group-hover:text-black rounded-[2rem] flex items-center justify-center mb-10 shadow-sm transition-all duration-500 group-hover:rotate-6`}>
+                                <div className={`w-20 h-20 ${feature.light} group-hover:bg-blue-500 group-hover:text-black rounded-[2rem] flex items-center justify-center mb-10 shadow-sm transition-all duration-500 group-hover:rotate-6`}>
                                     {feature.icon}
                                 </div>
                                 <h4 className="text-3xl font-black text-slate-900 mb-6">{feature.title}</h4>
@@ -408,7 +408,7 @@ const Home = () => {
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col lg:flex-row items-center gap-20">
                         <div className="flex-1">
-                            <h2 className="text-amber-600 font-bold uppercase tracking-[0.4em] text-base mb-6">The Process</h2>
+                            <h2 className="text-blue-600 font-bold uppercase tracking-[0.4em] text-base mb-6">The Process</h2>
                             <h3 className="text-5xl md:text-6xl font-black mb-16 tracking-tight text-slate-900">How It Works</h3>
 
                             <div className="space-y-5">
@@ -437,7 +437,7 @@ const Home = () => {
                                         onClick={() => setActiveStep(i)}
                                         className={`flex gap-5 group cursor-pointer p-6 rounded-3xl transition-all duration-500 ${activeStep === i ? 'bg-white border border-slate-200 shadow-xl scale-100' : 'hover:bg-white border border-transparent'}`}
                                     >
-                                        <span className={`text-5xl font-[1000] transition-colors uppercase italic ${activeStep === i ? 'text-amber-500' : 'text-slate-200 group-hover:text-amber-500/20'}`}>
+                                        <span className={`text-5xl font-[1000] transition-colors uppercase italic ${activeStep === i ? 'text-blue-500' : 'text-slate-200 group-hover:text-blue-500/20'}`}>
                                             {step.step}
                                         </span>
                                         <div>
@@ -453,7 +453,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="flex-1 relative h-[450px] w-full">
-                            <div className="w-full h-full absolute top-0 right-0 bg-amber-500/10 rounded-full blur-[120px] animate-pulse"></div>
+                            <div className="w-full h-full absolute top-0 right-0 bg-blue-500/10 rounded-full blur-[120px] animate-pulse"></div>
                             <div className="relative group w-full h-full overflow-hidden rounded-[3.5rem] border border-slate-200 shadow-2xl">
                                 <AnimatePresence mode="wait">
                                     <motion.img
@@ -482,7 +482,7 @@ const Home = () => {
             <section className="py-32 bg-white relative overflow-hidden" >
                 <div className="container mx-auto px-6">
                     <div className="text-center mb-24">
-                        <h2 className="text-amber-600 font-bold uppercase tracking-[0.4em] text-base mb-6">Praise</h2>
+                        <h2 className="text-blue-600 font-bold uppercase tracking-[0.4em] text-base mb-6">Praise</h2>
                         <h3 className="text-5xl font-[1000] text-slate-900 tracking-tight">Voices of Success</h3>
                     </div>
 
@@ -502,7 +502,7 @@ const Home = () => {
                                     <img src={t.img} className="w-24 h-24 object-cover object-top rounded-3xl border-4 border-white shadow-2xl" alt={t.name} />
                                     <div>
                                         <h4 className="font-black text-slate-900 text-lg">{t.name}</h4>
-                                        <p className="text-amber-600 text-xs font-bold uppercase tracking-widest">{t.role}</p>
+                                        <p className="text-blue-600 text-xs font-bold uppercase tracking-widest">{t.role}</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -519,7 +519,7 @@ const Home = () => {
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-amber-600 font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
+                            className="text-blue-600 font-bold tracking-[0.3em] uppercase text-xs mb-4 block"
                         >
                             The Team
                         </motion.span>
@@ -530,7 +530,7 @@ const Home = () => {
                             transition={{ delay: 0.1 }}
                             className="text-5xl md:text-6xl font-[1000] text-slate-900 tracking-tight"
                         >
-                            Meet the <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">Creators</span>
+                            Meet the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-600">Creators</span>
                         </motion.h3>
                     </div>
 
@@ -581,12 +581,12 @@ const Home = () => {
 
                                 {/* Content Layer (Floating) */}
                                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20" style={{ transform: 'translateZ(50px)' }}>
-                                    <h4 className="text-2xl font-black text-white mb-2 group-hover:text-amber-500 transition-colors">{member.name}</h4>
+                                    <h4 className="text-2xl font-black text-white mb-2 group-hover:text-blue-500 transition-colors">{member.name}</h4>
                                     <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-6">{member.role}</p>
                                 </div>
 
                                 {/* Border Glow */}
-                                <div className="absolute inset-0 border border-white/10 rounded-[2.5rem] group-hover:border-amber-500/50 transition-colors duration-500 pointer-events-none z-40"></div>
+                                <div className="absolute inset-0 border border-white/10 rounded-[2.5rem] group-hover:border-blue-500/50 transition-colors duration-500 pointer-events-none z-40"></div>
                             </motion.div>
                         ))}
                     </div>
@@ -597,7 +597,7 @@ const Home = () => {
             <section className="py-24 bg-white relative text-slate-800">
                 <div className="container mx-auto px-6 max-w-4xl">
                     <div className="text-center mb-16">
-                        <span className="text-amber-600 font-bold tracking-[0.3em] uppercase text-xs mb-3 block">Got Questions?</span>
+                        <span className="text-blue-600 font-bold tracking-[0.3em] uppercase text-xs mb-3 block">Got Questions?</span>
                         <h3 className="text-4xl md:text-5xl font-[1000] tracking-tight">Frequently Asked Questions</h3>
                     </div>
 
@@ -625,9 +625,9 @@ const Home = () => {
                                 whileHover={{ scale: 1.02, y: -5 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setActiveFaq(faq)}
-                                className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:border-amber-500/30 hover:bg-white hover:shadow-2xl hover:shadow-amber-500/10 cursor-pointer group transition-all duration-300 flex flex-col justify-between"
+                                className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:border-blue-500/30 hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 cursor-pointer group transition-all duration-300 flex flex-col justify-between"
                             >
-                                <h4 className="text-xl font-bold text-slate-700 group-hover:text-amber-600 transition-colors mb-4 leading-tight">
+                                <h4 className="text-xl font-bold text-slate-700 group-hover:text-blue-600 transition-colors mb-4 leading-tight">
                                     {faq.q}
                                 </h4>
                                 <div className="flex items-center gap-2 text-sm font-bold text-slate-500 group-hover:text-slate-800 uppercase tracking-wider mt-auto">
@@ -659,7 +659,7 @@ const Home = () => {
                                 className="relative bg-white border border-slate-200 text-slate-800 p-8 md:p-12 rounded-[2.5rem] max-w-2xl w-full shadow-2xl shadow-black/20 overflow-hidden"
                             >
                                 {/* Decorative Glow */}
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
 
                                 <button
                                     onClick={() => setActiveFaq(null)}
@@ -669,11 +669,11 @@ const Home = () => {
                                 </button>
 
                                 <div className="relative z-10">
-                                    <span className="text-amber-600 font-bold tracking-widest uppercase text-xs mb-4 block">Answer</span>
+                                    <span className="text-blue-600 font-bold tracking-widest uppercase text-xs mb-4 block">Answer</span>
                                     <h3 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-slate-900">
                                         {activeFaq.q}
                                     </h3>
-                                    <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-8"></div>
+                                    <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-blue-500 rounded-full mb-8"></div>
                                     <p className="text-lg text-slate-600 leading-relaxed font-medium">
                                         {activeFaq.a}
                                     </p>
@@ -694,7 +694,7 @@ const Home = () => {
             {/* Contact Section */}
             <section id="contact" className="py-16 bg-slate-50 relative overflow-hidden">
                 {/* Background Glows */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
                 <div className="container mx-auto px-6 max-w-5xl relative z-10">
                     <div className="text-center mb-12">
@@ -702,7 +702,7 @@ const Home = () => {
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-amber-600 font-bold tracking-widest uppercase text-xs mb-3 block"
+                            className="text-blue-600 font-bold tracking-widest uppercase text-xs mb-3 block"
                         >
                             Contact Us
                         </motion.span>
@@ -731,35 +731,35 @@ const Home = () => {
 
                             <div className="space-y-4">
                                 {/* Email Card */}
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
-                                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
                                         <FaEnvelope size={18} />
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Email Us</p>
-                                        <p className="text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors">harshalhire775@gmail.com</p>
+                                        <p className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">harshalhire775@gmail.com</p>
                                     </div>
                                 </div>
 
                                 {/* Phone Card */}
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
-                                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
                                         <FaPhone size={18} />
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Call Us</p>
-                                        <p className="text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors">+91 91067 37867</p>
+                                        <p className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">+91 91067 37867</p>
                                     </div>
                                 </div>
 
                                 {/* Location Card */}
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
-                                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-blue-500/30 transition-all group cursor-default shadow-sm hover:shadow-lg">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
                                         <FaMapMarkerAlt size={18} />
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Visit Us</p>
-                                        <p className="text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors">Surat, Gujarat, India</p>
+                                        <p className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Surat, Gujarat, India</p>
                                     </div>
                                 </div>
                             </div>
@@ -777,7 +777,7 @@ const Home = () => {
                                             href={item.link}
                                             target={item.link !== "#" ? "_blank" : "_self"}
                                             rel="noopener noreferrer"
-                                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
+                                            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-blue-500 hover:text-white hover:-translate-y-1 transition-all duration-300"
                                         >
                                             {item.icon}
                                         </a>
@@ -793,7 +793,7 @@ const Home = () => {
                             viewport={{ once: true }}
                             className="bg-white rounded-[2rem] p-6 md:p-8 border border-slate-200 shadow-xl relative overflow-hidden"
                         >
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-[30px] pointer-events-none"></div>
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-[30px] pointer-events-none"></div>
 
                             <form onSubmit={handleContactSubmit} className="space-y-4 relative z-10">
                                 <div className="grid md:grid-cols-2 gap-4">
@@ -805,7 +805,7 @@ const Home = () => {
                                             value={contactData.name}
                                             onChange={handleContactchange}
                                             required
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-medium"
                                             placeholder="Enter your name"
                                         />
                                     </div>
@@ -817,7 +817,7 @@ const Home = () => {
                                             value={contactData.email}
                                             onChange={handleContactchange}
                                             required
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-medium"
                                             placeholder="Enter your email"
                                         />
                                     </div>
@@ -831,7 +831,7 @@ const Home = () => {
                                         value={contactData.message}
                                         onChange={handleContactchange}
                                         required
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white transition-all font-medium resize-none"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-medium resize-none"
                                         placeholder="How can we help you today"
                                     ></textarea>
                                 </div>
@@ -840,7 +840,7 @@ const Home = () => {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     disabled={contactStatus === 'sending'}
-                                    className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-xl font-bold text-base shadow-lg hover:shadow-amber-500/25 transition-all disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                                    className="w-full py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-bold text-base shadow-lg hover:shadow-blue-500/25 transition-all disabled:opacity-70 disabled:cursor-not-allowed mt-2"
                                 >
                                     {contactStatus === 'sending' ? (
                                         <span className="flex items-center justify-center gap-2">

@@ -23,7 +23,7 @@ const DepartmentDashboard = () => {
     const [loading, setLoading] = useState(true);
 
     const [stats, setStats] = useState([
-        { title: 'Total Teachers', value: '0', icon: Briefcase, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+        { title: 'Total Teachers', value: '0', icon: Briefcase, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
         { title: 'Total Students', value: '0', icon: GraduationCap, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
         { title: 'Total Subjects', value: '0', icon: BookOpen, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
 
@@ -39,7 +39,7 @@ const DepartmentDashboard = () => {
                 const { data } = await API.get('/users/dashboard-stats');
 
                 setStats([
-                    { title: 'Total Teachers', value: data.totalTeachers || 0, icon: Briefcase, color: 'from-violet-500 to-violet-600', shadow: 'shadow-violet-500/20' },
+                    { title: 'Total Teachers', value: data.totalTeachers || 0, icon: Briefcase, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
                     { title: 'Total Students', value: data.totalStudents || 0, icon: GraduationCap, color: 'from-blue-500 to-blue-600', shadow: 'shadow-blue-500/20' },
                     { title: 'Total Subjects', value: data.totalSubjects || 0, icon: BookOpen, color: 'from-emerald-500 to-emerald-600', shadow: 'shadow-emerald-500/20' },
 
@@ -122,11 +122,11 @@ const DepartmentDashboard = () => {
                 <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
                     <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
                         <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                            <Briefcase size={18} className="text-violet-500" /> Teacher Management
+                            <Briefcase size={18} className="text-blue-500" /> Teacher Management
                         </h2>
                         <button
                             onClick={() => navigate('/admin/manage-sirs')}
-                            className="text-xs font-bold text-white bg-violet-600 px-3 py-1.5 rounded-lg hover:bg-violet-700 transition-colors"
+                            className="text-xs font-bold text-white bg-blue-600 px-3 py-1.5 rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             Manage All
                         </button>
@@ -135,7 +135,7 @@ const DepartmentDashboard = () => {
                         <p className="text-sm text-slate-500 mb-4">View teacher list and assign subjects.</p>
                         <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center font-bold text-sm">
+                                <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
                                     <Users size={18} />
                                 </div>
                                 <div>
@@ -145,7 +145,7 @@ const DepartmentDashboard = () => {
                             </div>
                             <button
                                 onClick={() => navigate('/admin/assign-subject')}
-                                className="p-2 text-slate-400 hover:text-violet-600 hover:bg-violet-50 rounded-lg transition-all"
+                                className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                             >
                                 <ArrowUpRight size={18} />
                             </button>

@@ -27,14 +27,14 @@ const StudentLayout = () => {
 
     const sidebarLinks = [
         { name: 'Dashboard', path: '/student-dashboard', icon: LayoutDashboard },
-        { name: 'My Quizzes', path: '/quizzes', icon: BookOpen },
+        { name: 'My Quiz', path: '/quizzes', icon: BookOpen },
         { name: 'Contact Teacher', path: '/contact-teacher', icon: MessageSquare },
     ];
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
     return (
-        <div className="flex min-h-screen bg-slate-50 font-sans selection:bg-indigo-500/30 selection:text-indigo-900">
+        <div className="flex min-h-screen bg-slate-50 font-sans selection:bg-blue-500/30 selection:text-blue-900">
 
             {/* Sidebar (Desktop) */}
             <aside className="w-64 bg-white border-r border-slate-100 flex-shrink-0 fixed h-full z-30 hidden md:flex flex-col">
@@ -58,11 +58,11 @@ const StudentLayout = () => {
                                 key={link.name}
                                 to={link.path}
                                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all duration-200 group ${isActive
-                                    ? 'bg-indigo-50 text-indigo-600 shadow-sm'
+                                    ? 'bg-blue-50 text-blue-600 shadow-sm'
                                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
                                     }`}
                             >
-                                <link.icon size={20} className={isActive ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-600'} />
+                                <link.icon size={20} className={isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'} />
                                 {link.name}
                             </Link>
                         );
@@ -73,7 +73,7 @@ const StudentLayout = () => {
 
 
                     <div className="bg-slate-50 p-4 rounded-2xl mb-4 flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-sm">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-sm">
                             {user?.name?.charAt(0) || 'S'}
                         </div>
                         <div className="overflow-hidden">
@@ -121,7 +121,7 @@ const StudentLayout = () => {
                                     to={link.path}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={`flex items-center gap-3 px-4 py-4 rounded-xl font-bold text-lg ${location.pathname === link.path
-                                        ? 'bg-indigo-50 text-indigo-600'
+                                        ? 'bg-blue-50 text-blue-600'
                                         : 'text-slate-600'
                                         }`}
                                 >

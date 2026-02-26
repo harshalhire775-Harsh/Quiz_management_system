@@ -254,32 +254,32 @@ const ManageUsers = () => {
                         initial={{ scale: 0.9, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0 }}
-                        className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-10 shadow-2xl shadow-indigo-500/20 w-full max-w-sm flex flex-col items-center relative overflow-hidden border border-white/50"
+                        className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-10 shadow-2xl shadow-blue-500/20 w-full max-w-sm flex flex-col items-center relative overflow-hidden border border-white/50"
                     >
                         {/* Decorative background elements */}
-                        <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-indigo-50 to-transparent opacity-50 pointer-events-none"></div>
+                        <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-blue-50 to-transparent opacity-50 pointer-events-none"></div>
                         <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl pointer-events-none"></div>
-                        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-400/10 rounded-full blur-3xl pointer-events-none"></div>
+                        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl pointer-events-none"></div>
 
                         {/* CONFIRMATION STATE */}
                         {importStatus.isConfirming ? (
                             <>
-                                <div className="z-10 bg-indigo-50 p-6 rounded-full mb-6 relative group">
-                                    <div className="absolute inset-0 bg-indigo-400 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                    <FileSpreadsheet size={48} className="text-indigo-600 relative z-10" />
+                                <div className="z-10 bg-blue-50 p-6 rounded-full mb-6 relative group">
+                                    <div className="absolute inset-0 bg-blue-400 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                    <FileSpreadsheet size={48} className="text-blue-600 relative z-10" />
                                 </div>
 
                                 <h3 className="text-3xl font-black text-slate-800 mb-2 z-10 text-center tracking-tight">
                                     Ready to Import?
                                 </h3>
                                 <p className="text-slate-500 font-medium text-center mb-8 z-10 max-w-[200px] leading-relaxed">
-                                    We found <strong className="text-indigo-600 text-lg">{importStatus.total}</strong> students in your file.
+                                    We found <strong className="text-blue-600 text-lg">{importStatus.total}</strong> students in your file.
                                 </p>
 
                                 <div className="flex flex-col gap-3 w-full z-10">
                                     <button
                                         onClick={startImportProcess}
-                                        className="w-full py-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-[1.02] active:scale-95 transition-all"
+                                        className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] active:scale-95 transition-all"
                                     >
                                         Start Import
                                     </button>
@@ -307,7 +307,7 @@ const ManageUsers = () => {
                                 {/* Circular Progress Container */}
                                 <div className="relative w-56 h-56 flex items-center justify-center mb-10 z-10">
                                     {/* Outer Glow */}
-                                    <div className="absolute inset-0 bg-indigo-500/5 rounded-full blur-2xl"></div>
+                                    <div className="absolute inset-0 bg-blue-500/5 rounded-full blur-2xl"></div>
 
                                     {/* Background Track */}
                                     <svg className="absolute inset-0 w-full h-full rotate-[-90deg] drop-shadow-sm">
@@ -322,7 +322,7 @@ const ManageUsers = () => {
                                         />
                                         {/* Animated Progress Circle */}
                                         <circle
-                                            className={`transition-all duration-500 ease-out ${importStatus.isComplete ? 'text-emerald-500' : 'text-indigo-600'}`}
+                                            className={`transition-all duration-500 ease-out ${importStatus.isComplete ? 'text-emerald-500' : 'text-blue-600'}`}
                                             strokeWidth="8"
                                             strokeDasharray={2 * Math.PI * 70}
                                             strokeDashoffset={2 * Math.PI * 70 - (progressPercentage / 100) * (2 * Math.PI * 70)}
@@ -351,7 +351,7 @@ const ManageUsers = () => {
                                                 <span className="text-7xl font-black text-slate-800 tracking-tighter tabular-nums block translate-y-[-4px]">
                                                     {remainingCount}
                                                 </span>
-                                                <span className="absolute top-full left-1/2 -translate-x-1/2 text-xs font-black text-indigo-500 uppercase tracking-widest bg-indigo-50 px-2 py-0.5 rounded-full mt-2 whitespace-nowrap">
+                                                <span className="absolute top-full left-1/2 -translate-x-1/2 text-xs font-black text-blue-500 uppercase tracking-widest bg-blue-50 px-2 py-0.5 rounded-full mt-2 whitespace-nowrap">
                                                     Remaining
                                                 </span>
                                             </div>
@@ -397,26 +397,26 @@ const ManageUsers = () => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md"
+                        className="bg-white rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"
                     >
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-                                <UserPlus size={24} className="text-blue-600" />
+                        <div className="flex justify-between items-center mb-5">
+                            <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
+                                <UserPlus size={22} className="text-blue-600" />
                                 Add to {filterDept || 'Global List'}
                             </h3>
-                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-red-500">
-                                <ArrowLeft size={24} className="rotate-180" />
+                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-red-500 bg-slate-50 p-1.5 rounded-lg transition-colors">
+                                <ArrowLeft size={20} className="rotate-180" />
                             </button>
                         </div>
 
-                        <form onSubmit={handleAddStudent} className="space-y-4">
+                        <form onSubmit={handleAddStudent} className="space-y-3">
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-1">Full Name</label>
                                 <input
                                     type="text"
                                     value={newStudent.name}
                                     onChange={e => setNewStudent({ ...newStudent, name: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     placeholder="e.g. Rahul Sharma"
                                     required
                                 />
@@ -427,7 +427,7 @@ const ManageUsers = () => {
                                     type="email"
                                     value={newStudent.email}
                                     onChange={e => setNewStudent({ ...newStudent, email: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     placeholder="student@example.com"
                                     required
                                 />
@@ -438,7 +438,7 @@ const ManageUsers = () => {
                                     type="text"
                                     value={newStudent.phoneNumber}
                                     onChange={e => setNewStudent({ ...newStudent, phoneNumber: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     placeholder="Mobile number"
                                 />
                             </div>
@@ -449,7 +449,7 @@ const ManageUsers = () => {
                                     type="text"
                                     value={newStudent.department || ''}
                                     onChange={e => setNewStudent({ ...newStudent, department: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     placeholder="e.g. Computer Science (CS)"
                                 />
                             </div>
@@ -460,7 +460,7 @@ const ManageUsers = () => {
                                     <select
                                         value={newStudent.year}
                                         onChange={e => setNewStudent({ ...newStudent, year: e.target.value })}
-                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                        className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     >
                                         <option value="">Select Year</option>
                                         <option value="FY">FY</option>
@@ -473,7 +473,7 @@ const ManageUsers = () => {
                                     <select
                                         value={newStudent.semester}
                                         onChange={e => setNewStudent({ ...newStudent, semester: e.target.value })}
-                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                        className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     >
                                         <option value="">Select Sem</option>
                                         <option value="1">Sem 1</option>
@@ -492,7 +492,7 @@ const ManageUsers = () => {
                                     type="text"
                                     value={newStudent.subject || ''}
                                     onChange={e => setNewStudent({ ...newStudent, subject: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     placeholder="e.g. Mathematics"
                                 />
                             </div>
@@ -503,22 +503,22 @@ const ManageUsers = () => {
                                     type="text"
                                     value={newStudent.password || ''}
                                     onChange={e => setNewStudent({ ...newStudent, password: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
+                                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 outline-none font-medium"
                                     placeholder="Leave blank for auto-generated"
                                 />
-                                <p className="text-xs text-slate-400 mt-1">If empty, a random password will be emailed.</p>
+                                <p className="text-[11px] text-slate-400 mt-1">If empty, a random password will be emailed.</p>
                             </div>
-                            <div className="flex gap-3 mt-8">
+                            <div className="flex gap-3 mt-6">
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 transition-colors"
+                                    className="flex-1 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-100 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all"
+                                    className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all"
                                 >
                                     Add Student
                                 </button>
@@ -651,7 +651,7 @@ const ManageUsers = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             {user.isAdmin || user.role === 'Admin (HOD)' || user.role === 'Super Admin' ? (
-                                                <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-bold inline-flex items-center gap-1">
+                                                <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold inline-flex items-center gap-1">
                                                     <Shield size={12} /> {user.role}
                                                 </span>
                                             ) : (

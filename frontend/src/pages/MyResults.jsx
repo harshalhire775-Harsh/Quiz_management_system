@@ -49,8 +49,8 @@ const MyResults = () => {
     if (loading) return (
         <div className="flex items-center justify-center min-h-[60vh]">
             <div className="relative">
-                <div className="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
-                <div className="mt-4 text-indigo-600 font-bold text-center">Loading History...</div>
+                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+                <div className="mt-4 text-blue-600 font-bold text-center">Loading History...</div>
             </div>
         </div>
     );
@@ -69,7 +69,7 @@ const MyResults = () => {
                 </div>
                 <Link
                     to="/student-dashboard"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 hover:text-indigo-600 transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-sm"
                 >
                     <ArrowLeft size={18} />
                     Back to Dashboard
@@ -82,14 +82,14 @@ const MyResults = () => {
                         variants={item}
                         className="bg-white rounded-[2rem] p-12 text-center shadow-sm border border-slate-100"
                     >
-                        <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <History size={40} className="text-indigo-400" />
+                        <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <History size={40} className="text-blue-400" />
                         </div>
                         <h3 className="text-xl font-black text-slate-800 mb-2">No quizzes taken yet</h3>
                         <p className="text-slate-500 mb-6">Start your first quiz to begin your learning journey!</p>
                         <Link
                             to="/quizzes"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
                         >
                             Browse Quizzes <ArrowRight size={20} />
                         </Link>
@@ -104,9 +104,9 @@ const MyResults = () => {
                                 <motion.div
                                     key={result._id}
                                     variants={item}
-                                    className="group bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 relative overflow-hidden"
+                                    className="group bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 relative overflow-hidden"
                                 >
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-50 transition-colors"></div>
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-50 transition-colors"></div>
 
                                     <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
                                         {/* Score Badge */}
@@ -122,7 +122,7 @@ const MyResults = () => {
 
                                         {/* Content */}
                                         <div className="flex-1 text-center md:text-left">
-                                            <h3 className="text-xl font-black text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">
+                                            <h3 className="text-xl font-black text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
                                                 {result.quiz?.title || result.quizTitle || 'Unknown Quiz'}
                                             </h3>
                                             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm font-medium text-slate-500">
@@ -145,7 +145,7 @@ const MyResults = () => {
                                         {/* Actions */}
                                         <Link
                                             to={`/review/${result._id}`}
-                                            className="w-full md:w-auto px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-indigo-600 transition-colors flex items-center justify-center gap-2 group/btn"
+                                            className="w-full md:w-auto px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 group/btn"
                                         >
                                             <Eye size={18} />
                                             Review Details
